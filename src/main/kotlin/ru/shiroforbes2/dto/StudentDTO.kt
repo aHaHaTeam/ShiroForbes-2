@@ -11,10 +11,11 @@ class StudentDTO(
   val total: Float,
 )
 
-fun Student.toStudentDTO(): StudentDTO = StudentDTO(
-  login = login,
-  name = name,
-  group = group,
-  score = score,
-  total = total,
-)
+fun Student.toStudentDTO(): StudentDTO =
+  StudentDTO(
+    login = login,
+    name = name,
+    group = group,
+    score = score,
+    total = total,
+  )

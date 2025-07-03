@@ -12,12 +12,10 @@ class Transaction(
   @Id
   @Column(name = "id", nullable = false)
   val id: Int,
-
   @Column(name = "date", nullable = false)
   var date: LocalDateTime,
   @Column(name = "student_id", nullable = false)
   var studentId: Int,
-
   @Column(name = "amount", nullable = false)
   var amount: Int,
 )

@@ -23,7 +23,7 @@ open class User(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id")
-  open var id: Int? = null,
+  open var id: Long = 0L,
   @Column(name = "login", nullable = false, unique = true, length = 255)
   open var login: String,
   @Column(name = "password", nullable = false, length = 255)
@@ -32,11 +32,12 @@ open class User(
   @Enumerated(EnumType.STRING)
   open val rights: Rights,
 ) {
-  override fun equals(other: Any?): Boolean = when (other) {
-    is User -> (this.login == other.login)
-    is Int -> other != 0
-    else -> false
-  }
+  override fun equals(other: Any?): Boolean =
+    when (other) {
+      is User -> (this.login == other.login)
+      is Int -> other != 0
+      else -> false
+    }
 
   override fun hashCode(): Int = javaClass.hashCode()
 }

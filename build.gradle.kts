@@ -60,11 +60,6 @@ tasks.withType<Test> {
 
 spotless {
     kotlin {
-//        ktfmt("0.51").googleStyle()
-        ktlint().editorConfigOverride(
-            mapOf(
-                "indent_size" to 2,
-            )
-        )
+        ktlint().setEditorConfigPath("$rootDir/.editorconfig")
     }
 }

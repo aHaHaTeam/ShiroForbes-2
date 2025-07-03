@@ -12,12 +12,10 @@ data class Rating(
   @Id
   @Column(name = "id", nullable = false)
   val id: Int,
-
   @Column(name = "date", nullable = false)
   var date: LocalDateTime,
   @Column(name = "student_id", nullable = false)
   var studentId: Int,
-
   @Column(name = "points", nullable = false)
   var points: Int,
   @Column(name = "total", nullable = false)

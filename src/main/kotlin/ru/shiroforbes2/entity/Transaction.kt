@@ -15,7 +15,7 @@ class Transaction(
   @Column(name = "date", nullable = false)
   var date: LocalDateTime,
   @Column(name = "student_id", nullable = false)
-  var studentId: Int,
+  var studentId: Long,
   @Column(name = "amount", nullable = false)
-  var amount: Int,
+  var amount: Long,
 )

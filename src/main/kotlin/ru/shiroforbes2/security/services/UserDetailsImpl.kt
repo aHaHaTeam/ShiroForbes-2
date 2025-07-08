@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import ru.shiroforbes2.entity.User
 
 class UserDetailsImpl(
-  val id: Long,
+  val userId: Long,
   private val login: String,
   @field:JsonIgnore
   private val password: String,
@@ -31,7 +31,7 @@ class UserDetailsImpl(
     if (this === other) return true
     if (other == null || javaClass != other.javaClass) return false
     val user = other as UserDetailsImpl
-    return id == user.id
+    return userId == user.userId
   }
 
   companion object {
@@ -48,7 +48,7 @@ class UserDetailsImpl(
   }
 
   override fun hashCode(): Int {
-    var result = id.hashCode()
+    var result = userId.hashCode()
     result = 31 * result + login.hashCode()
     result = 31 * result + password.hashCode()
     result = 31 * result + authority.hashCode()

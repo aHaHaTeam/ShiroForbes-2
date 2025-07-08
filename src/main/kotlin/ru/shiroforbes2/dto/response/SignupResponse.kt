@@ -1,5 +1,5 @@
 package ru.shiroforbes2.dto.response
 
-data class MessageResponse(
+data class SignupResponse(
   val message: String,
 )

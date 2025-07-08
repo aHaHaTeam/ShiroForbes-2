@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.dto.request.SignupRequest
-import ru.shiroforbes2.dto.response.JwtResponse
+import ru.shiroforbes2.dto.response.SigninResponse
 import ru.shiroforbes2.entity.Group
 
 @SpringBootTest
@@ -81,9 +81,9 @@ class AccessWithJWTRolesTest {
           content = objectMapper.writeValueAsString(mapOf("login" to login, "password" to password))
         }.andReturn()
 
-    val jwtResponse = objectMapper.readValue(result.response.contentAsString, JwtResponse::class.java)
-    assertNotNull(jwtResponse.token)
-    return jwtResponse.token
+    val signinResponse = objectMapper.readValue(result.response.contentAsString, SigninResponse::class.java)
+    assertNotNull(signinResponse.accessToken)
+    return signinResponse.accessToken
   }
 
   @Test

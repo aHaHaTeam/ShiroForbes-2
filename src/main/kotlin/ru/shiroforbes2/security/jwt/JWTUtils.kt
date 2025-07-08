@@ -10,9 +10,7 @@ import io.jsonwebtoken.security.Keys
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
-import ru.shiroforbes2.security.services.UserDetailsImpl
 import java.security.Key
 import java.util.Date
 
@@ -21,20 +19,20 @@ class JWTUtils {
   @Value("\${shiroforbes.app.jwt.secret}")
   private lateinit var jwtSecret: String
 
-  @Value("\${shiroforbes.app.jwt.expirationMs}")
-  private var jwtExpirationMs: Int = 0
+  @Value("\${shiroforbes.app.jwt.jwtExpirationMs}")
+  private var jwtExpirationMs: Long = 0
 
-  fun generateJwtToken(authentication: Authentication): String? {
-    val userPrincipal = authentication.principal as UserDetailsImpl
-
-    return Jwts
+  fun generateJwtToken(
+    userLogin: String,
+    expirationMs: Long = jwtExpirationMs,
+  ): String =
+    Jwts
       .builder()
-      .setSubject((userPrincipal.getUsername()))
+      .setSubject(userLogin)
       .setIssuedAt(Date())
-      .setExpiration(Date((Date()).time + jwtExpirationMs))
+      .setExpiration(Date((Date()).time + expirationMs))
       .signWith(key(), SignatureAlgorithm.HS256)
       .compact()
-  }
 
   private fun key(): Key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
 

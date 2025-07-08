@@ -14,12 +14,14 @@ data class Rating(
   val id: Int,
   @Column(name = "date", nullable = false)
   var date: LocalDateTime,
+  @Column(name = "episode", nullable = false)
+  var episode: Int,
   @Column(name = "student_id", nullable = false)
   var studentId: Int,
-  @Column(name = "points", nullable = false)
-  var points: Int,
-  @Column(name = "total", nullable = false)
-  var total: Float,
+  @Column(name = "totalSolved", nullable = false)
+  var totalSolved: Float,
+  @Column(name = "totalRating", nullable = false)
+  var totalRating: Float,
   @Column(name = "algebra", nullable = false)
   val algebra: Float,
   @Column(name = "numbers_theory", nullable = false)
@@ -28,16 +30,16 @@ data class Rating(
   val geometry: Float,
   @Column(name = "combinatorics", nullable = false)
   val combinatorics: Float,
-  @Column(name = "total_percent", nullable = false)
-  var totalPercent: Int,
-  @Column(name = "algebra_percent", nullable = false)
-  var algebraPercent: Int,
-  @Column(name = "numbers_theory_percent", nullable = false)
-  var numbersTheoryPercent: Int,
-  @Column(name = "geometry_percent", nullable = false)
-  var geometryPercent: Int,
-  @Column(name = "combinatorics_percent", nullable = false)
-  var combinatoricsPercent: Int,
+  @Column(name = "total_solved_percent", nullable = false)
+  var totalSolvedPercent: Float,
+  @Column(name = "algebra_solved_percent", nullable = false)
+  var algebraSolvedPercent: Float,
+  @Column(name = "numbers_theory_solved_percent", nullable = false)
+  var numbersTheorySolvedPercent: Float,
+  @Column(name = "geometry_solved_percent", nullable = false)
+  var geometrySolvedPercent: Float,
+  @Column(name = "combinatorics_solved_percent", nullable = false)
+  var combinatoricsSolvedPercent: Float,
   @Column(name = "grobs", nullable = false)
   var grobs: Int,
   @Column(name = "position", nullable = false)

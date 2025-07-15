@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "Publico Headline Web";
+    font-face-name: "Publico Headline Web Bold Regular";
+    src: url("../../assets/fonts/PublicoHeadline-Bold-Web.ttf") format("truetype");
+}
+
+.Logo {
+    font-family: "Publico Headline Web", serif;
+    font-weight: 700;
+    width: fit-content;
+    margin-top: 0;
+    -webkit-text-stroke: 1px black;
+    -webkit-text-fill-color: currentColor;
+}

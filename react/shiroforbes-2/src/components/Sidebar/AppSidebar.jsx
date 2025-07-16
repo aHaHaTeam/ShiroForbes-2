@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import {Calendar, Home, Inbox, Search, Settings} from "lucide-react"
 
 import {
     Sidebar,
@@ -42,17 +42,19 @@ const items = [
 
 export function AppSidebar({collapsible = "offcanvas", ...props}) {
     return (
-        <Sidebar collapsible={collapsible} {...props}>
+        <Sidebar collapsible={collapsible} {...props} className="pt-16">
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
+                    <SidebarGroupLabel>
+                        Application
+                    </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <a href={item.url}>
-                                            <item.icon />
+                                            <item.icon/>
                                             <span>{item.title}</span>
                                         </a>
                                     </SidebarMenuButton>

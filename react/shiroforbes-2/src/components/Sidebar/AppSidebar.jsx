@@ -42,7 +42,7 @@ const items = [
 
 export function AppSidebar({collapsible = "offcanvas", ...props}) {
     return (
-        <Sidebar collapsible={collapsible} {...props} className="pt-16">
+        <Sidebar collapsible={collapsible} variant="" {...props} className="pt-16">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>

@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/utils/tw-utils.js"
+import { cn } from "@/utils/tw-utils"
 
 function Card({
   className,

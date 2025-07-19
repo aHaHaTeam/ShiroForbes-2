@@ -1,12 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import "@/assets/colors.css";
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-    --color-shiro-blue : #3F68AF;
-    --color-vlasik-orange: #EA6132;
-}
 
 @layer components {
     .text-kinda-big {

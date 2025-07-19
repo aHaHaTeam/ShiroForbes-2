@@ -186,6 +186,7 @@ function Sidebar({
       data-slot="sidebar">
       {/* This is what handles the sidebar gap on desktop */}
       <div
+          id="my-gap"
         data-slot="sidebar-gap"
         className={cn(
           "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",

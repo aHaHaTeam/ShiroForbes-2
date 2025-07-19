@@ -14,7 +14,9 @@ export function SidebarArea({
     return (
         <SidebarProvider defaultOpen={defaultOpen} open={openProp} onOpenChange={setOpenProp} className={className} style={style} {...props}>
             <AppSidebar collapsible={useIsMobile()?"offcanvas":"icon"}/>
+            <main className="pt-16 w-full">
             {children}
+            </main>
         </SidebarProvider>
     )
 

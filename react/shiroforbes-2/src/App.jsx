@@ -1,13 +1,18 @@
 import './App.css'
 
-import Header from "@/components/Header.jsx";
-import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
+import {Test} from "@/pages/Test.jsx";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {Profile} from "@/pages/Profile.jsx";
 
 function App() {
     return (
-        <SidebarArea>
-            <Header/>
-        </SidebarArea>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Test/>} />
+                <Route path="/profile" element={<Profile/>} />
+                <Route path="*" element={<Test />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 

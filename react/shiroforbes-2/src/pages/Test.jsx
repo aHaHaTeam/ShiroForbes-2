@@ -1,6 +1,6 @@
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
-import {StatsChart} from "@/components/Chart.jsx";
+import {RatingTable} from "@/components/RatingTable.jsx";
 
 export function Test({
                          className,
@@ -12,7 +12,7 @@ export function Test({
         <div className={className} {...props}>
             <SidebarArea>
                 <Header/>
-                <StatsChart className="lg:w-1/2 w-full"/>
+                <RatingTable/>
                 {children}
             </SidebarArea>
         </div>

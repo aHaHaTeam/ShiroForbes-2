@@ -2,7 +2,6 @@ import "./Logo.css"
 import {cn} from "@/utils/tw-utils.js";
 
 function Logo({className}) {
-    console.log(className)
     return (
         <div>
             <a className="Logo" href="/">

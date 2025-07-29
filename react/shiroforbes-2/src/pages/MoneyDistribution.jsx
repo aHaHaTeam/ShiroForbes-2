@@ -1,0 +1,175 @@
+import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table"
+
+import {
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/components/ui/table"
+import {useEffect, useState} from "react";
+import {Input} from "@/components/ui/input"
+import {Button} from "@/components/ui/button"
+import {cn} from "@/utils/tw-utils.js";
+import {Checkbox} from "@/components/ui/checkbox.jsx";
+
+const initialData = [
+    {name: "Alice", balance: 100},
+    {name: "Bob", balance: 150},
+    {name: "Charlie", balance: 200},
+]
+
+const columns = [
+    {
+        accessorKey: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+            />
+        ),
+        cell: ({row}) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        )
+    },
+    {
+        accessorKey: "name",
+        header: "Name",
+        cell: ({row}) => <div className="text-center w-full">{row.original.name}</div>,
+    },
+    {
+        accessorKey: "balance",
+        header: "Balance",
+        cell: ({row}) => <div className="text-center w-full">{row.original.balance}</div>,
+    },
+];
+
+export function MoneyDistribution() {
+    const [data, setData] = useState(initialData);
+    const [message, setMessage] = useState("");
+    const [amount, setAmount] = useState("");
+    const [filter, setFilter] = useState("");
+    const [filteredData, setFilteredData] = useState(data);
+
+    const presets = [
+        {label: "Зарядка", message: "Участие в зарядке", amount: "30"},
+        {label: "Отбой", message: "Успешный отбой", amount: "25"},
+    ];
+    const [showOptions, setShowOptions] = useState(false);
+
+    useEffect(() => {
+        setFilteredData(data.filter(row =>
+            row.name.toLowerCase().includes(filter.toLowerCase())
+        ))
+    }, [data, filter]);
+
+
+
+    const table = useReactTable({
+        data: filteredData,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        enableRowSelection: true,
+    });
+
+    const handleSubmit = () => {
+        const selectedRows = table.getSelectedRowModel().rows.map(row => row.original);
+    };
+
+    return (
+        <div className="space-y-4">
+            <div className="relative">
+                <Input
+                    placeholder="Transaction message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onFocus={() => setShowOptions(true)}
+                    onBlur={() => setTimeout(() => setShowOptions(false), 150)} // задержка, чтобы можно кликнуть
+                    className="w-full"
+                />
+                {showOptions && (
+                    <div className="absolute z-10 w-full bg-white border rounded shadow">
+                        {presets.map((preset) => (
+                            <div
+                                key={preset.label}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-left"
+                                onMouseDown={() => {
+                                    setMessage(preset.message);
+                                    setAmount(preset.amount);
+                                    setShowOptions(false);
+                                }}
+                            >
+                                {preset.label}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <Input
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full"
+            />
+
+            <Input
+                className="w-full"
+                placeholder="Search by name"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+            />
+
+            <div className="rounded-md border">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead key={header.id}
+                                                   className={cn(header.column.columnDef.className, "text-center")}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(header.column.columnDef.header, header.getContext())}
+                                        </TableHead>)
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                    className="odd:bg-white even:bg-gray-100 data-[state=selected]:bg-blue-100">
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id} className="text-center">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+
+            <div className="flex justify-end">
+                <Button onClick={handleSubmit}>Send</Button>
+            </div>
+        </div>
+    );
+}

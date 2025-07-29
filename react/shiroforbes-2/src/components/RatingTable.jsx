@@ -75,7 +75,6 @@ async function getData({day}) {
     return dataByDay[day] || [];
 }
 
-// Функция сравнения двух рейтингов
 async function compareRatings(day1, day2) {
     const oldData = await getData({ day: day1 });
     const newData = await getData({ day: day2 });
@@ -149,6 +148,7 @@ export function RatingTable({}) {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
+                                    className="odd:bg-white even:bg-gray-200"
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

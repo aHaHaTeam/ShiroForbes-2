@@ -20,7 +20,7 @@ const initialData = [
 const columns = [
     {
         accessorKey: "select",
-        header: ({ table }) => (
+        header: ({table}) => (
             <Checkbox
                 checked={
                     table.getIsAllPageRowsSelected() ||
@@ -68,7 +68,6 @@ function MoneyDistributionTable() {
             row.name.toLowerCase().includes(filter.toLowerCase())
         ))
     }, [data, filter]);
-
 
 
     const table = useReactTable({
@@ -177,11 +176,11 @@ function MoneyDistributionTable() {
 }
 
 export function MoneyDistribution({
-                         className,
-                         style,
-                         children,
-                         ...props
-                     }) {
+                                      className,
+                                      style,
+                                      children,
+                                      ...props
+                                  }) {
     return (
         <div className={className} {...props}>
             <SidebarArea>

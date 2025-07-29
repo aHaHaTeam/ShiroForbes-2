@@ -1,4 +1,4 @@
-import {Calendar, Coins, Home, Inbox, LogOut, Medal, Search, Settings, User} from "lucide-react"
+import {Coins, LogOut, Medal, Settings, User} from "lucide-react"
 
 import {
     Sidebar,

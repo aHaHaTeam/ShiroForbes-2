@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { CheckIcon } from "lucide-react"
+import {CheckIcon} from "lucide-react"
 
-import { cn } from "@/utils/tw-utils.js"
+import {cn} from "@/utils/tw-utils.js"
 
 function Checkbox({
                       className,
@@ -19,10 +19,10 @@ function Checkbox({
             <CheckboxPrimitive.Indicator
                 data-slot="checkbox-indicator"
                 className="text-current transition-none">
-                <CheckIcon className="size-3.5" />
+                <CheckIcon className="size-3.5"/>
             </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
     );
 }
 
-export { Checkbox }
+export {Checkbox}

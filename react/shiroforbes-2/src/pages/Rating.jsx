@@ -6,12 +6,9 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.jsx"
 import {Button} from "@/components/ui/button.jsx";
-import {MoreHorizontal} from "lucide-react";
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
 
@@ -22,7 +19,7 @@ const columns = [
         cell: ({row}) => {
             const rating = row.original.place;
             const delta = row.original.deltaPlace;
-            let deltaElement = null;
+            let deltaElement;
 
             if (delta > 0) {
                 deltaElement = <span className="text-green-600">(+{delta})</span>;
@@ -78,8 +75,8 @@ async function getData({day}) {
 }
 
 async function compareRatings(day1, day2) {
-    const oldData = await getData({ day: day1 });
-    const newData = await getData({ day: day2 });
+    const oldData = await getData({day: day1});
+    const newData = await getData({day: day2});
 
     const sortedOld = [...oldData].sort((a, b) => b.absoluteRating - a.absoluteRating);
     const sortedNew = [...newData].sort((a, b) => b.absoluteRating - a.absoluteRating);
@@ -105,7 +102,7 @@ async function compareRatings(day1, day2) {
     }).sort((a, b) => a.newPlace - b.newPlace);
 }
 
-const series = [1,2,3];
+const series = [1, 2, 3];
 
 function RatingTable({}) {
     const [data, setData] = useState([])
@@ -201,11 +198,11 @@ function RatingTable({}) {
 }
 
 export function Rating({
-                                      className,
-                                      style,
-                                      children,
-                                      ...props
-                                  }) {
+                           className,
+                           style,
+                           children,
+                           ...props
+                       }) {
     return (
         <div className={className} {...props}>
             <SidebarArea>

@@ -15,7 +15,6 @@ export function LoginForm({
                               className,
                               ...props
                           }) {
-    console.log(className)
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -36,12 +35,12 @@ export function LoginForm({
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
                                     <a
-                                        href="#"
+                                        href="/"
                                         className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
                                         Забыл(а) пароль?
                                     </a>
                                 </div>
-                                <Input id="password" type="password" required/>
+                                <Input id="password" type="password" placeholder="qwerty123" required/>
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Button type="submit" variant="outline" className="w-full">

@@ -1,6 +1,6 @@
 import {flexRender, getCoreRowModel, useReactTable,} from "@tanstack/react-table"
 
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table.jsx"
 import {useEffect, useState} from "react";
 import {
     DropdownMenu,
@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu.jsx"
 import {Button} from "@/components/ui/button.jsx";
 import {MoreHorizontal} from "lucide-react";
+import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
+import Header from "@/components/Header.jsx";
 
 const columns = [
     {
@@ -105,7 +107,7 @@ async function compareRatings(day1, day2) {
 
 const series = [1,2,3];
 
-export function RatingTable({}) {
+function RatingTable({}) {
     const [data, setData] = useState([])
     const [day1, setDay1] = useState(1);
     const [day2, setDay2] = useState(2);
@@ -194,6 +196,23 @@ export function RatingTable({}) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+        </div>
+    )
+}
+
+export function Rating({
+                                      className,
+                                      style,
+                                      children,
+                                      ...props
+                                  }) {
+    return (
+        <div className={className} {...props}>
+            <SidebarArea>
+                <Header/>
+                <RatingTable/>
+                {children}
+            </SidebarArea>
         </div>
     )
 }

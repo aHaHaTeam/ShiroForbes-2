@@ -8,6 +8,8 @@ import {Input} from "@/components/ui/input"
 import {Button} from "@/components/ui/button"
 import {cn} from "@/utils/tw-utils.js";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
+import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
+import Header from "@/components/Header.jsx";
 
 const initialData = [
     {name: "Alice", balance: 100},
@@ -48,7 +50,7 @@ const columns = [
     },
 ];
 
-export function MoneyDistribution() {
+function MoneyDistributionTable() {
     const [data, setData] = useState(initialData);
     const [message, setMessage] = useState("");
     const [amount, setAmount] = useState("");
@@ -172,4 +174,21 @@ export function MoneyDistribution() {
             </div>
         </div>
     );
+}
+
+export function MoneyDistribution({
+                         className,
+                         style,
+                         children,
+                         ...props
+                     }) {
+    return (
+        <div className={className} {...props}>
+            <SidebarArea>
+                <Header/>
+                <MoneyDistributionTable/>
+                {children}
+            </SidebarArea>
+        </div>
+    )
 }

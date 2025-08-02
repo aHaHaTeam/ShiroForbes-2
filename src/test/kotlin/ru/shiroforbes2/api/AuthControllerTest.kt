@@ -1,4 +1,4 @@
-package ru.shiroforbes2
+package ru.shiroforbes2.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.dto.request.SigninRequest
 import ru.shiroforbes2.dto.request.SignupRequest
 import ru.shiroforbes2.dto.request.TokenRefreshRequest
+import ru.shiroforbes2.dto.response.MessageResponse
 import ru.shiroforbes2.dto.response.SigninResponse
-import ru.shiroforbes2.dto.response.SignupResponse
 import ru.shiroforbes2.dto.response.TokenRefreshResponse
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.entity.Rights
@@ -47,7 +47,7 @@ class AuthControllerTest {
   private lateinit var accessToken: String
   private lateinit var refreshToken: String
 
-  private fun signup(): SignupResponse {
+  private fun signup(): MessageResponse {
     val result =
       mockMvc
         .post("/api/v2/auth/signup") {
@@ -67,7 +67,7 @@ class AuthControllerTest {
           jsonPath("$.message") { value("User registered successfully!") }
         }.andReturn()
     val body = result.response.contentAsString
-    return objectMapper.readValue<SignupResponse>(body)
+    return objectMapper.readValue<MessageResponse>(body)
   }
 
   private fun signin(): SigninResponse {

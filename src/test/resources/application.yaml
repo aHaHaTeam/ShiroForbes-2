@@ -7,8 +7,8 @@ spring.datasource.password=postgres
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 spring.jpa.open-in-view=false
-spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=create-drop
 
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.globally_quoted_identifiers=true
@@ -17,3 +17,4 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 shiroforbes.app.jwt.secret=c2hpcm9mb3JiZXMtand0LXNlY3JldC1rZXktZm9yLXNhbXBsZS1hcHBsaWNhdGlvbg==
 shiroforbes.app.jwt.jwtExpirationMs=86400000
 shiroforbes.app.jwt.refreshExpirationMs=604800000
+shiroforbes.app.google.service-account-key-file="/google-service-account.json"

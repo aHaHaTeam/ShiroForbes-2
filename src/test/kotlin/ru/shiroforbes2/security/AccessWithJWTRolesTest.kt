@@ -1,4 +1,4 @@
-package ru.shiroforbes2
+package ru.shiroforbes2.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach

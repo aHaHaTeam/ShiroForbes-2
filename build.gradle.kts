@@ -47,6 +47,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    implementation("com.google.apis:google-api-services-sheets:v4-rev20241008-2.0.0")
+    implementation("com.google.apis:google-api-services-drive:v3-rev20220815-2.0.0")
 }
 
 kotlin {

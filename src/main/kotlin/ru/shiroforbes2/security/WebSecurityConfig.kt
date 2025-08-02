@@ -18,7 +18,7 @@ import ru.shiroforbes2.security.services.UserDetailsServiceImpl
 @Configuration
 @EnableMethodSecurity
 class WebSecurityConfig(
-  var userDetailsService: UserDetailsServiceImpl,
+  private var userDetailsService: UserDetailsServiceImpl,
   private val unauthorizedHandler: AuthEntryPointJwt,
   private val jwtUtils: JWTUtils,
 ) {

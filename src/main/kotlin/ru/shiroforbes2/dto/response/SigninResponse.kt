@@ -5,6 +5,5 @@ data class SigninResponse(
   val refreshToken: String,
   val userId: Long,
   val login: String,
-  val roles: List<String>,
-  val tokenType: String = "Bearer",
+  val role: String,
 )

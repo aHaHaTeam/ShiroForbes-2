@@ -2,6 +2,7 @@ package ru.shiroforbes2.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController
 import ru.shiroforbes2.dto.request.SigninRequest
 import ru.shiroforbes2.dto.request.SignupRequest
 import ru.shiroforbes2.dto.request.TokenRefreshRequest
+import ru.shiroforbes2.dto.response.MessageResponse
 import ru.shiroforbes2.dto.response.SigninResponse
-import ru.shiroforbes2.dto.response.SignupResponse
 import ru.shiroforbes2.dto.response.TokenRefreshResponse
 import ru.shiroforbes2.entity.Admin
 import ru.shiroforbes2.entity.Group
@@ -39,7 +40,7 @@ class AuthController(
   @PostMapping("/signin")
   fun authenticateUser(
     @RequestBody signinRequest: SigninRequest,
-  ): ResponseEntity<*> {
+  ): ResponseEntity<SigninResponse> {
     val authentication =
       authenticationManager.authenticate(
         UsernamePasswordAuthenticationToken(signinRequest.login, signinRequest.password),
@@ -50,24 +51,28 @@ class AuthController(
     val jwt = jwtUtils.generateJwtToken(login)
 
     val userDetails = authentication.principal as UserDetailsImpl
-    val roles = userDetails.authorities?.mapNotNull { it?.authority } ?: emptyList()
+    val role = userDetails.authorities?.firstNotNullOfOrNull { it?.authority }
     val refreshToken = refreshTokenService.createRefreshToken(userDetails.userId)
 
-    return ResponseEntity.ok(
-      SigninResponse(
-        jwt,
-        refreshToken.token,
-        userDetails.userId,
-        userDetails.username,
-        roles,
-      ),
-    )
+    return if (role != null) {
+      ResponseEntity.ok(
+        SigninResponse(
+          jwt,
+          refreshToken.token,
+          userDetails.userId,
+          userDetails.username,
+          role,
+        ),
+      )
+    } else {
+      ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+    }
   }
 
   @PostMapping("/refresh")
   fun refreshToken(
     @RequestBody request: TokenRefreshRequest,
-  ): ResponseEntity<*> {
+  ): ResponseEntity<TokenRefreshResponse> {
     val requestRefreshToken = request.refreshToken
     return refreshTokenService
       .findByToken(requestRefreshToken)
@@ -79,13 +84,14 @@ class AuthController(
   }
 
   @PostMapping("/signup")
+  @PreAuthorize("hasAuthority('Admin')")
   fun registerUser(
     @RequestBody signUpRequest: SignupRequest,
-  ): ResponseEntity<*> {
+  ): ResponseEntity<MessageResponse> {
     if (userService.existsByLogin(signUpRequest.login)) {
       return ResponseEntity
         .badRequest()
-        .body(SignupResponse("Error: Username is already taken!"))
+        .body(MessageResponse("Error: Username is already taken!"))
     }
 
     when (signUpRequest.role.lowercase()) {
@@ -122,9 +128,9 @@ class AuthController(
         userService.createNewAdmin(admin)
       }
 
-      else -> return ResponseEntity.badRequest().body(SignupResponse("Error: Role not found!"))
+      else -> return ResponseEntity.badRequest().body(MessageResponse("Error: Role not found!"))
     }
 
-    return ResponseEntity.ok(SignupResponse("User registered successfully!"))
+    return ResponseEntity.ok(MessageResponse("User registered successfully!"))
   }
 }

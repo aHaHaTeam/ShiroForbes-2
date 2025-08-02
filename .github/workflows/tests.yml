@@ -30,6 +30,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Copy a Google Service Account Key
+        run: echo "${{ secrets.GOOGLE_API_KEY_BASE_64 }}" | base64 --decode > ./src/main/resources/service-account-key.json
+
       - name: Run Tests
         run: ./gradlew test
 

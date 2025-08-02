@@ -1,20 +1,32 @@
-spring.application.name=shiroforbes-2
-spring.profiles.active=local
+spring:
+  application.name: shiroforbes-2
+  profiles.active: local
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/shiroforbes?sslmode=disable
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-spring.datasource.driver-class-name=org.postgresql.Driver
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: test
+    password:
 
-spring.jpa.open-in-view=false
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=create-drop
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        globally_quoted_identifiers: true
 
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.properties.hibernate.globally_quoted_identifiers=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-
-shiroforbes.app.jwt.secret=c2hpcm9mb3JiZXMtand0LXNlY3JldC1rZXktZm9yLXNhbXBsZS1hcHBsaWNhdGlvbg==
-shiroforbes.app.jwt.jwtExpirationMs=86400000
-shiroforbes.app.jwt.refreshExpirationMs=604800000
-shiroforbes.app.google.service-account-key-file="/google-service-account.json"
+shiroforbes.app:
+  jwt:
+    secret: c2hpcm9mb3JiZXMtand0LXNlY3JldC1rZXktZm9yLXNhbXBsZS1hcHBsaWNhdGlvbg== # TODO: move it into a secure vault
+    jwtExpirationMs: 86400000
+    refreshExpirationMs: 604800000
+  google:
+    serviceAccountKeyFile: "service-account-key.json"
+  rating:
+    spreadsheetId: "19fm18aFwdENQHXRu3ekG1GRJtiIe-k1-XCMgtMQXFSQ"
+    countrysideRanges: "Конд!B5:C,Конд!R5:AE"
+    countrysideRangesSemester2: "Конд!B5:Q"
+    urbanRanges: "Конд18!B5:C,Конд18!R5:AE"
+    urbanRangesSemester2: "Конд18!B5:Q"

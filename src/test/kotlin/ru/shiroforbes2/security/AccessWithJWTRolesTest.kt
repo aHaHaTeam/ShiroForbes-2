@@ -1,6 +1,8 @@
 package ru.shiroforbes2.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -8,17 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
-import org.springframework.transaction.annotation.Transactional
-import ru.shiroforbes2.dto.request.SignupRequest
+import ru.shiroforbes2.dto.request.SigninRequest
 import ru.shiroforbes2.dto.response.SigninResponse
+import ru.shiroforbes2.entity.Admin
 import ru.shiroforbes2.entity.Group
+import ru.shiroforbes2.entity.Student
+import ru.shiroforbes2.repository.RefreshTokenRepository
+import ru.shiroforbes2.repository.UserRepository
+import ru.shiroforbes2.service.UserService
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 class AccessWithJWTRolesTest {
   @Autowired
   private lateinit var mockMvc: MockMvc
@@ -26,62 +32,60 @@ class AccessWithJWTRolesTest {
   @Autowired
   private lateinit var objectMapper: ObjectMapper
 
+  @Autowired
+  private lateinit var userService: UserService
+
+  @Autowired
+  private lateinit var passwordEncoder: PasswordEncoder
+
+  @Autowired
+  private lateinit var userRepository: UserRepository
+
+  @Autowired
+  private lateinit var refreshTokenRepository: RefreshTokenRepository
+
   private lateinit var adminToken: String
   private lateinit var studentToken: String
 
   @BeforeEach
   fun setup() {
+    userService.createNewAdmin(Admin("testAdmin", passwordEncoder.encode("password"), "adminName"))
     adminToken =
-      createUser(
+      signin(
         login = "testAdmin",
         password = "password",
-        role = "admin",
-        name = "Test Admin",
-        group = Group.Urban.name,
       )
-
+    userService.createNewStudent(
+      Student("testStudent", passwordEncoder.encode("12345678"), "studentName", Group.Urban, 0, 0f),
+    )
     studentToken =
-      createUser(
+      signin(
         login = "testStudent",
         password = "12345678",
-        role = "student",
-        name = "Test Student",
-        group = Group.Countryside.name,
       )
   }
 
-  private fun createUser(
+  @AfterEach
+  fun cleanup() {
+    refreshTokenRepository.deleteAll()
+    userRepository.deleteAll()
+  }
+
+  private fun signin(
     login: String,
     password: String,
-    role: String,
-    name: String,
-    group: String?,
   ): String {
-    val signupRequest =
-      SignupRequest(
-        login = login,
-        password = password,
-        role = role,
-        name = name,
-        group = group,
-      )
-
-    mockMvc
-      .post("/api/v2/auth/signup") {
-        contentType = MediaType.APPLICATION_JSON
-        content = objectMapper.writeValueAsString(signupRequest)
-      }.andExpect {
-        status { isOk() }
-      }
-
     val result =
       mockMvc
         .post("/api/v2/auth/signin") {
           contentType = MediaType.APPLICATION_JSON
-          content = objectMapper.writeValueAsString(mapOf("login" to login, "password" to password))
+          content = objectMapper.writeValueAsString(SigninRequest(login, password))
+        }.andExpect {
+          status { isOk() }
         }.andReturn()
 
-    val signinResponse = objectMapper.readValue(result.response.contentAsString, SigninResponse::class.java)
+    val body = result.response.contentAsString
+    val signinResponse = objectMapper.readValue<SigninResponse>(body)
     assertNotNull(signinResponse.accessToken)
     return signinResponse.accessToken
   }

@@ -1,0 +1,548 @@
+openapi: 3.1.0
+info:
+  title: ShiroForbes API
+  version: 2.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+
+  /api/v2/auth/signin:
+    post:
+      summary: User signin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+                  userId:
+                    type: integer
+                    format: int64
+                  login:
+                    type: string
+                  role:
+                    type: string
+        '401':
+          description: Unauthorized
+  /api/v2/auth/refresh:
+    post:
+      summary: Refresh access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        '401':
+          description: Unauthorized
+  /api/v2/auth/signup:
+    post:
+      summary: User signup (Admin only)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+
+
+  /api/v2/rating/countryside:
+    get:
+      summary: Get all series of countryside rating
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      rank:
+                        type: integer
+                      solved:
+                        type: integer
+                      points:
+                        type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      summary: Update countryside rating
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v2/rating/urban:
+    get:
+      summary: Get all series of urban rating
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      rank:
+                        type: integer
+                      solved:
+                        type: integer
+                      points:
+                        type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      summary: Update urban rating
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  /api/v2/wealth/countryside:
+    get:
+      summary: Get countryside wealth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    transactions:
+                      type: integer
+                    balance:
+                      type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      summary: Update countryside rating
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v2/wealth/urban:
+    get:
+      summary: Get urban wealth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    transactions:
+                      type: integer
+                    balance:
+                      type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      summary: Update urban rating
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+
+
+  /api/v2/{login}/profile:
+    get:
+      summary: Get student profile by login
+      parameters:
+        - name: login
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  mathStats:
+                    type: object
+                    properties:
+                      rating:
+                        type: integer
+                      rank:
+                        type: integer
+                      tasks:
+                        type: integer
+                      grobs:
+                        type: integer
+                      algebra:
+                        type: integer
+                      comba:
+                        type: integer
+                      geoma:
+                        type: integer
+                      tch:
+                        type: integer
+                  wealthStats:
+                    type: object
+                    properties:
+                      balance:
+                        type: integer
+                      wealthRank:
+                        type: integer
+                      total:
+                        type: integer
+                      transactions:
+                        type: integer
+                      spent:
+                        type: integer
+                      investments:
+                        type: integer
+                      isInvesting:
+                        type: boolean
+        '400':
+          description: Bad Request (e.g. user not found)
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v2/{login}/invest:
+    post:
+      summary: Update user investment status
+      parameters:
+        - name: login
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isInvesting:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request (e.g. user not found)
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v2/{login}/history/:
+    get:
+      summary: Get students' history of ratings
+      parameters:
+        - name: login
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  history:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: integer
+                        solved:
+                          description: percentage of solved problems
+                          type: integer
+  /api/v2/{login}/transactions/:
+    get:
+      summary: Get student transactions by login
+      parameters:
+        - name: login
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int64
+                        transaction:
+                          type: object
+                          properties:
+                            amount:
+                              type: number
+                            message:
+                              type: string
+                        date:
+                          type: string
+                          format: date-time
+        '400':
+          description: Bad Request (e.g. user not found)
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+
+
+  /api/v2/transactions/new:
+    post:
+      summary: Create a new transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                logins:
+                  type: array
+                  items:
+                    type: string
+                amount:
+                  type: number
+                message:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request (e.g. user not found)
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v2/transactions/presets:
+    get:
+      summary:  Get presets for transactions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    message:
+                      type: string
+                    amount:
+                      type: integer
+
+  /api/v2/transactions/countryside:
+    get:
+      summary: Get all countryside student transactions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                    name:
+                      type: string
+                    login:
+                      type: string
+                    transaction:
+                      type: object
+                      properties:
+                        amount:
+                          type: number
+                        message:
+                          type: string
+                    date:
+                      type: string
+                      format: date-time
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v2/transactions/urban:
+    get:
+      summary: Get all urban student transactions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                    name:
+                      type: string
+                    login:
+                      type: string
+                    transaction:
+                      type: object
+                      properties:
+                        amount:
+                          type: number
+                        message:
+                          type: string
+                    date:
+                      type: string
+                      format: date-time
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+
+
+  /api/v2/shop/price-list:
+    get:
+      summary:  List of all items with prices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spend:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        price:
+                          type: integer
+                  earn:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        price:
+                          type: integer
+
+
+
+

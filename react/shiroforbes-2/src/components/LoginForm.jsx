@@ -10,11 +10,50 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import Logo from "@/components/Logo/Logo.jsx";
+import {useEffect, useState} from "react";
+import {useAuth} from "@/utils/AuthContext.jsx";
+
+import {useNavigate} from "react-router-dom";
+import {useData} from "@/utils/DataContext.jsx";
+
 
 export function LoginForm({
                               className,
                               ...props
                           }) {
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    const auth = useAuth();
+
+    const userData = useData();
+
+    async function authorize(login, password) {
+        auth.Logout();
+        const res = await fetch("api/auth/signin", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({login, password})
+        });
+        console.log(res);
+        if (res.ok) {
+            const data = await res.json();
+            auth.Login({
+                accessToken: data.accessToken,
+                refreshToken: data.refreshToken,
+                role: data.role,
+                login: login,
+                password: password
+            });
+            userData.rememberLogin({username: login});
+            navigate("/");
+        } else {
+            alert("Login failed");
+        }
+    }
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -25,11 +64,15 @@ export function LoginForm({
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={e => {
+                        e.preventDefault();
+                        authorize(login, password);
+                    }}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="login">Login</Label>
-                                <Input id="login" placeholder="koposovt" required/>
+                                <Input id="login" placeholder="koposovt" required
+                                       onChange={e => setLogin(e.target.value)}/>
                             </div>
                             <div className="grid gap-3">
                                 <div className="flex items-center">
@@ -40,7 +83,8 @@ export function LoginForm({
                                         Забыл(а) пароль?
                                     </a>
                                 </div>
-                                <Input id="password" type="password" placeholder="qwerty123" required/>
+                                <Input id="password" type="password" placeholder="qwerty123" required
+                                       onChange={e => setPassword(e.target.value)}/>
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Button type="submit" variant="outline" className="w-full">

@@ -7,6 +7,9 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import "swiper/css";
 import {StatsChart} from "@/components/Chart.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import {useApiFetch} from "@/utils/api.js";
+import {Skeleton} from "@/components/ui/skeleton.jsx";
+import {useData} from "@/utils/DataContext.jsx";
 
 function StatPlate({
                        className,
@@ -20,31 +23,49 @@ function StatPlate({
     )
 }
 
-function MathStats() {
+function MathStats({setname}) {
     const [stats, setStats] = useState(null);
+    const userData = useData();
+    const apiFetch = useApiFetch();
     useEffect(() => {
-        setStats({
-            "name": "Вика Андриенко",
-            "rating": 2025,
-            "rank": 15,
-            "tasks": 239,
-            "grobs": 0,
-            "algebra": 88,
-            "comba": 90,
-            "geoma": 89,
-            "tch": 91
-        });
-    }, []);
-    useEffect(() => {
-        fetch("/api/name/stats")
-            .then((res) => res.json())
-            .then((data) => setStats(data))
+        apiFetch(`/api/${userData.username}/stats`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                return res.json();
+            }).then((data) => {
+            setStats(data);
+            setname(data.name);
+        })
             .catch((err) => console.error("Ошибка загрузки статистики:", err));
     }, []);
 
 
     if (!stats) {
-        return <div className="text-center mt-10">Загрузка...</div>;
+        return (
+            <div>
+                <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
+                    {Array.from({length: 8}).map((_, i) => (
+                        <div key={i} className="p-2">
+                            <Skeleton className="h-16 w-full rounded-md"/>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="text-lg py-4">
+                    <Skeleton className="h-6 w-1/2 mx-auto"/>
+                </div>
+
+                <div className="w-full text-black text-center py-4">
+                    <Skeleton className="h-64 w-full rounded-md"/>
+                </div>
+
+                <div className="w-full text-center py-4">
+                    <Skeleton className="h-6 w-1/3 mx-auto"/>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -92,20 +113,17 @@ function MathStats() {
 
 function WealthStats() {
     const [wealth, setWealth] = useState(null);
+
+    const apiFetch = useApiFetch();
+
     useEffect(() => {
-        setWealth({
-            "name": "Вика Андриенко",
-            "balance": 2025,
-            "rank": 15,
-            "total": 239,
-            "transactions": 0,
-            "spent": 88,
-            "investments": 90,
-        });
-    }, []);
-    useEffect(() => {
-        fetch("/api/name/wealth")
-            .then((res) => res.json())
+        apiFetch("/api/name/wealth")
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                return res.json();
+            })
             .then((data) => setWealth(data))
             .catch((err) => console.error("Ошибка загрузки статистики:", err));
     }, []);
@@ -121,22 +139,22 @@ function WealthStats() {
         <div>
             <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
                 <StatPlate className="bg-yellow-400">
-                    <CardContent className="p-2 font-medium">Рейтинг: {wealth.balance}</CardContent>
+                    <CardContent className="p-2 font-medium">Баланс: {wealth.balance}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-green-400">
                     <CardContent className="p-2 font-medium">Место: {wealth.rank}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-red-400">
-                    <CardContent className="p-2 font-medium">Задачи: {wealth.total}</CardContent>
+                    <CardContent className="p-2 font-medium">Заработано: {wealth.total}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-purple-600 text-white">
-                    <CardContent className="p-2 font-medium">Гробы: {wealth.transactions}</CardContent>
+                    <CardContent className="p-2 font-medium">Транзакций: {wealth.transactions}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-blue-600 text-white">
-                    <CardContent className="p-2 font-medium">Алгебра: {wealth.spent}</CardContent>
+                    <CardContent className="p-2 font-medium">Потрачено: {wealth.spent}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-orange-400">
-                    <CardContent className="p-2 font-medium">Комба: {wealth.investments}</CardContent>
+                    <CardContent className="p-2 font-medium">Инвестиции: {wealth.investments}</CardContent>
                 </StatPlate>
                 <StatPlate className="col-span-2 w-full bg-gray-400">
                     <Button variant="ghost" className="h-full" onClick={handleClick}>Кнопка для консоли</Button>
@@ -169,7 +187,7 @@ export function Profile({
                                 }
                             }}>
                         <SwiperSlide>
-                            <MathStats/>
+                            <MathStats setname={setName}/>
                         </SwiperSlide>
                         <SwiperSlide>
                             <WealthStats/>

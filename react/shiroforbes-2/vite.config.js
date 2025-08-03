@@ -7,7 +7,6 @@ import {fileURLToPath} from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// https://vite.dev/config/
 export default defineConfig({
     plugins: [react(), tailwindcss()],
     resolve: {
@@ -15,9 +14,14 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         },
     },
-    server:{
+    server: {
         host: true,
-        port: 8080,
+        port: 8239,
+        proxy: {'/api': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, '/api/v2'),
+            }}
     }
 });
 

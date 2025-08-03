@@ -11,6 +11,8 @@ import {
 import {Button} from "@/components/ui/button.jsx";
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
+import {faCaretDown, faCaretUp, faMinus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const columns = [
     {
@@ -22,11 +24,19 @@ const columns = [
             let deltaElement;
 
             if (delta > 0) {
-                deltaElement = <span className="text-green-600">(+{delta})</span>;
+                deltaElement = <span className="text-green-600 flex flex-col items-center leading-0">
+                                    <span className="text-xs">+{delta}</span>
+                                    <FontAwesomeIcon icon={faCaretUp} className="text-xs" />
+                               </span>;
             } else if (delta < 0) {
-                deltaElement = <span className="text-red-600">({delta})</span>;
+                deltaElement = <span className="text-red-600 flex flex-col items-center">
+                                    <span className="text-xs">{delta}</span>
+                                    <FontAwesomeIcon icon={faCaretDown} className="text-xs"/>
+                               </span>;
             } else {
-                deltaElement = <span className="text-gray-400">(=)</span>;
+                deltaElement = <span className="text-gray-400 flex flex-col items-center">
+                                    <FontAwesomeIcon icon={faMinus}/>
+                               </span>;
             }
 
             return (

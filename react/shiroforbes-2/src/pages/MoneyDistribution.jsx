@@ -10,12 +10,8 @@ import {cn} from "@/utils/tw-utils.js";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
+import {useApiFetch} from "@/utils/api.js";
 
-const initialData = [
-    {name: "Alice", balance: 100},
-    {name: "Bob", balance: 150},
-    {name: "Charlie", balance: 200},
-]
 
 const columns = [
     {
@@ -51,17 +47,38 @@ const columns = [
 ];
 
 function MoneyDistributionTable() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState([]);
+    const [presets, setPresets] = useState([]);
     const [message, setMessage] = useState("");
     const [amount, setAmount] = useState("");
     const [filter, setFilter] = useState("");
     const [filteredData, setFilteredData] = useState(data);
 
-    const presets = [
-        {label: "Зарядка", message: "Участие в зарядке", amount: "30"},
-        {label: "Отбой", message: "Успешный отбой", amount: "25"},
-    ];
     const [showOptions, setShowOptions] = useState(false);
+
+    const apiFetch = useApiFetch();
+    useEffect(() => {
+        apiFetch("/api/transactions/state").then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+            return res.json();
+        })
+            .then((data) => setData(data))
+            .catch((err) => console.error("Ошибка загрузки статуса по деньгам:", err));
+    }, []);
+
+    useEffect(() => {
+        apiFetch("/api/transactions/presets").then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+            return res.json();
+        })
+            .then((data) => setPresets(data))
+            .catch((err) => console.error("Ошибка загрузки пресетов транзакций:", err));
+    }, []);
+
 
     useEffect(() => {
         setFilteredData(data.filter(row =>
@@ -81,6 +98,11 @@ function MoneyDistributionTable() {
         const selectedRows = table.getSelectedRowModel().rows.map(row => row.original);
     };
 
+    if (data == null) {
+        return (
+            <div>Загрузка...</div>
+        )
+    }
     return (
         <div className="space-y-4">
             <div className="relative">

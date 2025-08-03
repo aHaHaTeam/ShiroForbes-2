@@ -27,7 +27,6 @@ app.use('/api/v2/test/stats', (req, res) => {
         return res.status(401).json({error: "No Authorization header"});
     }
 
-    // authHeader ожидается в виде: "Bearer test123"
     const token = authHeader.split(" ")[0];
 
     if (token === "test123") {
@@ -87,5 +86,45 @@ app.use('/api/v2/price-list', (req, res) => {
             name: "Слова паразиты на отбой",
             price: "40000Zlt",
         }]);
+});
+
+app.use("/api/v2/transactions/state", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            {name: "Alice", balance: 100},
+            {name: "Bob", balance: 150},
+            {name: "Charlie", balance: 200},
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+app.use("/api/v2/transactions/presets", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            {label: "Зарядка", message: "Участие в зарядке", amount: "30"},
+            {label: "Отбой", message: "Успешный отбой", amount: "25"},
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
 })
+
 app.listen(8080, () => console.log('API is running on http://localhost:8080/api/v2/auth/signin'));

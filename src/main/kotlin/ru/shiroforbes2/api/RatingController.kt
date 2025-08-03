@@ -26,5 +26,5 @@ class RatingController(
   fun getCountrysideRating(): List<RatingRow> = ratingService.getRating(spreadsheetId, countrysideRanges)
 
   @PostMapping("/countryside")
-  fun updateCountrysideRating(): List<RatingRow> = ratingService.getRating(spreadsheetId, urbanRanges)
+  fun updateCountrysideRating(): List<RatingRow> = ratingService.getRating(spreadsheetId, countrysideRanges)
 }

@@ -2,8 +2,8 @@ package ru.shiroforbes2.service
 
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.model.ValueRange
-import io.jsonwebtoken.io.IOException
 import org.springframework.stereotype.Service
+import java.io.IOException
 import kotlin.jvm.Throws
 
 @Service

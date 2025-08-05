@@ -3,7 +3,7 @@ package ru.shiroforbes2.dto
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.entity.Student
 
-class StudentDTO(
+data class StudentDTO(
   val name: String,
   val group: Group,
   val login: String,
@@ -14,7 +14,7 @@ class StudentDTO(
 fun Student.toStudentDTO(): StudentDTO =
   StudentDTO(
     login = login,
-    name = name,
+    name = "$firstName $lastName",
     group = group,
     score = score,
     total = total,

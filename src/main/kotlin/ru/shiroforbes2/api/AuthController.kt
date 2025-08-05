@@ -96,11 +96,13 @@ class AuthController(
 
     when (signUpRequest.role.lowercase()) {
       "student" -> {
+        val nameParts = signUpRequest.name.split(" ", limit = 2)
         val student =
           Student(
             login = signUpRequest.login,
             password = encoder.encode(signUpRequest.password),
-            name = signUpRequest.name,
+            firstName = nameParts.getOrElse(0) { "" },
+            lastName = nameParts.getOrElse(1) { "" },
             group = signUpRequest.group?.let { Group.valueOf(it) } ?: Group.Urban,
             score = 0,
             total = 0.0f,

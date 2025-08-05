@@ -29,7 +29,7 @@ class StudentService(
         .findAllByStudentIdOrderByDate(student.id)
         .map { it.toTransactionDTO() }
     return StudentProfileDTO(
-      name = student.name,
+      name = student.firstName + " " + student.lastName,
       group = student.group,
       login = student.login,
       score = student.score,

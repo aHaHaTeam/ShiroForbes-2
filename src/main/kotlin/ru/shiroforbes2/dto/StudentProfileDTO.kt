@@ -8,6 +8,6 @@ data class StudentProfileDTO(
   val login: String,
   val score: Int,
   val total: Float,
-  val ratings: List<RatingDTO>,
+  val ratings: List<PerformanceStatisticsDTO>,
   val transactions: List<TransactionDTO>,
 )

@@ -56,7 +56,15 @@ class AccessWithJWTRolesTest {
         password = "password",
       )
     userService.createNewStudent(
-      Student("testStudent", passwordEncoder.encode("12345678"), "studentName", Group.Urban, 0, 0f),
+      Student(
+        "testStudent",
+        passwordEncoder.encode("12345678"),
+        "studentFirstName",
+        "studentLastName",
+        Group.Urban,
+        0,
+        0f,
+      ),
     )
     studentToken =
       signin(

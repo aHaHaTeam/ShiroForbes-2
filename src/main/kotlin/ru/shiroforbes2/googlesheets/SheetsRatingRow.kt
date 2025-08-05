@@ -1,6 +1,6 @@
 package ru.shiroforbes2.googlesheets
 
-data class RatingRow(
+data class SheetsRatingRow(
   val lastName: String,
   val firstName: String,
   val solvedProblems: Float,

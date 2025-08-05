@@ -12,11 +12,14 @@ import jakarta.persistence.Table
 @Table(name = "student")
 @DiscriminatorValue("Student")
 @PrimaryKeyJoinColumn(name = "student_id", referencedColumnName = "user_id")
-class Student(
+@Suppress("LongParameterList")
+open class Student(
   login: String,
   password: String,
-  @Column(name = "name", length = 200, nullable = false)
-  var name: String,
+  @Column(name = "first_name", length = 200, nullable = false)
+  var firstName: String,
+  @Column(name = "last_name", length = 200, nullable = false)
+  var lastName: String,
   @Column(name = "group", nullable = false)
   @Enumerated(EnumType.STRING)
   val group: Group,

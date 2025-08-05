@@ -3,12 +3,15 @@ package ru.shiroforbes2.entity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "rating")
-data class Rating(
+@Suppress("LongParameterList")
+open class PerformanceStatistics(
   @Id
   @Column(name = "id", nullable = false)
   val id: Int,
@@ -16,8 +19,9 @@ data class Rating(
   var date: LocalDateTime,
   @Column(name = "episode", nullable = false)
   var episode: Int,
-  @Column(name = "student_id", nullable = false)
-  var studentId: Int,
+  @OneToOne
+  @JoinColumn(name = "student_id", nullable = false)
+  var student: Student,
   @Column(name = "totalSolved", nullable = false)
   var totalSolved: Float,
   @Column(name = "totalRating", nullable = false)

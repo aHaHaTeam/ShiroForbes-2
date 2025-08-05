@@ -1,9 +1,9 @@
 package ru.shiroforbes2.dto
 
-import ru.shiroforbes2.entity.Rating
+import ru.shiroforbes2.entity.PerformanceStatistics
 import java.time.LocalDateTime
 
-data class RatingDTO(
+data class PerformanceStatisticsDTO(
   val date: LocalDateTime,
   val episode: Int,
   val totalSolved: Float,
@@ -21,8 +21,8 @@ data class RatingDTO(
   val position: Int,
 )
 
-fun Rating.toRatingDTO(): RatingDTO =
-  RatingDTO(
+fun PerformanceStatistics.toRatingDTO(): PerformanceStatisticsDTO =
+  PerformanceStatisticsDTO(
     date = date,
     episode = episode,
     totalSolved = totalSolved,

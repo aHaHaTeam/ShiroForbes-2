@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import ru.shiroforbes2.googlesheets.CustomDecoder
 import ru.shiroforbes2.googlesheets.DefaultDecoder
-import ru.shiroforbes2.googlesheets.RatingRow
 import ru.shiroforbes2.googlesheets.ReflectiveTableParser
+import ru.shiroforbes2.googlesheets.SheetsRatingRow
 import java.io.IOException
 
 @Service
@@ -19,13 +19,13 @@ class RatingLoaderService(
     cause: Throwable? = null,
   ) : RuntimeException(message, cause)
 
-  private val parser = ReflectiveTableParser(RatingRow::class, listOf(CustomDecoder(), DefaultDecoder()))
+  private val parser = ReflectiveTableParser(SheetsRatingRow::class, listOf(CustomDecoder(), DefaultDecoder()))
 
   @Throws(RatingServiceException::class)
   fun getRating(
     spreadsheetId: String,
     ranges: List<String>,
-  ): List<RatingRow> {
+  ): List<SheetsRatingRow> {
     val response =
       try {
         sheetsService.getSpreadsheetValues(spreadsheetId, ranges)

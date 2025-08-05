@@ -1,4 +1,4 @@
-import {Coins, LogOut, Medal, Settings, ShoppingCart, User} from "lucide-react"
+import {ArrowLeftRight, Coins, LogOut, Medal, Settings, ShoppingCart, User} from "lucide-react"
 
 import {
     Sidebar,
@@ -37,6 +37,11 @@ const items = [
         title: "Прайс-лист",
         url: "shop",
         icon: ShoppingCart,
+    },
+    {
+        title: "Список транзакций",
+        url: "transactions",
+        icon: ArrowLeftRight,
     },
     {
         title: "Перезайти",

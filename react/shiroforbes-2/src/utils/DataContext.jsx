@@ -11,7 +11,6 @@ export function DataProvider({children}) {
         setUsername(username);
         localStorage.setItem("username", username);
 
-        alert("rem");
     }
 
     return (

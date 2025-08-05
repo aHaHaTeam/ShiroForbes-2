@@ -1,6 +1,6 @@
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
-import {MoneyDistribution} from "@/pages/MoneyDistribution.jsx";
+import {TransactionGroupTable} from "@/components/TransactionsTable.jsx";
 
 export function Test({
                          className,
@@ -12,7 +12,7 @@ export function Test({
         <div className={className} {...props}>
             <SidebarArea>
                 <Header/>
-                <MoneyDistribution/>
+                <TransactionGroupTable/>
                 {children}
             </SidebarArea>
         </div>

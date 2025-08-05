@@ -1,12 +1,9 @@
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
-
 import {Swiper, SwiperSlide} from "swiper/react";
-import {RatingTable} from "@/components/RatingTable.jsx";
+import {TransactionGroupTable} from "@/components/TransactionsTable.jsx";
 
-
-
-export function Rating({
+export function TransactionsList({
                            className,
                            style,
                            children,
@@ -24,10 +21,10 @@ export function Rating({
                                 }
                             }}>
                         <SwiperSlide>
-                            <RatingTable/>
+                            <TransactionGroupTable/>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <RatingTable isUrban={true}/>
+                            <TransactionGroupTable isUrban={true}/>
                         </SwiperSlide>
                         {children}
                     </Swiper>

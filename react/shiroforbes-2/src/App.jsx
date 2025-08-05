@@ -9,6 +9,7 @@ import {Rating} from "@/pages/Rating.jsx";
 import {Shop} from "@/pages/Shop.jsx";
 import {AuthProvider} from "@/utils/AuthContext.jsx";
 import {DataProvider} from "@/utils/DataContext.jsx";
+import {TransactionsList} from "@/pages/TransactionsList.jsx";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/test" element={<Test/>}/>
                         <Route path="/shop" element={<Shop/>}/>
+                        <Route path="/transactions" element={<TransactionsList/>}/>
                     </Routes>
                 </BrowserRouter>
             </DataProvider>

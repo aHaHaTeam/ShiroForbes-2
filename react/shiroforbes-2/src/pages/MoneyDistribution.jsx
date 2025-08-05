@@ -95,7 +95,16 @@ function MoneyDistributionTable() {
     });
 
     const handleSubmit = () => {
-        const selectedRows = table.getSelectedRowModel().rows.map(row => row.original);
+        const selectedRows = table.getSelectedRowModel().rows.map(row => row.original.name);
+        console.log(selectedRows);
+        apiFetch("api/transactions/new", {
+            method: "POST",
+            body: JSON.stringify({
+                names: selectedRows,
+                message: message,
+                amount: amount
+            })
+        }).then(console.log);
     };
 
     if (data == null) {

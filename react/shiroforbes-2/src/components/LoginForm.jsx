@@ -10,7 +10,7 @@ import {
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import Logo from "@/components/Logo/Logo.jsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useAuth} from "@/utils/AuthContext.jsx";
 
 import {useNavigate} from "react-router-dom";
@@ -37,7 +37,6 @@ export function LoginForm({
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({login, password})
         });
-        console.log(res);
         if (res.ok) {
             const data = await res.json();
             auth.Login({

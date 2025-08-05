@@ -20,7 +20,7 @@ app.use('/api/v2/auth/signin', (req, res) => {
     }
 });
 
-app.use('/api/v2/test/stats', (req, res) => {
+app.use('/api/v2/test/profile', (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -32,45 +32,32 @@ app.use('/api/v2/test/stats', (req, res) => {
     if (token === "test123") {
         res.json({
             "name": "Вика Андриенко",
-            "rating": 2025,
-            "rank": 15,
-            "tasks": 239,
-            "grobs": 0,
-            "algebra": 88,
-            "comba": 90,
-            "geoma": 89,
-            "tch": 91
+            mathStats: {
+                rating: 2025,
+                wealthRank: 15,
+                tasks: 239,
+                grobs: 0,
+                algebra: 88,
+                comba: 90,
+                geoma: 89,
+                tch: 91
+            },
+            wealthStats: {
+                balance: 2025,
+                wealthRank: 15,
+                total: 239,
+                transactions: 0,
+                spent: 88,
+                investments: 90,
+                isInvesting: true,
+
+            },
         });
     } else {
         res.status(401).json({error: "Invalid token"});
     }
 });
 
-
-app.use('/api/v2/name/wealth', (req, res) => {
-    const authHeader = req.headers.authorization; // 👈 достаём заголовок
-
-    if (!authHeader) {
-        return res.status(401).json({error: "No Authorization header"});
-    }
-
-    // authHeader ожидается в виде: "Bearer test123"
-    const token = authHeader.split(" ")[0];
-
-    if (token === "test123") {
-        res.json({
-            name: "Вика Андриенко",
-            balance: 2025,
-            rank: 15,
-            total: 239,
-            transactions: 0,
-            spent: 88,
-            investments: 90,
-        });
-    } else {
-        res.status(401).json({error: "Invalid token"});
-    }
-});
 
 app.use('/api/v2/price-list', (req, res) => {
     res.json([
@@ -126,5 +113,130 @@ app.use("/api/v2/transactions/presets", (req, res) => {
         res.status(401).json({error: "Invalid token"});
     }
 })
+
+app.use("/api/v2/rating/countryside", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            [
+                {name: "Alice", absoluteRating: 1580},
+                {name: "Bob", absoluteRating: 1540},
+                {name: "Charlie", absoluteRating: 152},
+            ],
+            [
+                {name: "Bob", absoluteRating: 1590},
+                {name: "Alice", absoluteRating: 1565},
+                {name: "Charlie", absoluteRating: 152},
+            ],
+            [
+                {name: "Charlie", absoluteRating: 160},
+                {name: "Bob", absoluteRating: 1560},
+                {name: "Alice", absoluteRating: 1555},
+            ]
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+app.use("/api/v2/rating/urban", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            [
+                {name: "Anna", absoluteRating: 1580},
+                {name: "Barry", absoluteRating: 1540},
+                {name: "Clyde", absoluteRating: 152},
+            ],
+            [
+                {name: "Barry", absoluteRating: 1590},
+                {name: "Anna", absoluteRating: 1565},
+                {name: "Clyde", absoluteRating: 152},
+            ],
+            [
+                {name: "Clyde", absoluteRating: 160},
+                {name: "Barry", absoluteRating: 1560},
+                {name: "Anna", absoluteRating: 1555},
+            ]
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
+app.use("/api/v2/transactions/urban", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json( [
+            { id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01" },
+            { id: "2", name: "Маша", message: "Оплата подписки", amount: 799, date: "2025-08-02" },
+            { id: "3", name: "Даша", message: "Перевод", amount: 3200, date: "2025-08-03" },
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+app.use("/api/v2/transactions/countryside", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json( [
+            { id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01" },
+            { id: "2", name: "Маша", message: "Оплата подписки", amount: 799, date: "2025-08-02" },
+            { id: "3", name: "Даша", message: "Перевод", amount: 3200, date: "2025-08-03" },
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+app.use("/api/v2/test/transactions/", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json( [
+            { id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01" },
+            { id: "2", name: "Саша", message: "Оплата подписки", amount: 799, date: "2025-08-02" },
+            { id: "3", name: "Саша", message: "Перевод", amount: 3200, date: "2025-08-03" },
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
 
 app.listen(8080, () => console.log('API is running on http://localhost:8080/api/v2/auth/signin'));

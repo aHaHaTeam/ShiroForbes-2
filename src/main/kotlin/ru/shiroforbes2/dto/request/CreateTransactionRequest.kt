@@ -1,7 +1,7 @@
 package ru.shiroforbes2.dto.request
 
 data class CreateTransactionRequest(
-  val names: List<String>,
+  val logins: List<String>,
   val message: String,
   val amount: Long,
 )

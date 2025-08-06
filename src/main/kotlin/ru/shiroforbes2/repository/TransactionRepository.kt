@@ -44,7 +44,7 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
     nativeQuery = true,
   )
   fun insertTransaction(
-    names: List<String>,
+    logins: List<String>,
     amount: Long,
     message: String,
   )

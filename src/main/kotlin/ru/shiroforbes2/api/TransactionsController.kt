@@ -28,6 +28,6 @@ class TransactionsController(
   fun insertTransaction(
     @RequestBody request: CreateTransactionRequest,
   ) = {
-    transactionsService.insertTransaction(request.names, request.amount, request.message)
+    transactionsService.insertTransaction(request.logins, request.amount, request.message)
   }
 }

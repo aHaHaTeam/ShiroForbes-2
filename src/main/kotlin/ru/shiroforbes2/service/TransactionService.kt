@@ -20,8 +20,8 @@ class TransactionService(
       .map { it.toTransactionDTO() }
 
   fun insertTransaction(
-    names: List<String>,
+    logins: List<String>,
     amount: Long,
     message: String,
-  ) = transactionRepository.insertTransaction(names, amount, message)
+  ) = transactionRepository.insertTransaction(logins, amount, message)
 }

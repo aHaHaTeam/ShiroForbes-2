@@ -19,6 +19,9 @@ class TransactionService(
       .findAllUrbanOrderByDate()
       .map { it.toTransactionDTO() }
 
-  fun insertTransaction(names: List<String>, amount: Long, message: String) =
-    transactionRepository.insertTransaction(names, amount, message)  
+  fun insertTransaction(
+    names: List<String>,
+    amount: Long,
+    message: String
+  ) = transactionRepository.insertTransaction(names, amount, message)
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import {TrendingDown} from "lucide-react"
-import {CartesianGrid, Line, LineChart, XAxis, YAxis} from "recharts"
+import {CartesianGrid, Legend, Line, LineChart, XAxis, YAxis} from "recharts"
 
 import {
     Card,
@@ -14,23 +14,18 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
+import {useData} from "@/utils/DataContext.jsx";
+import {useApiFetch} from "@/utils/api.js";
+import {useEffect, useState} from "react";
 
-const chartData = [
-    {month: "January", desktop: 186, mobile: 80},
-    {month: "February", desktop: 305, mobile: 200},
-    {month: "March", desktop: 237, mobile: 120},
-    {month: "April", desktop: 73, mobile: 190},
-    {month: "May", desktop: 209, mobile: 130},
-    {month: "June", desktop: 214, mobile: 140},
-]
 
 const chartConfig = {
     desktop: {
-        label: "Desktop",
+        label: "Место",
         color: "var(--chart-1)",
     },
     mobile: {
-        label: "Mobile",
+        label: "Очки",
         color: "var(--chart-2)",
     },
 }
@@ -39,19 +34,36 @@ export function StatsChart({className,
                                       style,
                                       children,
                                       ...props}) {
+
+    const userData = useData();
+    const apiFetch = useApiFetch();
+
+    const [chartData, setChartData] = useState([]);
+    useEffect(() => {
+        apiFetch(`/api/${userData.username}/history`) .then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+            return res.json();
+        }).then((data) => {
+            setChartData(data.history)
+            console.log(data);
+        })
+            .catch((err) => console.error("Ошибка загрузки статистики:", err));
+    }, []);
     return (
         <div className={className} {...props}>
-            <Card>
-
-                <CardContent>
-                    <ChartContainer config={chartConfig}>
+            <Card className="pb-0">
+                <CardContent className="px-0">
+                    <ChartContainer config={chartConfig} className="w-full">
                         <LineChart
                             accessibilityLayer
                             data={chartData}
                             margin={{
                                 left: -24,
-                                right: 12,
+                                right: -16,
                             }}
+
                         >
                             <CartesianGrid vertical={false}/>
                             <XAxis
@@ -62,21 +74,45 @@ export function StatsChart({className,
                                 tickFormatter={(value) => value.slice(0, 3)}
                             />
                             <YAxis
+                                yAxisId="rank"
+                                reversed={true}
                                 tickLine={false}
                                 axisLine={false}
                                 tickMargin={8}
-                                tickCount={10}
+                                domain={[0,36]} // Пример диапазона под rank
+                            />
+
+                            <YAxis
+                                yAxisId="solved"
+                                orientation="right"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={8}
+                                domain={[0, 100]}
                             />
                             <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
+                            <Legend
+                                verticalAlign="bottom"
+                                align="center"
+                                height={32}
+                                iconType="line"
+                                formatter={(value) => {
+                                    if (value === "solved") return "Solved";
+                                    if (value === "rank") return "Rank";
+                                    return value;
+                                }}
+                            />
                             <Line
-                                dataKey="desktop"
+                                dataKey="solved"
+                                yAxisId="solved"
                                 type="linear"
                                 stroke="var(--color-geometry-green)"
                                 strokeWidth={2}
                                 dot={false}
                             />
                             <Line
-                                dataKey="mobile"
+                                dataKey="rank"
+                                yAxisId="rank"
                                 type="linear"
                                 stroke="var(--color-algebra-blue)"
                                 strokeWidth={2}
@@ -85,18 +121,6 @@ export function StatsChart({className,
                         </LineChart>
                     </ChartContainer>
                 </CardContent>
-                <CardFooter>
-                    <div className="flex w-full  items-start gap-2 text-sm">
-                        <div className="grid gap-2">
-                            <div className="flex items-center gap-2 leading-none font-medium">
-                                This Chart took me 6 hours <TrendingDown className="h-4 w-4"/>
-                            </div>
-                            <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                                (^_^)
-                            </div>
-                        </div>
-                    </div>
-                </CardFooter>
             </Card>
         </div>
     )

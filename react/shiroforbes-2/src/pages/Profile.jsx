@@ -57,7 +57,7 @@ function MathStats({stats}) {
         <div>
             <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
                 <StatPlate className="bg-yellow-400">
-                    <CardContent className="p-2 font-medium">Рейтинг: {stats.rating}</CardContent>
+                    <CardContent className="p-2 font-medium">Баллы: {stats.rating}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-green-400">
                     <CardContent className="p-2 font-medium">Место: {stats.wealthRank}</CardContent>
@@ -85,10 +85,6 @@ function MathStats({stats}) {
 
             <div className="w-full text-black text-center py-4">
                 <StatsChart/>
-            </div>
-
-            <div className="w-full bg-gray-300 text-center py-4 text-lg">
-                Легенда графика
             </div>
         </div>)
 }
@@ -127,10 +123,10 @@ function WealthStats({stats}) {
                     <CardContent className="p-2 font-medium">Место: {stats.wealthRank}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-red-400">
-                    <CardContent className="p-2 font-medium">Заработано: {stats.total}</CardContent>
+                    <CardContent className="p-2 font-medium">Всего: {stats.total}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-purple-600 text-white">
-                    <CardContent className="p-2 font-medium">Транзакций: {stats.transactions}</CardContent>
+                    <CardContent className="p-2 font-medium">Транши: {stats.transactions}</CardContent>
                 </StatPlate>
                 <StatPlate className="bg-blue-600 text-white">
                     <CardContent className="p-2 font-medium">Потрачено: {stats.spent}</CardContent>

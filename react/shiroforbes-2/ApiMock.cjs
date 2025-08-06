@@ -239,4 +239,36 @@ app.use("/api/v2/test/transactions/", (req, res) => {
     }
 });
 
+
+app.use("/api/v2/test/history/", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json( {
+                "history": [
+                    { "rank": 7, "solved": 61 },
+                    { "rank": 6, "solved": 64 },
+                    { "rank": 6, "solved": 67 },
+                    { "rank": 5, "solved": 69 },
+                    { "rank": 6, "solved": 71 },
+                    { "rank": 7, "solved": 74 },
+                    { "rank": 6, "solved": 76 },
+                    { "rank": 5, "solved": 79 },
+                    { "rank": 6, "solved": 82 },
+                    { "rank": 6, "solved": 85 }
+                ]
+            }
+        );
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
 app.listen(8080, () => console.log('API is running on http://localhost:8080/api/v2/auth/signin'));

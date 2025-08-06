@@ -43,13 +43,12 @@ export function LoginForm({
                 accessToken: data.accessToken,
                 refreshToken: data.refreshToken,
                 role: data.role,
-                login: login,
-                password: password
+                login: login
             });
             userData.rememberLogin({username: login});
             navigate("/");
         } else {
-            alert("Login failed");
+            setError("Login failed. Please check your credentials and try again.");
         }
     }
 

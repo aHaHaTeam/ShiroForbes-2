@@ -97,7 +97,7 @@ function MoneyDistributionTable() {
     const handleSubmit = () => {
         const selectedRows = table.getSelectedRowModel().rows.map(row => row.original.name);
         console.log(selectedRows);
-        apiFetch("api/transactions/new", {
+        apiFetch("/api/transactions/new", {
             method: "POST",
             body: JSON.stringify({
                 names: selectedRows,

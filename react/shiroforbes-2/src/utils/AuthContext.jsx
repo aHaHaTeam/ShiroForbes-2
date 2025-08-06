@@ -7,28 +7,33 @@ export function AuthProvider({ children }) {
     const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem("refreshToken"));
     const [role, setRole] = useState(() => localStorage.getItem("role"));
     const [login, setLogin] = useState(()=>localStorage.getItem("login"))
-    const [password, setPassword] = useState(() => localStorage.getItem("password"));
 
-    const Login = ({ accessToken, refreshToken, role, login, password }) => {
+
+    const Login = ({ accessToken, refreshToken, role, login }) => {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("role", role);
         localStorage.setItem("login", login);
-        localStorage.setItem("password", password);
+        // Removed password storage for security
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
         setRole(role);
         setLogin(login);
-        setPassword(password);
+        // Removed password state update
     };
 
     const Logout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("role");
+        localStorage.removeItem("login");
+        localStorage.removeItem("password");
         setAccessToken(null);
         setRefreshToken(null);
         setRole(null);
+        setLogin(null);
+        setPassword(null);
+        
     };
 
     const isAuthenticated = !!accessToken;

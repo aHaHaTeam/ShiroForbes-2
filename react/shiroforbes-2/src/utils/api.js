@@ -1,5 +1,4 @@
 import {useAuth} from "@/utils/AuthContext.jsx";
-import {useNavigate} from "react-router-dom";
 
 export function useApiFetch() {
     const auth = useAuth();
@@ -26,12 +25,16 @@ export function useApiFetch() {
                 localStorage.setItem("accessToken", data.accessToken);
                 localStorage.setItem("refreshToken", data.refreshToken);
 
-                return await fetch(url, {...options, headers});
+                const newAccessToken = data.accessToken;
+                const newHeaders = {
+                    ...(options.headers || {}),
+                    "Content-Type": "application/json",
+                    ...(newAccessToken && {Authorization: `${newAccessToken}`})
+                };
+                return await fetch(url, {...options, headers: newHeaders});
             } else {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
-                const navigate = useNavigate();
-                navigate("/login")
             }
         }
 

@@ -1,8 +1,8 @@
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
-import {ShopTable} from "@/components/ShopTable.jsx";
+import {LoginForm} from "@/components/LoginForm.jsx";
 
-export function Shop({
+export function LoginPage({
                          className,
                          style,
                          children,
@@ -12,7 +12,7 @@ export function Shop({
         <div className={className} {...props}>
             <SidebarArea>
                 <Header/>
-                <ShopTable/>
+                <LoginForm/>
                 {children}
             </SidebarArea>
         </div>

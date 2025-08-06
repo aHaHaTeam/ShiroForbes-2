@@ -1,12 +1,9 @@
 "use client"
-
-import {TrendingDown} from "lucide-react"
 import {CartesianGrid, Legend, Line, LineChart, XAxis, YAxis} from "recharts"
 
 import {
     Card,
     CardContent,
-    CardFooter,
 } from "@/components/ui/card"
 
 import {
@@ -47,7 +44,6 @@ export function StatsChart({className,
             return res.json();
         }).then((data) => {
             setChartData(data.history)
-            console.log(data);
         })
             .catch((err) => console.error("Ошибка загрузки статистики:", err));
     }, []);

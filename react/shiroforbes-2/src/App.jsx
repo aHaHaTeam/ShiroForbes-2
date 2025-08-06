@@ -4,12 +4,12 @@ import {Test} from "@/pages/Test.jsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {Profile} from "@/pages/Profile.jsx";
 import {MoneyDistribution} from "@/pages/MoneyDistribution.jsx";
-import {LoginForm} from "@/components/LoginForm.jsx";
 import {Rating} from "@/pages/Rating.jsx";
 import {Shop} from "@/pages/Shop.jsx";
 import {AuthProvider} from "@/utils/AuthContext.jsx";
 import {DataProvider} from "@/utils/DataContext.jsx";
 import {TransactionsList} from "@/pages/TransactionsList.jsx";
+import {LoginPage} from "@/pages/LoginPage.jsx";
 
 function App() {
     return (
@@ -17,7 +17,7 @@ function App() {
             <DataProvider>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/login" element={<LoginForm/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
                         <Route path="/money-distribution" element={<MoneyDistribution/>}/>
                         <Route path="rating" element={<Rating/>}/>
                         <Route path="/" element={<Rating/>}/>

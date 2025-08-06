@@ -37,7 +37,7 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
   @Query(
     """
       with new_transactions as (
-        select now(), student_id, ?2, ?3 from Student s where s.name in ?1
+        select now(), student_id, ?2, ?3 from Student s where s.login in ?1
       )
       insert into Transaction (date, student_id, amount, message) values new_transactions
      """,

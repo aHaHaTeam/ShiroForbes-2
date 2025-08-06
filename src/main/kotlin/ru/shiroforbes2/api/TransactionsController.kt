@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import ru.shiroforbes2.dto.request.CreateTransactionRequest
 import ru.shiroforbes2.dto.TransactionDTO
+import ru.shiroforbes2.dto.request.CreateTransactionRequest
 import ru.shiroforbes2.service.TransactionService
 
 @RestController

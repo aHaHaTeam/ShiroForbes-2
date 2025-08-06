@@ -1,6 +1,5 @@
 package ru.shiroforbes2.repository
 
-import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -44,5 +43,9 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
      """,
     nativeQuery = true,
   )
-  fun insertTransaction(names: List<String>, amount: Long, message: String)
+  fun insertTransaction(
+    names: List<String>, 
+    amount: Long, 
+    message: String,
+  )
 }

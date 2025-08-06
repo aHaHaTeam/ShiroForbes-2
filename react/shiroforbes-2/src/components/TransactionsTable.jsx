@@ -53,7 +53,7 @@ export function TransactionProfileTable() {
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
-        apiFetch(`api/${userData.username}/transactions`).then((res) => {
+        apiFetch(`/api/${userData.username}/transactions`).then((res) => {
             if (!res.ok) {
                 throw new Error(`HTTP ${res.status}`);
             }

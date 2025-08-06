@@ -95,11 +95,12 @@ function WealthStats({stats}) {
     const [invest, setInvest] = useState(true);
 
     const handleClick = () => {
-        setInvest(!invest);
+        const newInvest = !invest;
+        setInvest(newInvest);
         apiFetch(`/api/${userData.username}/invest`, {
             method: "POST",
             body: JSON.stringify({
-                isInvesting: invest
+                isInvesting: newInvest
             })
         }).then(console.log);
     };

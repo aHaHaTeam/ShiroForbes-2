@@ -48,7 +48,7 @@ export function LoginForm({
             userData.rememberLogin({username: login});
             navigate("/");
         } else {
-            setError("Login failed. Please check your credentials and try again.");
+            console.error("Login failed. Please check your credentials and try again.");
         }
     }
 

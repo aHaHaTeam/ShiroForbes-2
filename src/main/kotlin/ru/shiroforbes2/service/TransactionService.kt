@@ -22,6 +22,6 @@ class TransactionService(
   fun insertTransaction(
     names: List<String>,
     amount: Long,
-    message: String
+    message: String,
   ) = transactionRepository.insertTransaction(names, amount, message)
 }

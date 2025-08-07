@@ -2,10 +2,8 @@ package ru.shiroforbes2.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.shiroforbes2.dto.StudentDTO
 import ru.shiroforbes2.dto.StudentProfileDTO
 import ru.shiroforbes2.dto.toRatingDTO
-import ru.shiroforbes2.dto.toStudentDTO
 import ru.shiroforbes2.dto.toTransactionDTO
 import ru.shiroforbes2.repository.RatingRepository
 import ru.shiroforbes2.repository.StudentRepository
@@ -18,8 +16,6 @@ class StudentService(
   private val ratingRepository: RatingRepository,
   private val transactionRepository: TransactionRepository,
 ) {
-  fun getAllStudents(): List<StudentDTO> = studentRepository.findAll().map { student -> student.toStudentDTO() }
-
   @Transactional(readOnly = true)
   fun getStudentProfile(login: String): StudentProfileDTO? {
     val student = studentRepository.findStudentByLogin(login).getOrNull() ?: return null
@@ -38,4 +34,9 @@ class StudentService(
       transactions = transactions,
     )
   }
+
+  fun updateStudentInvestingStatus(
+    login: String,
+    investingStatus: Boolean,
+  ) = studentRepository.updateStudentInvestingStatus(login, investingStatus)
 }

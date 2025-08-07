@@ -17,14 +17,16 @@ open class Student(
   login: String,
   password: String,
   @Column(name = "first_name", length = 200, nullable = false)
-  var firstName: String,
+  val firstName: String,
   @Column(name = "last_name", length = 200, nullable = false)
-  var lastName: String,
+  val lastName: String,
   @Column(name = "group", nullable = false)
   @Enumerated(EnumType.STRING)
   val group: Group,
   @Column(name = "score", nullable = false)
-  var score: Int,
+  val score: Int,
   @Column(name = "total", nullable = false)
-  var total: Float,
+  val total: Float,
+  @Column(name = "is_investing", nullable = false)
+  val isInvesting: Boolean = false,
 ) : User(login = login, password = password, rights = Rights.Student)

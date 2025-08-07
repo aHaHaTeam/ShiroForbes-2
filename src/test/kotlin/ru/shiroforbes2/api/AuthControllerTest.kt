@@ -151,7 +151,7 @@ class AuthControllerTest {
   private fun profile(): Int {
     val result =
       mockMvc
-        .get("/api/v2/profile/$testLogin") {
+        .get("/api/v2/$testLogin/profile") {
           header("Authorization", "Bearer $accessToken")
         }.andReturn()
     return result.response.status

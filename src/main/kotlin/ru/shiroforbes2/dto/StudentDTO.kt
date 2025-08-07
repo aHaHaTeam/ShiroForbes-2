@@ -9,6 +9,7 @@ data class StudentDTO(
   val login: String,
   val score: Int,
   val total: Float,
+  val isInvesting: Boolean,
 )
 
 fun Student.toStudentDTO(): StudentDTO =
@@ -18,4 +19,5 @@ fun Student.toStudentDTO(): StudentDTO =
     group = group,
     score = score,
     total = total,
+    isInvesting = isInvesting,
   )

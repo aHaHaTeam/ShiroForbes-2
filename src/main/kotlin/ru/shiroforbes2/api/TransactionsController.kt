@@ -25,9 +25,9 @@ class TransactionsController(
 
   @PostMapping("/new")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
-  fun insertTransaction(
+  fun insertTransactions(
     @RequestBody request: CreateTransactionRequest,
   ) = {
-    transactionsService.insertTransaction(request.logins, request.amount, request.message)
+    transactionsService.insertTransactions(request.logins, request.amount, request.message)
   }
 }

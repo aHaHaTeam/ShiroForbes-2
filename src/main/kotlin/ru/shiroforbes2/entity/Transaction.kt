@@ -18,4 +18,6 @@ class Transaction(
   var studentId: Long,
   @Column(name = "amount", nullable = false)
   var amount: Long,
+  @Column(name = "message", nullable = false)
+  var message: String,
 )

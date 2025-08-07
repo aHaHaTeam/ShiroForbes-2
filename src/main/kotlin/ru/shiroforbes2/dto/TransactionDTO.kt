@@ -7,6 +7,7 @@ data class TransactionDTO(
   val date: LocalDateTime,
   val studentId: Long,
   val amount: Long,
+  val message: String,
 )
 
 fun Transaction.toTransactionDTO(): TransactionDTO =
@@ -14,4 +15,5 @@ fun Transaction.toTransactionDTO(): TransactionDTO =
     date = date,
     studentId = studentId,
     amount = amount,
+    message = message,
   )

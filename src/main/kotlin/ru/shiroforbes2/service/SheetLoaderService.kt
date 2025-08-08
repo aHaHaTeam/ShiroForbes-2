@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 import ru.shiroforbes2.googlesheets.CustomDecoder
 import ru.shiroforbes2.googlesheets.DefaultDecoder
 import ru.shiroforbes2.googlesheets.ReflectiveTableParser
-import ru.shiroforbes2.googlesheets.SheetsRatingRow
 import java.io.IOException
+import kotlin.reflect.KClass
 
 @Service
-class RatingLoaderService(
+class SheetLoaderService(
   @Autowired private val sheetsService: SheetsService,
 ) {
   class RatingServiceException(
@@ -19,13 +19,19 @@ class RatingLoaderService(
     cause: Throwable? = null,
   ) : RuntimeException(message, cause)
 
-  private val parser = ReflectiveTableParser(SheetsRatingRow::class, listOf(CustomDecoder(), DefaultDecoder()))
+  @Throws(RatingServiceException::class)
+  fun <T : Any> getRows(
+    spreadsheetId: String,
+    range: String,
+    clazz: KClass<T>,
+  ): List<T> = getRows(spreadsheetId, listOf(range), clazz)
 
   @Throws(RatingServiceException::class)
-  fun getRating(
+  fun <T : Any> getRows(
     spreadsheetId: String,
     ranges: List<String>,
-  ): List<SheetsRatingRow> {
+    clazz: KClass<T>,
+  ): List<T> {
     val response =
       try {
         sheetsService.getSpreadsheetValues(spreadsheetId, ranges)
@@ -40,10 +46,10 @@ class RatingLoaderService(
         table.getValues().map { row -> row.map { it.toString() } }
       }
 
-    return parser.joinAndParse(tables)
+    return ReflectiveTableParser(clazz, listOf(CustomDecoder(), DefaultDecoder())).joinAndParse(tables)
   }
 
   companion object {
-    private val log: Logger = LoggerFactory.getLogger(RatingLoaderService::class.java)
+    private val log: Logger = LoggerFactory.getLogger(SheetLoaderService::class.java)
   }
 }

@@ -29,4 +29,10 @@ class UserService(
   }
 
   fun existsByLogin(login: String): Boolean = userRepository.existsByLogin(login)
+
+  fun dropAll() {
+    adminRepository.deleteAll()
+    teacherRepository.deleteAll()
+    studentRepository.deleteAll()
+  }
 }

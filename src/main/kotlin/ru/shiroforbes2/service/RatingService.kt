@@ -8,7 +8,7 @@ import ru.shiroforbes2.repository.RatingRepository
 
 @Service
 class RatingService(
-  private val ratingLoaderService: RatingLoaderService,
+  private val sheetLoaderService: SheetLoaderService,
   private val ratingRepository: RatingRepository,
 ) {
   fun getCountrysideRating(): List<Rating> = ratingRepository.getCountrysideRating()
@@ -19,7 +19,7 @@ class RatingService(
     spreadsheetId: String,
     countrysideRanges: List<String>,
   ): List<RatingDelta> {
-    val newRatings = ratingLoaderService.getRating(spreadsheetId, countrysideRanges)
+    val newRatings = sheetLoaderService.getRows(spreadsheetId, countrysideRanges, SheetsRatingRow::class)
     val storedRatings =
       ratingRepository
         .getCountrysideRating()
@@ -31,7 +31,7 @@ class RatingService(
     spreadsheetId: String,
     urbanRanges: List<String>,
   ): List<RatingDelta> {
-    val newRatings = ratingLoaderService.getRating(spreadsheetId, urbanRanges)
+    val newRatings = sheetLoaderService.getRows(spreadsheetId, urbanRanges, SheetsRatingRow::class)
     val storedRatings =
       ratingRepository
         .getUrbanRating()

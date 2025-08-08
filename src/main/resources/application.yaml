@@ -35,3 +35,6 @@ shiroforbes.app:
     countrysideRangesSemester2: "Конд!B5:Q"
     urbanRanges: "Конд18!B5:C,Конд18!R5:AE"
     urbanRangesSemester2: "Конд18!B5:Q"
+    students: "ShV!A2:N"
+    admins: "Admins!A2:N"
+    teachers: "Teachers!A2:E"

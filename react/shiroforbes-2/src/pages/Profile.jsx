@@ -26,67 +26,42 @@ function StatPlate({
 
 function MathStats({stats}) {
 
+    const plates = [
+        {color: "bg-yellow-400", text: "Баллы", key: "rating"},
+        {color: "bg-green-400", text: "Место", key: "wealthRank"},
+        {color: "bg-red-400", text: "Задачи", key: "tasks"},
+        {color: "bg-purple-600 text-white", text: "Гробы", key: "grobs"},
+        {color: "bg-blue-600 text-white", text: "Алгебра", key: "algebra"},
+        {color: "bg-orange-400", text: "Комба", key: "comba"},
+        {color: "bg-green-400", text: "Геома", key: "geoma"},
+        {color: "bg-red-400", text: "Тчшечка", key: "tch"},
+    ]
 
-    if (!stats) {
-        return (
-            <div>
-                <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
-                    {Array.from({length: 8}).map((_, i) => (
-                        <div key={i} className="p-2">
-                            <Skeleton className="h-16 w-full rounded-md"/>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="text-lg py-4">
-                    <Skeleton className="h-6 w-1/2 mx-auto"/>
-                </div>
-
-                <div className="w-full text-black text-center py-4">
-                    <Skeleton className="h-64 w-full rounded-md"/>
-                </div>
-
-                <div className="w-full text-center py-4">
-                    <Skeleton className="h-6 w-1/3 mx-auto"/>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div>
             <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
-                <StatPlate className="bg-yellow-400">
-                    <CardContent className="p-2 font-medium">Баллы: {stats.rating}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-green-400">
-                    <CardContent className="p-2 font-medium">Место: {stats.wealthRank}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-red-400">
-                    <CardContent className="p-2 font-medium">Задачи: {stats.tasks}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-purple-600 text-white">
-                    <CardContent className="p-2 font-medium">Гробы: {stats.grobs}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-blue-600 text-white">
-                    <CardContent className="p-2 font-medium">Алгебра: {stats.algebra}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-orange-400">
-                    <CardContent className="p-2 font-medium">Комба: {stats.comba}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-green-400">
-                    <CardContent className="p-2 font-medium">Геома: {stats.geoma}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-red-400">
-                    <CardContent className="p-2 font-medium">Тчшечка: {stats.tch}</CardContent>
-                </StatPlate>
+                {plates.map(({color, text, key}) => (
+                    <StatPlate key={key} className={color}>
+                        <CardContent className="p-2 font-medium">
+                            {stats ? (
+                                <>
+                                    {text}: {stats[key]}
+                                </>
+                            ) : (
+                                <div className="flex items-center gap-2">
+                                    {text}: <Skeleton className="h-5 w-20 rounded bg-gray-200"/>
+                                </div>
+                            )}
+                        </CardContent>
+                    </StatPlate>
+                ))}
             </div>
-
-
             <div className="w-full text-black text-center py-4">
                 <StatsChart/>
             </div>
-        </div>)
+        </div>
+    )
 }
 
 function WealthStats({stats}) {
@@ -111,35 +86,44 @@ function WealthStats({stats}) {
         }
     }, [stats]);
 
-    if (!stats) {
-        return <div className="text-center mt-10">Загрузка...</div>;
-    }
+    const plates = [
+        {color: "bg-yellow-400", text: "Баланс", key: "balance"},
+        {color: "bg-green-400", text: "Место", key: "wealthRank"},
+        {color: "bg-red-400", text: "Всего", key: "total"},
+        {color: "bg-purple-600 text-white", text: "Транши", key: "transactions"},
+        {color: "bg-blue-600 text-white", text: "Потрачено", key: "spent"},
+        {color: "bg-orange-400", text: "Инвестиции", key: "investments"},
+    ]
+
     return (
         <div>
             <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
-                <StatPlate className="bg-yellow-400">
-                    <CardContent className="p-2 font-medium">Баланс: {stats.balance}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-green-400">
-                    <CardContent className="p-2 font-medium">Место: {stats.wealthRank}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-red-400">
-                    <CardContent className="p-2 font-medium">Всего: {stats.total}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-purple-600 text-white">
-                    <CardContent className="p-2 font-medium">Транши: {stats.transactions}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-blue-600 text-white">
-                    <CardContent className="p-2 font-medium">Потрачено: {stats.spent}</CardContent>
-                </StatPlate>
-                <StatPlate className="bg-orange-400">
-                    <CardContent className="p-2 font-medium">Инвестиции: {stats.investments}</CardContent>
-                </StatPlate>
-                <div className="col-span-2 bg-gray-400 rounded p-2 flex items-center justify-between gap-4 mb-6">
-                    <div>Инвестирую</div>
-                    <Checkbox checked={invest} onCheckedChange={handleClick} />
-                </div>
+                {plates.map(({color, text, key}) => (
+                    <StatPlate key={key} className={color}>
+                        <CardContent className="p-2 font-medium">
+                            {stats ? (
+                                <>
+                                    {text}: {stats[key]}
+                                </>
+                            ) : (
+                                <div className="flex items-center gap-2">
+                                    {text}:
+                                    <Skeleton className="h-5 w-20 rounded bg-gray-200"/>
+                                </div>
+                            )}
+                        </CardContent>
+                    </StatPlate>
+                ))}
 
+                <div
+                    className="py-4 col-span-2 bg-gray-400 rounded-lg p-2 flex items-center justify-between gap-4 mb-6">
+                    <div>Инвестирую</div>
+                    {stats ? (
+                        <Checkbox checked={invest} onCheckedChange={handleClick}/>
+                    ) : (
+                        <Skeleton className="h-5 w-5 rounded bg-gray-200"/>
+                    )}
+                </div>
             </div>
             <TransactionProfileTable className="p-4"/>
         </div>

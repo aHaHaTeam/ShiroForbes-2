@@ -62,6 +62,7 @@ const columns = [
 ]
 
 async function compareRatings(data, day1, day2) {
+    console.log(data);
     const oldData = data[day1];
     const newData = data[day2];
 
@@ -115,7 +116,7 @@ export function RatingTable({isUrban = false}) {
     }, [])
 
     useEffect(() => {
-        compareRatings(data, day1, day2).then(setPreparedData);
+        compareRatings(data, day1 - 1, day2 - 1).then(setPreparedData);
     }, [data, day1, day2]);
 
     const table = useReactTable({
@@ -126,6 +127,33 @@ export function RatingTable({isUrban = false}) {
 
     return (
         <div>
+            <div className="flex gap-4 mb-2 justify-evenly w-full">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button className="bg-accent" variant="outline">Считаем от: {day1}</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-default-background">
+                        {series.map(day => (
+                            <DropdownMenuItem key={day} onClick={() => setDay1(day)} >
+                                {day}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button className="bg-accent" variant="outline">Считаем до: {day2}</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-default-background">
+                        {series.map(day => (
+                            <DropdownMenuItem key={day} onClick={() => setDay2(day)}>
+                                {day}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -171,34 +199,9 @@ export function RatingTable({isUrban = false}) {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex gap-4 mb-4 justify-evenly w-full">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">Считаем от: {day1}</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        {series.map(day => (
-                            <DropdownMenuItem key={day} onClick={() => setDay1(day)}>
-                                {day}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">Считаем до: {day2}</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="">
-                        {series.map(day => (
-                            <DropdownMenuItem key={day} onClick={() => setDay2(day)}>
-                                {day}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+            <div className="flex gap-4 mt-4 justify-evenly w-full">
                 {isAdmin ?
-                    <Button onClick={async () => {
+                    <Button className="bg-accent" onClick={async () => {
                         try {
                             const response = await apiFetch(url, {
                                 method: "POST",

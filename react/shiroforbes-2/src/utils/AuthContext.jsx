@@ -32,8 +32,7 @@ export function AuthProvider({ children }) {
         setRefreshToken(null);
         setRole(null);
         setLogin(null);
-        setPassword(null);
-        
+
     };
 
     const isAuthenticated = !!accessToken;

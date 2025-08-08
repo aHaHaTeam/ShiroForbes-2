@@ -10,8 +10,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
+import {Button} from "@/components/ui/button.jsx";
+import {useData} from "@/utils/DataContext.jsx";
 
-// Menu items.
 const items = [
     {
         title: "Test Page",
@@ -50,7 +52,14 @@ const items = [
     },
 ]
 
+const campVariants = [
+    "Загородный",
+    "Городской1",
+    "Городской2"
+]
+
 export function AppSidebar({collapsible = "offcanvas", ...props}) {
+    const userData = useData();
     return (
         <Sidebar collapsible={collapsible} variant="" {...props} className="pt-16">
             <SidebarContent>
@@ -59,6 +68,7 @@ export function AppSidebar({collapsible = "offcanvas", ...props}) {
                         Application
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
+
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
@@ -70,6 +80,29 @@ export function AppSidebar({collapsible = "offcanvas", ...props}) {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>
+                        Варианты лагеря
+                    </SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {
+                                campVariants.map((item) => (
+                                    <SidebarMenuItem>
+                                        <Button variant="ghost"
+                                                className="w-full text-left border-0 bg-sidebar shadow-sidebar"
+                                                onClick={() => {
+                                                    userData.setCamp({camp: item});
+                                                    console.log(item);
+                                                }}>
+                                            <p className="w-full">{item}</p>
+                                        </Button>
+                                    </SidebarMenuItem>
+                                ))
+                            }
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

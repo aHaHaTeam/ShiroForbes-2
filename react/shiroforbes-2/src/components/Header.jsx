@@ -9,8 +9,9 @@ export default function Header() {
                 <SidebarTrigger/>
                 <Logo className="text-kinda-big"/>
                 <nav className="space-x-4">
-                    <a href="/profile" className="text-gray-700 dark:text-gray-200 hover:text-brandOrange transition">Link
-                        1</a>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" className="text-gray-700 dark:text-gray-200 hover:text-brandOrange transition">
+                        Тык)
+                    </a>
                 </nav>
             </div>
         </header>

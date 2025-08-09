@@ -11,7 +11,7 @@ fun String.transliterate() =
 
 fun randomPassword(): String {
   val password: StringBuilder = StringBuilder()
-  repeat(4) {
+  repeat(PASSWORD_LENGTH) {
     password.append(takeAny(consonants))
     password.append(takeAny(vowels))
   }
@@ -19,6 +19,8 @@ fun randomPassword(): String {
 }
 
 private fun takeAny(from: List<Char>) = from[random.nextInt(from.size)]
+
+private const val PASSWORD_LENGTH = 4
 
 private val random by lazy { Random(System.currentTimeMillis()) }
 

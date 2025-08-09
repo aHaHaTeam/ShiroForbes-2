@@ -4,13 +4,15 @@ import kotlin.random.Random
 
 fun String.transliterate() =
   this
+    .lowercase()
     .asSequence()
+    .map(Char::toString)
     .filter(alphabet::containsKey)
     .map(alphabet::get)
-    .joinToString(separator = "") { it.toString() }
+    .joinToString(separator = "")
 
 fun randomPassword(): String {
-  val password: StringBuilder = StringBuilder()
+  val password = StringBuilder()
   repeat(PASSWORD_LENGTH) {
     password.append(takeAny(consonants))
     password.append(takeAny(vowels))
@@ -25,75 +27,47 @@ private const val PASSWORD_LENGTH = 4
 private val random by lazy { Random(System.currentTimeMillis()) }
 
 private val consonants: List<Char> by lazy {
-  listOf('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z')
+  listOf('b', 'c', 'd', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'z')
 }
 
 private val vowels: List<Char> by lazy {
   listOf('a', 'e', 'i', 'o', 'u')
 }
 
-private val alphabet: Map<Char, Char> by lazy {
+private val alphabet: Map<String, String> by lazy {
   hashMapOf(
-    'A' to 'А',
-    'B' to 'Б',
-    'V' to 'В',
-    'G' to 'Г',
-    'D' to 'Д',
-    'E' to 'Е',
-    'Ë' to 'Ё',
-    'Ž' to 'Ж',
-    'Z' to 'З',
-    'I' to 'И',
-    'J' to 'Й',
-    'K' to 'К',
-    'L' to 'Л',
-    'M' to 'М',
-    'N' to 'Н',
-    'O' to 'О',
-    'P' to 'П',
-    'R' to 'Р',
-    'S' to 'С',
-    'T' to 'Т',
-    'U' to 'У',
-    'F' to 'Ф',
-    'H' to 'Х',
-    'C' to 'Ц',
-    'Č' to 'Ч',
-    'Š' to 'Ш',
-    'Ŝ' to 'Щ',
-    'È' to 'Э',
-    'Û' to 'Ю',
-    'Â' to 'Я',
-    'a' to 'а',
-    'b' to 'б',
-    'v' to 'в',
-    'g' to 'г',
-    'd' to 'д',
-    'e' to 'е',
-    'ë' to 'ё',
-    'ž' to 'ж',
-    'z' to 'з',
-    'i' to 'и',
-    'j' to 'й',
-    'k' to 'к',
-    'l' to 'л',
-    'm' to 'м',
-    'n' to 'н',
-    'o' to 'о',
-    'p' to 'п',
-    'r' to 'р',
-    's' to 'с',
-    't' to 'т',
-    'u' to 'у',
-    'f' to 'ф',
-    'h' to 'х',
-    'c' to 'ц',
-    'č' to 'ч',
-    'š' to 'ш',
-    'ŝ' to 'щ',
-    'y' to 'ы',
-    'è' to 'э',
-    'û' to 'ю',
-    'â' to 'я',
-  ).entries.associate { it.value to it.key }
+    "а" to "a",
+    "б" to "b",
+    "в" to "v",
+    "г" to "g",
+    "д" to "d",
+    "е" to "e",
+    "ё" to "yo",
+    "ж" to "zh",
+    "з" to "z",
+    "и" to "i",
+    "й" to "y",
+    "к" to "k",
+    "л" to "l",
+    "м" to "m",
+    "н" to "n",
+    "о" to "o",
+    "п" to "p",
+    "р" to "r",
+    "с" to "s",
+    "т" to "t",
+    "у" to "u",
+    "ф" to "f",
+    "х" to "kh",
+    "ц" to "ts",
+    "ч" to "ch",
+    "ш" to "sh",
+    "щ" to "sch",
+    "ъ" to "",
+    "ы" to "y",
+    "ь" to "",
+    "э" to "e",
+    "ю" to "yu",
+    "я" to "ya",
+  )
 }

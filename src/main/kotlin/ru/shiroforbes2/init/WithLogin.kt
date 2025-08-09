@@ -13,6 +13,8 @@ fun WithLogin.password(): String {
     return storedPassword()
   }
   val password = randomPassword()
-  println("${login()}: $password")
-  return BCryptPasswordEncoder().encode(password)
+  println("${login()} ${encode(password)} $password")
+  return encode(password)!!
 }
+
+private fun encode(password: String): String? = BCryptPasswordEncoder().encode(password)

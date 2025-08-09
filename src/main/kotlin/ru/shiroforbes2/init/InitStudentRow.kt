@@ -9,11 +9,11 @@ internal data class InitStudentRow(
   val login: String = "",
   val password: String = "",
 ) : WithLogin {
-  fun lastName() = nameParts().last()
+  fun lastName() = nameParts().first()
 
   private fun nameParts() = name.trim().split(" ")
 
-  fun firstName() = nameParts().first()
+  fun firstName() = nameParts().last()
 
   override fun login(): String =
     lastName()

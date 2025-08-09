@@ -15,6 +15,7 @@ import {useAuth} from "@/utils/AuthContext.jsx";
 
 import {useNavigate} from "react-router-dom";
 import {useData} from "@/utils/DataContext.jsx";
+import {toast} from "sonner";
 
 
 export function LoginForm({
@@ -45,10 +46,14 @@ export function LoginForm({
                 role: data.role,
                 login: login
             });
+            if (data.role === "student") {
+                userData.setCamp({camp: "countryside"});
+            }
             userData.rememberLogin({username: login});
             navigate("/");
         } else {
             console.error("Login failed. Please check your credentials and try again.");
+            toast("Неверный логин/пароль");
         }
     }
 
@@ -75,11 +80,11 @@ export function LoginForm({
                             <div className="grid gap-3">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
-                                    <a
-                                        href="/"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                                        Забыл(а) пароль?
-                                    </a>
+                                    {/*<a*/}
+                                    {/*    href="/"*/}
+                                    {/*    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">*/}
+                                    {/*    Забыл(а) пароль?*/}
+                                    {/*</a>*/}
                                 </div>
                                 <Input id="password" type="password" placeholder="qwerty123" required
                                        onChange={e => setPassword(e.target.value)}/>
@@ -90,12 +95,12 @@ export function LoginForm({
                                 </Button>
                             </div>
                         </div>
-                        <div className="mt-4 text-center text-sm">
-                            Нет аккаунта?{" "}
-                            <a href="#" className="underline underline-offset-4">
-                                Создать аккаунт
-                            </a>
-                        </div>
+                        {/*<div className="mt-4 text-center text-sm">*/}
+                        {/*    Нет аккаунта?{" "}*/}
+                        {/*    <a href="#" className="underline underline-offset-4">*/}
+                        {/*        Создать аккаунт*/}
+                        {/*    </a>*/}
+                        {/*</div>*/}
                     </form>
                 </CardContent>
             </Card>

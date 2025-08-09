@@ -4,12 +4,12 @@ import {useData} from "@/utils/DataContext.jsx";
 import {useApiFetch} from "@/utils/api.js";
 
 
-export function TransactionGroupTable({isUrban = false}) {
-    const url = `/api/transactions/${isUrban ? "urban" : "countryside"}`;
+export function TransactionGroupTable() {
     const apiFetch = useApiFetch();
     const [transactions, setTransactions] = useState([])
-
+    const userData = useData();
     useEffect(() => {
+        const url = `/api/transactions/${userData.campType}`;
         apiFetch(url).then((res) => {
             if (!res.ok) {
                 throw new Error(`HTTP ${res.status}`);
@@ -17,8 +17,8 @@ export function TransactionGroupTable({isUrban = false}) {
             return res.json();
         }).then((data) => {
             setTransactions(data);
-        }).catch((err) => console.error("Ошибка загрузки списка транзакций:", err));
-    }, []);
+        }).catch((err) => console.error(`Ошибка загрузки списка транзакций: ${url}`, err));
+    }, [userData.campType]);
 
     return (
         <div className="rounded-xl border shadow-md p-4">
@@ -53,14 +53,15 @@ export function TransactionProfileTable() {
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
-        apiFetch(`/api/${userData.username}/transactions`).then((res) => {
+        const url = `/api/${userData.username}/transactions`;
+        apiFetch(url).then((res) => {
             if (!res.ok) {
                 throw new Error(`HTTP ${res.status}`);
             }
             return res.json();
         }).then((data) => {
             setTransactions(data);
-        }).catch((err) => console.error("Ошибка загрузки списка транзакций:", err));
+        }).catch((err) => console.error(`Ошибка загрузки списка транзакций: ${url}`, err));
     }, []);
 
     return (

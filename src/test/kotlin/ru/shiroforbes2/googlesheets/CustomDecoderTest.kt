@@ -41,11 +41,11 @@ class CustomDecoderTest {
   fun `convert Group`() {
     val decoder = CustomDecoder()
     val kType = Group::class.starProjectedType
-    assertEquals(Group.Urban, decoder.convert("Urban", kType))
-    assertEquals(Group.Countryside, decoder.convert("Countryside", kType))
+    assertEquals(Group.Urban1, decoder.convert("urban1", kType))
+    assertEquals(Group.Countryside, decoder.convert("countryside", kType))
 
     assertEquals(null, decoder.convert("", kType))
-    assertEquals(null, decoder.convert("urban", kType))
+    assertEquals(null, decoder.convert("Urban1", kType))
     assertEquals(null, decoder.convert("fake", kType))
   }
 

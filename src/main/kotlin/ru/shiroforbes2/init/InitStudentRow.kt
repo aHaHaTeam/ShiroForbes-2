@@ -4,23 +4,22 @@ import ru.shiroforbes2.entity.Group
 
 internal data class InitStudentRow(
   val id: Int,
-  val name: String = "",
+  val name: String,
+  val group: Group,
   val login: String = "",
   val password: String = "",
-  val group: Group,
-  val rating: Int = 0,
-  val wealth: Int = 0,
-  val totalSolved: Int = 0,
-  val algebraSolved: Int = 0,
-  val geometrySolved: Int = 0,
-  val combinatoricsSolved: Int = 0,
-  val isExercised: Boolean?,
-  val isBeaten: Boolean?,
-  val isInvesting: Boolean?,
-) {
-  fun firstName() = nameParts().first()
-
-  fun lastName() = nameParts().last()
+) : WithLogin {
+  fun lastName() = nameParts().first()
 
   private fun nameParts() = name.trim().split(" ")
+
+  fun firstName() = nameParts().last()
+
+  override fun login(): String =
+    lastName()
+      .lowercase()
+      .transliterate()
+      .plus(firstName().lowercase().substring(0, 1).transliterate())
+
+  override fun storedPassword(): String = password
 }

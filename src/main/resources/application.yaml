@@ -8,7 +8,7 @@ spring:
     active: local
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/shiroforbes-2?sslmode=disable
+    url: jdbc:postgresql://localhost:5432/shiroforbes-2?sslmode=disable
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -21,7 +21,6 @@ spring:
       hibernate:
         format_sql: true
         globally_quoted_identifiers: true
-        dialect: PostgreSQL
 
 shiroforbes.app:
   jwt:

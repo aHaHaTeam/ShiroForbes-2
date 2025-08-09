@@ -15,6 +15,7 @@ import {useAuth} from "@/utils/AuthContext.jsx";
 
 import {useNavigate} from "react-router-dom";
 import {useData} from "@/utils/DataContext.jsx";
+import {toast} from "sonner";
 
 
 export function LoginForm({
@@ -45,10 +46,14 @@ export function LoginForm({
                 role: data.role,
                 login: login
             });
+            if (data.role === "student") {
+                userData.setCamp({camp: "countryside"});
+            }
             userData.rememberLogin({username: login});
             navigate("/");
         } else {
             console.error("Login failed. Please check your credentials and try again.");
+            toast("Неверный логин/пароль");
         }
     }
 

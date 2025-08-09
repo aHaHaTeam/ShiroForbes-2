@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {useApiFetch} from "@/utils/api.js";
-import {useAuth} from "@/utils/AuthContext.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp, faMinus} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@/components/ui/button.jsx";
@@ -12,6 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu.jsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table.jsx"
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {RoleBox} from "@/components/RoleBox.jsx";
+import {useData} from "@/utils/DataContext.jsx";
+import {toast} from "sonner";
 
 const columns = [
     {
@@ -62,7 +64,6 @@ const columns = [
 ]
 
 async function compareRatings(data, day1, day2) {
-    console.log(data);
     const oldData = data[day1];
     const newData = data[day2];
 
@@ -91,17 +92,16 @@ async function compareRatings(data, day1, day2) {
 }
 
 
-export function RatingTable({isUrban = false}) {
+export function RatingTable() {
     const [data, setData] = useState([]);
     const [preparedData, setPreparedData] = useState([]);
     const [day1, setDay1] = useState(1);
     const [day2, setDay2] = useState(2);
     const apiFetch = useApiFetch();
-    const role = useAuth().role;
-    const isAdmin = ["tester", "admin"].includes(role);
-    const url = `/api/rating/${isUrban ? "urban" : "countryside"}`;
+    const userData = useData();
     const [series, setSeries] = useState([]);
     useEffect(() => {
+        const url = `/api/rating/${userData.campType}`;
         apiFetch(url)
             .then((res) => {
                 if (!res.ok) {
@@ -113,7 +113,7 @@ export function RatingTable({isUrban = false}) {
             setSeries(Array.from({length: res.length}, (_, i) => i + 1));
 
         })
-    }, [])
+    }, [userData.campType])
 
     useEffect(() => {
         compareRatings(data, day1 - 1, day2 - 1).then(setPreparedData);
@@ -134,7 +134,7 @@ export function RatingTable({isUrban = false}) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-default-background">
                         {series.map(day => (
-                            <DropdownMenuItem key={day} onClick={() => setDay1(day)} >
+                            <DropdownMenuItem key={day} onClick={() => setDay1(day)}>
                                 {day}
                             </DropdownMenuItem>
                         ))}
@@ -200,22 +200,27 @@ export function RatingTable({isUrban = false}) {
                 </Table>
             </div>
             <div className="flex gap-4 mt-4 justify-evenly w-full">
-                {isAdmin ?
+                <RoleBox>
                     <Button className="bg-accent" onClick={async () => {
                         try {
+                            const url = `/api/rating/${userData.campType}`;
                             const response = await apiFetch(url, {
                                 method: "POST",
                             });
                             if (!response.ok) {
                                 console.error(`Ошибка: ${response.status}`);
+                                toast(`Ошибка сервера: ${response.status}`)
                                 return;
                             }
                             const result = await response.json();
                             console.log("Успешно обновлено:", result);
+                            toast("Успешно обновлено")
                         } catch (error) {
-                            console.error("Сетевая ошибка:", error);
+                            console.error("Ошибка:", error);
+                            toast("Ошибка подключения");
                         }
-                    }}>Опубликовать</Button> : null}
+                    }}>Опубликовать</Button>
+                </RoleBox>
             </div>
         </div>
     )

@@ -16,11 +16,65 @@ app.use('/api/v2/auth/signin', (req, res) => {
             role: "tester"
         });
     } else {
-        res.status(401).json({error: "Invalid credentials"});
+        if (login === "stud" && password === "pass") {
+            res.json({
+                accessToken: "test123",
+                refreshToken: "bebebe239",
+                role: "student"
+            });
+        } else if (login === "admi" && password === "pass") {
+            res.json({
+                accessToken: "test123",
+                refreshToken: "bebebe239",
+                role: "admin"
+            });
+        } else {
+            res.status(401).json({error: "Invalid credentials"});
+        }
     }
 });
 
+
 app.use('/api/v2/test/profile', (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json({
+            "name": "Вика Андриенко",
+            mathStats: {
+                rating: 2025,
+                wealthRank: 15,
+                tasks: 239,
+                grobs: 0,
+                algebra: 88,
+                comba: 90,
+                geoma: 89,
+                tch: 91
+            },
+            wealthStats: {
+                balance: 2025,
+                wealthRank: 15,
+                total: 239,
+                transactions: 0,
+                spent: 88,
+                investments: 90,
+                isInvesting: true,
+
+            },
+        });
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
+app.use('/api/v2/stud/profile', (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -75,25 +129,6 @@ app.use('/api/v2/price-list', (req, res) => {
         }]);
 });
 
-app.use("/api/v2/transactions/state", (req, res) => {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return res.status(401).json({error: "No Authorization header"});
-    }
-
-    const token = authHeader.split(" ")[0];
-
-    if (token === "test123") {
-        res.json([
-            {name: "Alice", balance: 100},
-            {name: "Bob", balance: 150},
-            {name: "Charlie", balance: 200},
-        ]);
-    } else {
-        res.status(401).json({error: "Invalid token"});
-    }
-});
 
 app.use("/api/v2/transactions/presets", (req, res) => {
     const authHeader = req.headers.authorization;
@@ -113,6 +148,7 @@ app.use("/api/v2/transactions/presets", (req, res) => {
         res.status(401).json({error: "Invalid token"});
     }
 })
+
 
 app.use("/api/v2/rating/countryside", (req, res) => {
     const authHeader = req.headers.authorization;
@@ -146,7 +182,50 @@ app.use("/api/v2/rating/countryside", (req, res) => {
     }
 });
 
-app.use("/api/v2/rating/urban", (req, res) => {
+
+app.use("/api/v2/transactions/state/urban1", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            {name: "Anton", balance: 1000},
+            {name: "Boris", balance: 1500},
+            {name: "Chloe", balance: 2000},
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
+app.use("/api/v2/transactions/state/urban2", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            {name: "Alice", balance: 100},
+            {name: "Bob", balance: 150},
+            {name: "Charlie", balance: 200},
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
+app.use("/api/v2/rating/urban1", (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -179,7 +258,7 @@ app.use("/api/v2/rating/urban", (req, res) => {
 });
 
 
-app.use("/api/v2/transactions/urban", (req, res) => {
+app.use("/api/v2/transactions/urban1", (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -189,15 +268,16 @@ app.use("/api/v2/transactions/urban", (req, res) => {
     const token = authHeader.split(" ")[0];
 
     if (token === "test123") {
-        res.json( [
-            { id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01" },
-            { id: "2", name: "Маша", message: "Оплата подписки", amount: 799, date: "2025-08-02" },
-            { id: "3", name: "Даша", message: "Перевод", amount: 3200, date: "2025-08-03" },
+        res.json([
+            {id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01"},
+            {id: "2", name: "Маша", message: "Оплата подписки", amount: 799, date: "2025-08-02"},
+            {id: "3", name: "Даша", message: "Перевод", amount: 3200, date: "2025-08-03"},
         ]);
     } else {
         res.status(401).json({error: "Invalid token"});
     }
 });
+
 
 app.use("/api/v2/transactions/countryside", (req, res) => {
     const authHeader = req.headers.authorization;
@@ -209,15 +289,16 @@ app.use("/api/v2/transactions/countryside", (req, res) => {
     const token = authHeader.split(" ")[0];
 
     if (token === "test123") {
-        res.json( [
-            { id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01" },
-            { id: "2", name: "Маша", message: "Оплата подписки", amount: 799, date: "2025-08-02" },
-            { id: "3", name: "Даша", message: "Перевод", amount: 3200, date: "2025-08-03" },
+        res.json([
+            {id: "1", name: "Саша", message: "Продажа товара", amount: -1500, date: "2025-08-01"},
+            {id: "2", name: "Маша", message: "Оплата отписки", amount: -799, date: "2025-08-02"},
+            {id: "3", name: "Даша", message: "Недовод", amount: -3200, date: "2025-08-03"},
         ]);
     } else {
         res.status(401).json({error: "Invalid token"});
     }
 });
+
 
 app.use("/api/v2/test/transactions/", (req, res) => {
     const authHeader = req.headers.authorization;
@@ -229,10 +310,31 @@ app.use("/api/v2/test/transactions/", (req, res) => {
     const token = authHeader.split(" ")[0];
 
     if (token === "test123") {
-        res.json( [
-            { id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01" },
-            { id: "2", name: "Саша", message: "Оплата подписки", amount: 799, date: "2025-08-02" },
-            { id: "3", name: "Саша", message: "Перевод", amount: 3200, date: "2025-08-03" },
+        res.json([
+            {id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01"},
+            {id: "2", name: "Саша", message: "Оплата подписки", amount: 799, date: "2025-08-02"},
+            {id: "3", name: "Саша", message: "Перевод", amount: 3200, date: "2025-08-03"},
+        ]);
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
+app.use("/api/v2/stud/transactions/", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json([
+            {id: "1", name: "Саша", message: "Покупка товара", amount: 1500, date: "2025-08-01"},
+            {id: "2", name: "Саша", message: "Оплата подписки", amount: 799, date: "2025-08-02"},
+            {id: "3", name: "Саша", message: "Перевод", amount: 3200, date: "2025-08-03"},
         ]);
     } else {
         res.status(401).json({error: "Invalid token"});
@@ -250,18 +352,49 @@ app.use("/api/v2/test/history/", (req, res) => {
     const token = authHeader.split(" ")[0];
 
     if (token === "test123") {
-        res.json( {
+        res.json({
                 "history": [
-                    { "rank": 7, "solved": 61 },
-                    { "rank": 6, "solved": 64 },
-                    { "rank": 6, "solved": 67 },
-                    { "rank": 5, "solved": 69 },
-                    { "rank": 6, "solved": 71 },
-                    { "rank": 7, "solved": 74 },
-                    { "rank": 6, "solved": 76 },
-                    { "rank": 5, "solved": 79 },
-                    { "rank": 6, "solved": 82 },
-                    { "rank": 6, "solved": 85 }
+                    {"rank": 7, "solved": 61},
+                    {"rank": 6, "solved": 64},
+                    {"rank": 6, "solved": 67},
+                    {"rank": 5, "solved": 69},
+                    {"rank": 6, "solved": 71},
+                    {"rank": 7, "solved": 74},
+                    {"rank": 6, "solved": 76},
+                    {"rank": 5, "solved": 79},
+                    {"rank": 6, "solved": 82},
+                    {"rank": 6, "solved": 85}
+                ]
+            }
+        );
+    } else {
+        res.status(401).json({error: "Invalid token"});
+    }
+});
+
+
+app.use("/api/v2/stud/history/", (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({error: "No Authorization header"});
+    }
+
+    const token = authHeader.split(" ")[0];
+
+    if (token === "test123") {
+        res.json({
+                "history": [
+                    {"rank": 7, "solved": 61},
+                    {"rank": 6, "solved": 64},
+                    {"rank": 6, "solved": 67},
+                    {"rank": 5, "solved": 69},
+                    {"rank": 6, "solved": 71},
+                    {"rank": 7, "solved": 74},
+                    {"rank": 6, "solved": 76},
+                    {"rank": 5, "solved": 79},
+                    {"rank": 6, "solved": 82},
+                    {"rank": 6, "solved": 85}
                 ]
             }
         );

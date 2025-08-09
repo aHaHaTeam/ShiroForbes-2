@@ -11,6 +11,8 @@ import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
 import {useApiFetch} from "@/utils/api.js";
+import {useData} from "@/utils/DataContext.jsx";
+import {toast} from "sonner";
 
 
 const columns = [
@@ -57,16 +59,27 @@ function MoneyDistributionTable() {
     const [showOptions, setShowOptions] = useState(false);
 
     const apiFetch = useApiFetch();
+    const userData = useData();
     useEffect(() => {
-        apiFetch("/api/transactions/state").then((res) => {
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}`);
-            }
-            return res.json();
-        })
-            .then((data) => setData(data))
-            .catch((err) => console.error("Ошибка загрузки статуса по деньгам:", err));
-    }, []);
+        const url = `/api/transactions/state/${userData.campType}`;
+        try {
+            apiFetch(url).then((res) => {
+                if (!res.ok) {
+                    console.error(`Ошибка сервера: ${res.status}`);
+                    toast(`Ошибка сервера: ${res.status}`);
+                }
+                return res.json();
+            })
+                .then((data) => setData(data))
+                .catch((err) => {
+                        console.error(`Ошибка загрузки статуса по деньгам: ${url}`, err)
+                        toast(`Ошибка загрузки статуса по деньгам: ${url}`)
+                    }
+                );
+        } catch (err) {
+
+        }
+    }, [userData.campType]);
 
     useEffect(() => {
         apiFetch("/api/transactions/presets").then((res) => {
@@ -96,7 +109,6 @@ function MoneyDistributionTable() {
 
     const handleSubmit = () => {
         const selectedRows = table.getSelectedRowModel().rows.map(row => row.original.name);
-        console.log(selectedRows);
         apiFetch("/api/transactions/new", {
             method: "POST",
             body: JSON.stringify({
@@ -104,7 +116,10 @@ function MoneyDistributionTable() {
                 message: message,
                 amount: amount
             })
-        }).then(console.log);
+        }).then((result) => {
+            console.log(result);
+            toast(result.status);
+        });
     };
 
     if (data == null) {

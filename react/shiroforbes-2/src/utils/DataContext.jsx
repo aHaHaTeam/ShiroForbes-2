@@ -16,9 +16,6 @@ export function DataProvider({children}) {
     const setCamp = ({camp}) => {
         setCampType(camp);
         localStorage.setItem("campType", camp);
-        console.log("success");
-        console.log(camp);
-        console.log(2);
     }
 
     return (

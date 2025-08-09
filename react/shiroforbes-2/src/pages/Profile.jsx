@@ -11,6 +11,7 @@ import {Skeleton} from "@/components/ui/skeleton.jsx";
 import {useData} from "@/utils/DataContext.jsx";
 import {TransactionProfileTable} from "@/components/TransactionsTable.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
+import {toast} from "sonner";
 
 function StatPlate({
                        className,
@@ -72,12 +73,17 @@ function WealthStats({stats}) {
     const handleClick = () => {
         const newInvest = !invest;
         setInvest(newInvest);
-        apiFetch(`/api/${userData.username}/invest`, {
-            method: "POST",
-            body: JSON.stringify({
-                isInvesting: newInvest
-            })
-        }).then(console.log);
+        try {
+            apiFetch(`/api/${userData.username}/invest`, {
+                method: "POST",
+                body: JSON.stringify({
+                    isInvesting: newInvest
+                })
+            }).then(() => toast("обновлено"));
+        } catch (err) {
+            console.log(err);
+            toast(`Ошибка подключения: ${err}`);
+        }
     };
 
     useEffect(() => {
@@ -145,7 +151,8 @@ export function Profile({
     const apiFetch = useApiFetch();
 
     useEffect(() => {
-        apiFetch(`/api/${userData.username}/profile`)
+        const url = `/api/${userData.username}/profile`;
+        apiFetch(url)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}`);
@@ -156,7 +163,7 @@ export function Profile({
             setWealthStats(data.wealthStats);
             setName(data.name);
         })
-            .catch((err) => console.error("Ошибка загрузки статистики:", err));
+            .catch((err) => console.error(`Ошибка загрузки ${url}`, err));
     }, []);
 
     return (

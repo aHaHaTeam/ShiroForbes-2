@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.jsx";
 import {useApiFetch} from "@/utils/api.js";
+import {useData} from "@/utils/DataContext.jsx";
 
 const columns = [
     {
@@ -20,8 +21,9 @@ const columns = [
 export function ShopTable() {
     const [priceList, setPriceList] = useState(null)
     const apiFetch = useApiFetch();
+    const url = `api/price-list/${useData().camp}`
     useEffect(() => {
-        apiFetch("/api/price-list")
+        apiFetch(url)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}`);

@@ -8,7 +8,7 @@ spring:
     active: local
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/shiroforbes-2?sslmode=disable
+    url: jdbc:postgresql://localhost:5432/shiroforbes2?sslmode=disable
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver

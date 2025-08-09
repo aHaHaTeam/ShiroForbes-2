@@ -45,7 +45,7 @@ class DatabaseInit : ApplicationRunner {
     loaderService
       .getRows(spreadsheet, students, InitStudentRow::class)
       .map {
-        Student(it.login, it.password, it.firstName(), it.lastName(), it.group, it.rating, it.totalSolved.toFloat())
+        Student(it.login(), it.password(), it.firstName(), it.lastName(), it.group, 0, 0F)
       }.forEach(userService::createNewStudent)
   }
 
@@ -53,7 +53,7 @@ class DatabaseInit : ApplicationRunner {
     loaderService
       .getRows(spreadsheet, admins, InitAdminRow::class)
       .map {
-        Admin(it.login, it.password, it.name)
+        Admin(it.login(), it.password(), it.name)
       }.forEach(userService::createNewAdmin)
   }
 
@@ -61,7 +61,7 @@ class DatabaseInit : ApplicationRunner {
     loaderService
       .getRows(spreadsheet, teachers, InitTeacherRow::class)
       .map {
-        Teacher(it.login, it.password, it.name)
+        Teacher(it.login(), it.password(), it.name)
       }.forEach(userService::createNewTeacher)
   }
 }

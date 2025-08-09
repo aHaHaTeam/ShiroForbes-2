@@ -103,7 +103,7 @@ class AuthController(
             password = encoder.encode(signUpRequest.password),
             firstName = nameParts.getOrElse(0) { "" },
             lastName = nameParts.getOrElse(1) { "" },
-            group = signUpRequest.group?.let { Group.valueOf(it) } ?: Group.Urban,
+            group = signUpRequest.group?.let { Group.valueOf(it) } ?: Group.Countryside,
             score = 0,
             total = 0.0f,
           )

@@ -61,7 +61,7 @@ class AuthControllerTest {
   private val testPassword = "testPassword"
   private val testRole = Rights.Student
   private val testName = "testName"
-  private val testGroup = Group.Urban
+  private val testGroup = Group.Countryside
 
   private lateinit var adminAccessToken: String
 

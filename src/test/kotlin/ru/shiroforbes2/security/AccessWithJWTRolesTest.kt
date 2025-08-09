@@ -61,7 +61,7 @@ class AccessWithJWTRolesTest {
         passwordEncoder.encode("12345678"),
         "studentFirstName",
         "studentLastName",
-        Group.Urban,
+        Group.Countryside,
         0,
         0f,
       ),
@@ -101,7 +101,7 @@ class AccessWithJWTRolesTest {
   @Test
   fun `allow admin to access all profiles`() {
     mockMvc
-      .get("/api/v2/transactions/urban") {
+      .get("/api/v2/transactions/countryside") {
         header("Authorization", "Bearer $adminToken")
       }.andExpect {
         status { isOk() }
@@ -111,7 +111,7 @@ class AccessWithJWTRolesTest {
   @Test
   fun `allow student to access all profiles`() {
     mockMvc
-      .get("/api/v2/transactions/urban") {
+      .get("/api/v2/transactions/countryside") {
         header("Authorization", "Bearer $studentToken")
       }.andExpect {
         status { isForbidden() }
@@ -121,7 +121,7 @@ class AccessWithJWTRolesTest {
   @Test
   fun `forbid unauthorised access to all profiles`() {
     mockMvc
-      .get("/api/v2/transactions/urban")
+      .get("/api/v2/transactions/countryside")
       .andExpect {
         status { isUnauthorized() }
       }

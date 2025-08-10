@@ -1,0 +1,24 @@
+spring:
+  cloud.vault.enabled: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shiroforbes2?sslmode=disable
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        globally_quoted_identifiers: true
+
+shiroforbes.app:
+  jwt:
+    secret: 1234567890qwerty
+
+  google:
+    serviceAccountKeyFile: "service-account-key.json"

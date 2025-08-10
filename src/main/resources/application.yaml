@@ -5,13 +5,7 @@ spring:
     name: shiroforbes-2
 
   profiles:
-    active: local
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/shiroforbes2?sslmode=disable
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    active: dev
 
   jpa:
     open-in-view: false
@@ -24,11 +18,8 @@ spring:
 
 shiroforbes.app:
   jwt:
-    secret: c2hpcm9mb3JiZXMtand0LXNlY3JldC1rZXktZm9yLXNhbXBsZS1hcHBsaWNhdGlvbg== # TODO: move it into a secure vault
     jwtExpirationMs: 86400000
     refreshExpirationMs: 604800000
-  google:
-    serviceAccountKeyFile: "service-account-key.json"
   rating:
     spreadsheetId: "19fm18aFwdENQHXRu3ekG1GRJtiIe-k1-XCMgtMQXFSQ"
     countrysideRanges: "Конд!B5:C,Конд!R5:AE"

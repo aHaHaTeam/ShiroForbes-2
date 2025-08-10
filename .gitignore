@@ -40,3 +40,5 @@ out/
 .kotlin
 /src/main/resources/application-local.properties
 /src/main/resources/service-account-key.json
+/secrets/
+/src/main/resources/application-prod.yaml

@@ -18,8 +18,8 @@ class ReflectiveTableParserTest {
   fun parse() {
     val table =
       listOf(
-        listOf("1", "", "0.5", "true", "countryside", "fake"),
-        listOf("-1", "string", "0,9", "fAlSe", "Urban1", "42"),
+        listOf("1", "", "0.5", "true", "Countryside", "fake"),
+        listOf("-1", "string", "0,9", "fAlSe", "urban1", "42"),
       )
     val expectedResult =
       listOf(

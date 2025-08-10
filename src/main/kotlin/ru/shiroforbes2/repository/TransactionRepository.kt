@@ -3,6 +3,7 @@ package ru.shiroforbes2.repository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.entity.Transaction
@@ -16,21 +17,11 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
   @Query(
     """
       select t from Transaction t join Student s on t.studentId = s.id
-      where s.group = 'Countryside'
+      where s.group = :group
       order by t.date
      """,
   )
-  fun findAllCountrysideOrderByDate(): List<Transaction>
-
-  @Transactional(readOnly = true)
-  @Query(
-    """
-      select t from Transaction t join Student s on t.studentId = s.id
-      where s.group = 'Urban'
-      order by t.date
-     """,
-  )
-  fun findAllUrbanOrderByDate(): List<Transaction>
+  fun findAllOrderByDate(@Param("group") group: String): List<Transaction>
 
   @Modifying
   @Transactional(readOnly = false)

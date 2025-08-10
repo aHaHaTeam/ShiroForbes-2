@@ -10,6 +10,7 @@ import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.Teacher
 import ru.shiroforbes2.service.SheetLoaderService
 import ru.shiroforbes2.service.UserService
+import ru.shiroforbes2.service.reflectiveParser
 
 @Component
 class DatabaseInit : ApplicationRunner {
@@ -43,7 +44,7 @@ class DatabaseInit : ApplicationRunner {
 
   private fun createStudents() {
     loaderService
-      .getRows(spreadsheet, students, InitStudentRow::class)
+      .getRows(spreadsheet, students, reflectiveParser(InitStudentRow::class))
       .map {
         Student(it.login(), it.password(), it.firstName(), it.lastName(), it.group, 0, 0F)
       }.forEach(userService::createNewStudent)
@@ -51,7 +52,7 @@ class DatabaseInit : ApplicationRunner {
 
   private fun createAdmins() {
     loaderService
-      .getRows(spreadsheet, admins, InitAdminRow::class)
+      .getRows(spreadsheet, admins, reflectiveParser(InitAdminRow::class))
       .map {
         Admin(it.login(), it.password(), it.name)
       }.forEach(userService::createNewAdmin)
@@ -59,7 +60,7 @@ class DatabaseInit : ApplicationRunner {
 
   private fun createTeachers() {
     loaderService
-      .getRows(spreadsheet, teachers, InitTeacherRow::class)
+      .getRows(spreadsheet, teachers, reflectiveParser(InitTeacherRow::class))
       .map {
         Teacher(it.login(), it.password(), it.name)
       }.forEach(userService::createNewTeacher)

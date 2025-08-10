@@ -1,30 +1,50 @@
 package ru.shiroforbes2.googlesheets
 
-import ru.shiroforbes2.dto.Episode
+import ru.shiroforbes2.dto.Rating
+import java.util.LinkedList
 
-class RatingTableParser : TableParser<List<Episode>> {
-  override fun parse(table: List<List<String>>): List<List<Episode>> {
-    val numbersRow = table.first()
-    return table.drop(1).map { row ->
-      var previous: Int? = null
-      val grades = mutableListOf<Float>()
-      val episodes = mutableListOf<Episode>()
-      row.zip(numbersRow).forEach { (gradeString, seriesNumberString) ->
-        val seriesNumber = seriesNumberString.toIntOrNull() ?: return@forEach
-        val grade = parseGrade(gradeString) ?: 0f
-        if (previous != seriesNumber && previous != null) {
-          episodes.add(Episode(previous, grades.toList()))
-          grades.clear()
-        }
-        previous = seriesNumber
-        grades.add(grade)
+private const val HEADER_HEIGHT = 4
+private const val PRICES_POSITION = 2
+
+class RatingTableParser : TableParser<List<Rating>> {
+
+  override fun parse(table: List<List<String>>): List<List<Rating>> =
+    table.drop(HEADER_HEIGHT).map { table.first().zip(it) }.map { it.parsePrices() }
+      .map { table.first().zip(table[PRICES_POSITION]).parsePrices().zip(it) }
+      .map { student -> student.map { it.first.zip(it.second) } }
+      .map { student -> student.map { it.accumulateEpisode() } }.map {
+        it.runningFold(0f to 0f) { acc, pair -> acc.first + pair.first to acc.second + pair.second }
+      }.zip(table.parseNames()).map { student ->
+        student.first.ratings(student.second, table.first())
       }
-      if (grades.isNotEmpty()) {
-        episodes.add(Episode(previous!!, grades))
-      }
-      return@map episodes.toList()
-    }
+
+  private fun List<List<String>>.parseNames(): List<Pair<String, String>> = drop(HEADER_HEIGHT).map {
+    it[1].trim() to it[2].trim()
   }
 
-  private fun parseGrade(grade: String): Float? = grade.replace(",", ".").toFloatOrNull()
+  private fun List<Pair<Float, Float>>.ratings(names: Pair<String, String>, episodes: List<String>): List<Rating> =
+    zip(episodes.withZeroth()).map {
+      Rating(
+        names.second, names.first, it.first.second, it.first.first, it.second
+      )
+    }
+
+  private fun List<String>.withZeroth(): List<Int> {
+    val extended = LinkedList(this.mapNotNull { it.toIntOrNull() })
+    extended.addFirst(-1)
+    return extended.distinct()
+  }
+
+  private fun List<Pair<Float, Float>>.accumulateEpisode(): Pair<Float, Float> =
+    map { it.first * it.second to it.second }
+      .reduce { acc, pair -> acc.first + pair.first * pair.second to acc.second + pair.second }
+
+  private fun List<Pair<String, String>>.parsePrices(): List<List<Float>> =
+    filter { it.first.isNotEmpty() }.map { it.first.toIntOrNull() to it.second }.filter { it.first != null }
+      .map { it.first!! to it.second }.groupBy { it.first }.entries.sortedBy { it.key }.map { it.value.parseEpisode() }
+
+
+  private fun List<Pair<Int, String>>.parseEpisode(): List<Float> = map { it.second.parseGoogleFloat() }
+
+  private fun String.parseGoogleFloat(): Float = replace(",", ".").toFloatOrNull() ?: 0f
 }

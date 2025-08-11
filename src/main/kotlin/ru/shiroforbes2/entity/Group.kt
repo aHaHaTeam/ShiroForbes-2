@@ -7,7 +7,8 @@ enum class Group(
 ) {
   Urban1("Urban1"),
   Urban2("Urban2"),
-  Countryside("Countryside");
+  Countryside("Countryside"),
+  ;
 
   fun ranges(): String {
     when (this) {

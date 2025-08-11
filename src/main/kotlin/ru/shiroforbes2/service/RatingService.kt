@@ -12,17 +12,16 @@ class RatingService(
   private val ratingRepository: RatingRepository,
 ) {
   fun getGroupRating(group: Group): List<List<Rating>> =
-    ratingRepository.getRawGroupRating(group.text)
+    ratingRepository
+      .getRawGroupRating(group.text)
       .groupBy { rating -> rating.episode }
       .entries
       .toList()
       .sortedBy { it.key }
       .map { it.value }
 
-
   fun getNewGroupRating(
     spreadsheet: String,
-    group: Group
+    group: Group,
   ): List<List<Rating>> = sheetLoaderService.getRows(spreadsheet, group.ranges(), RatingTableParser())
-
 }

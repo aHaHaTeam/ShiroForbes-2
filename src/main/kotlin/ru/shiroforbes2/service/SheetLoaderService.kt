@@ -57,5 +57,3 @@ class SheetLoaderService(
 
 fun <T : Any> reflectiveParser(clazz: KClass<T>): ReflectiveTableParser<T> =
   ReflectiveTableParser(clazz, listOf(CustomDecoder(), DefaultDecoder()))
-
-

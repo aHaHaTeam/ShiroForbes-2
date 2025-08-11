@@ -8,12 +8,10 @@ import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.dto.Rating
 import ru.shiroforbes2.entity.PerformanceStatistics
 
-
 @Repository
 interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
   @Transactional(readOnly = true)
   fun findAllByStudentId(studentId: Long): List<PerformanceStatistics>
-
 
   @Transactional(readOnly = true)
   @Query(
@@ -26,5 +24,7 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
     order by r.episode, coalesce(r.position, 0)
       """,
   )
-  fun getRawGroupRating(@Param("group") group: String): List<Rating>
+  fun getRawGroupRating(
+    @Param("group") group: String,
+  ): List<Rating>
 }

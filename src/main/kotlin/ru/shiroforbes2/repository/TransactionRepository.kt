@@ -21,7 +21,9 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
       order by t.date
      """,
   )
-  fun findAllOrderByDate(@Param("group") group: String): List<Transaction>
+  fun findAllOrderByDate(
+    @Param("group") group: String,
+  ): List<Transaction>
 
   @Modifying
   @Transactional(readOnly = false)

@@ -1,6 +1,7 @@
 package ru.shiroforbes2.api
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -27,10 +28,13 @@ class RatingController(
   val urban2Ranges: List<String> = emptyList()
 
   @GetMapping("/{group}")
-  fun getRating(@PathVariable group: Group): List<List<Rating>> = ratingService.getGroupRating(group)
+  @PreAuthorize("hasAuthority('Admin')")
+  fun forceUpdateGroupRating(
+    @PathVariable group: Group,
+  ): List<List<Rating>> = ratingService.getNewGroupRating(spreadsheetId, group)
 
-//  @PostMapping("/{group}")
-//  @PreAuthorize("hasAuthority('Admin')")
-//  fun forceUpdateGroupRating(): List<RatingDelta> =
-//    ratingService.getRatingDiff(spreadsheetId, countrysideRanges)
+  @GetMapping("/{group}")
+  fun getRating(
+    @PathVariable group: Group,
+  ): List<List<Rating>> = ratingService.getGroupRating(group)
 }

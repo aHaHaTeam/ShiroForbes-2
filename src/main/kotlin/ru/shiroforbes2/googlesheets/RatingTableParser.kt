@@ -7,25 +7,42 @@ private const val HEADER_HEIGHT = 4
 private const val PRICES_POSITION = 2
 
 class RatingTableParser : TableParser<List<Rating>> {
-
   override fun parse(table: List<List<String>>): List<List<Rating>> =
-    table.drop(HEADER_HEIGHT).map { table.first().zip(it) }.map { it.parsePrices() }
-      .map { table.first().zip(table[PRICES_POSITION]).parsePrices().zip(it) }
-      .map { student -> student.map { it.first.zip(it.second) } }
-      .map { student -> student.map { it.accumulateEpisode() } }.map {
+    table
+      .drop(HEADER_HEIGHT)
+      .map { table.first().zip(it) }
+      .map { it.parsePrices() }
+      .map {
+        table
+          .first()
+          .zip(table[PRICES_POSITION])
+          .parsePrices()
+          .zip(it)
+      }.map { student -> student.map { it.first.zip(it.second) } }
+      .map { student -> student.map { it.accumulateEpisode() } }
+      .map {
         it.runningFold(0f to 0f) { acc, pair -> acc.first + pair.first to acc.second + pair.second }
-      }.zip(table.parseNames()).map { student ->
+      }.zip(table.parseNames())
+      .map { student ->
         student.first.ratings(student.second, table.first())
       }
 
-  private fun List<List<String>>.parseNames(): List<Pair<String, String>> = drop(HEADER_HEIGHT).map {
-    it[1].trim() to it[2].trim()
-  }
+  private fun List<List<String>>.parseNames(): List<Pair<String, String>> =
+    drop(HEADER_HEIGHT).map {
+      it[1].trim() to it[2].trim()
+    }
 
-  private fun List<Pair<Float, Float>>.ratings(names: Pair<String, String>, episodes: List<String>): List<Rating> =
+  private fun List<Pair<Float, Float>>.ratings(
+    names: Pair<String, String>,
+    episodes: List<String>,
+  ): List<Rating> =
     zip(episodes.withZeroth()).map {
       Rating(
-        names.second, names.first, it.first.second, it.first.first, it.second
+        names.second,
+        names.first,
+        it.first.second,
+        it.first.first,
+        it.second,
       )
     }
 
@@ -40,9 +57,14 @@ class RatingTableParser : TableParser<List<Rating>> {
       .reduce { acc, pair -> acc.first + pair.first * pair.second to acc.second + pair.second }
 
   private fun List<Pair<String, String>>.parsePrices(): List<List<Float>> =
-    filter { it.first.isNotEmpty() }.map { it.first.toIntOrNull() to it.second }.filter { it.first != null }
-      .map { it.first!! to it.second }.groupBy { it.first }.entries.sortedBy { it.key }.map { it.value.parseEpisode() }
-
+    filter { it.first.isNotEmpty() }
+      .map { it.first.toIntOrNull() to it.second }
+      .filter { it.first != null }
+      .map { it.first!! to it.second }
+      .groupBy { it.first }
+      .entries
+      .sortedBy { it.key }
+      .map { it.value.parseEpisode() }
 
   private fun List<Pair<Int, String>>.parseEpisode(): List<Float> = map { it.second.parseGoogleFloat() }
 

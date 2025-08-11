@@ -1,6 +1,7 @@
 package ru.shiroforbes2.googlesheets
 
 import ru.shiroforbes2.entity.Group
+import ru.shiroforbes2.googlesheets.reader.DefaultDecoder
 import kotlin.reflect.full.starProjectedType
 import kotlin.test.Test
 import kotlin.test.assertEquals

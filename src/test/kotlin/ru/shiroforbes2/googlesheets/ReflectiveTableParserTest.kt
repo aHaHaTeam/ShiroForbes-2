@@ -1,6 +1,9 @@
 package ru.shiroforbes2.googlesheets
 
 import ru.shiroforbes2.entity.Group
+import ru.shiroforbes2.googlesheets.reader.CustomDecoder
+import ru.shiroforbes2.googlesheets.reader.DefaultDecoder
+import ru.shiroforbes2.googlesheets.reader.ReflectiveTableParser
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 

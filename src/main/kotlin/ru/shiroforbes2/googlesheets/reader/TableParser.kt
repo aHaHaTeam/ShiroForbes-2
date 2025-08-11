@@ -1,4 +1,4 @@
-package ru.shiroforbes2.googlesheets
+package ru.shiroforbes2.googlesheets.reader
 
 interface TableParser<T> {
   fun parse(table: List<List<String>>): List<T>

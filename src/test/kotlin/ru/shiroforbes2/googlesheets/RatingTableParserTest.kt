@@ -1,6 +1,7 @@
 package ru.shiroforbes2.googlesheets
 
 import ru.shiroforbes2.dto.Rating
+import ru.shiroforbes2.googlesheets.reader.RatingTableParser
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 

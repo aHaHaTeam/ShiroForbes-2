@@ -20,8 +20,18 @@ class TransactionsController(
   @GetMapping("/{group}")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
   fun getCountrysideTransactions(
-    @PathVariable group: Group,
-  ): List<TransactionDTO> = transactionsService.getGroupTransactions(group)
+    @PathVariable group: String,
+  ): List<TransactionDTO> {
+    val g =
+      Group.valueOf(
+        group.replaceFirstChar {
+          it.uppercaseChar()
+        },
+      )
+    return transactionsService.getGroupTransactions(
+      g,
+    )
+  }
 
   @PostMapping("/new")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")

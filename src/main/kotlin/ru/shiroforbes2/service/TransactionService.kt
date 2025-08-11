@@ -12,7 +12,7 @@ class TransactionService(
 ) {
   fun getGroupTransactions(group: Group): List<TransactionDTO> =
     transactionRepository
-      .findAllOrderByDate(group.text)
+      .findAllOrderByDate(group)
       .map { it.toTransactionDTO() }
 
   fun insertTransactions(

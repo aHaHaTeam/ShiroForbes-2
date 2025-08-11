@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.entity.Transaction
 
 @Repository
@@ -22,7 +23,7 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
      """,
   )
   fun findAllOrderByDate(
-    @Param("group") group: String,
+    @Param("group") group: Group,
   ): List<Transaction>
 
   @Modifying

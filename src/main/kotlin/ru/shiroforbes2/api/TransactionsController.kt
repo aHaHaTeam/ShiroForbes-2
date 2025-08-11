@@ -21,23 +21,14 @@ class TransactionsController(
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
   fun getCountrysideTransactions(
     @PathVariable group: String,
-  ): List<TransactionDTO> {
-    val g =
-      Group.valueOf(
-        group.replaceFirstChar {
-          it.uppercaseChar()
-        },
-      )
-    return transactionsService.getGroupTransactions(
-      g,
+  ): List<TransactionDTO> =
+    transactionsService.getGroupTransactions(
+      Group.valueOf(group.replaceFirstChar { it.uppercaseChar() }),
     )
-  }
 
   @PostMapping("/new")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
   fun insertTransactions(
     @RequestBody request: CreateTransactionRequest,
-  ) = {
-    transactionsService.insertTransactions(request.logins, request.amount, request.message)
-  }
+  ) = transactionsService.insertTransactions(request.logins, request.amount, request.message)
 }

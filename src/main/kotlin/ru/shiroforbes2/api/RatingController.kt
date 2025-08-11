@@ -27,7 +27,7 @@ class RatingController(
   @Value("\${shiroforbes.app.rating.urban2Ranges}")
   val urban2Ranges: List<String> = emptyList()
 
-  @GetMapping("/{group}")
+  @GetMapping("/new/{group}")
   @PreAuthorize("hasAuthority('Admin')")
   fun forceUpdateGroupRating(
     @PathVariable group: Group,

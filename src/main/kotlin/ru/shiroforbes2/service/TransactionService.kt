@@ -25,12 +25,12 @@ class TransactionService(
     transactionRepository.insertTransactions(logins, amount, message)
   }
 
-  fun updateTransactions(
+  fun updateTransactionsSheet(
     spreadsheetId: String,
     sheetTitle: String,
     group: Group,
-    transactions: List<TransactionDTO>,
   ) {
+    val transactions = transactionRepository.findAllByGroupOrderByDate(group)
     sheetWriterService.updateTransactions(spreadsheetId, sheetTitle, group, transactions)
   }
 }

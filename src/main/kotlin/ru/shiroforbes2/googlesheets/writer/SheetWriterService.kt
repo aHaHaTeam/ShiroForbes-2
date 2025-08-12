@@ -11,7 +11,7 @@ import com.google.api.services.sheets.v4.model.Spreadsheet
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import ru.shiroforbes2.dto.TransactionDTO
+import ru.shiroforbes2.dto.SheetsTransactionRow
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.googlesheets.reader.SheetReaderService
 import java.io.IOException
@@ -31,6 +31,7 @@ class SheetWriterService(
 
   private val tableComposer: TransactionsTableComposer = TransactionsTableComposer()
 
+  @Throws(SheetsWriterException::class)
   fun createSheet(
     spreadsheetId: String,
     title: String,
@@ -86,11 +87,12 @@ class SheetWriterService(
         ),
     )
 
+  @Throws(SheetsWriterException::class)
   fun updateTransactions(
     spreadsheetId: String,
     sheetTitle: String,
     group: Group,
-    transactions: List<TransactionDTO>,
+    transactions: List<SheetsTransactionRow>,
   ) {
     val spreadsheet = resolveSpreadsheet(spreadsheetId)
 

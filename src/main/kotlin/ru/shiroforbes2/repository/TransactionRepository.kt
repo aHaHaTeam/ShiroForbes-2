@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import ru.shiroforbes2.dto.SheetsTransactionRow
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.entity.Transaction
 
@@ -13,6 +14,20 @@ import ru.shiroforbes2.entity.Transaction
 interface TransactionRepository : JpaRepository<Transaction, Long> {
   @Transactional(readOnly = true)
   fun findAllByStudentIdOrderByDate(studentId: Long): List<Transaction>
+
+  @Transactional(readOnly = true)
+  @Query(
+    """
+      select new ru.shiroforbes2.dto.SheetsTransactionRow(
+        s.id, s.login, s.firstName, s.lastName, t.date, t.amount, t.message
+      ) from Transaction t join Student s on t.studentId = s.id
+      where s.group = :group
+      order by t.date
+    """,
+  )
+  fun findAllByGroupOrderByDate(
+    @Param("group") group: Group,
+  ): List<SheetsTransactionRow>
 
   @Transactional(readOnly = true)
   @Query(

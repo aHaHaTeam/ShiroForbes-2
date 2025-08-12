@@ -1,4 +1,4 @@
-package ru.shiroforbes2.googlesheets
+package ru.shiroforbes2.googlesheets.reader
 
 import ru.shiroforbes2.entity.Group
 import java.util.Locale

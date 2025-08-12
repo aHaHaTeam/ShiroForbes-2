@@ -1,4 +1,4 @@
-package ru.shiroforbes2.googlesheets
+package ru.shiroforbes2.googlesheets.reader
 
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
@@ -52,3 +52,6 @@ class ReflectiveTableParser<T : Any>(
     throw IllegalArgumentException("Cannot find decoder to convert \"$str\" to \"${type.jvmErasure.simpleName}\"")
   }
 }
+
+fun <T : Any> reflectiveParser(clazz: KClass<T>): ReflectiveTableParser<T> =
+  ReflectiveTableParser(clazz, listOf(CustomDecoder(), DefaultDecoder()))

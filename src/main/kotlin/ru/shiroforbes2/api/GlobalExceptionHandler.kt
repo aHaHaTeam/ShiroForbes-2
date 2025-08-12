@@ -5,11 +5,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import ru.shiroforbes2.dto.response.MessageResponse
-import ru.shiroforbes2.service.SheetLoaderService
+import ru.shiroforbes2.googlesheets.reader.SheetReaderService
 
 @ControllerAdvice
 internal class GlobalExceptionHandler {
-  @ExceptionHandler(SheetLoaderService.RatingServiceException::class)
+  @ExceptionHandler(SheetReaderService.SheetsReaderException::class)
   fun handleRatingServiceError(): ResponseEntity<MessageResponse> =
     ResponseEntity
       .status(HttpStatus.SERVICE_UNAVAILABLE)

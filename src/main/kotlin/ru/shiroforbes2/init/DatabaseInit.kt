@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component
 import ru.shiroforbes2.entity.Admin
 import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.Teacher
-import ru.shiroforbes2.service.SheetLoaderService
+import ru.shiroforbes2.googlesheets.reader.SheetReaderService
+import ru.shiroforbes2.googlesheets.reader.reflectiveParser
 import ru.shiroforbes2.service.UserService
-import ru.shiroforbes2.service.reflectiveParser
 
 @Component
 class DatabaseInit : ApplicationRunner {
@@ -18,7 +18,7 @@ class DatabaseInit : ApplicationRunner {
   private lateinit var userService: UserService
 
   @Autowired
-  private lateinit var loaderService: SheetLoaderService
+  private lateinit var loaderService: SheetReaderService
 
   @Value("\${shiroforbes.app.rating.spreadsheetId}")
   val spreadsheet: String = ""

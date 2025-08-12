@@ -1,4 +1,4 @@
-package ru.shiroforbes2.googlesheets
+package ru.shiroforbes2.googlesheets.reader
 
 data class SheetsRatingRow(
   val lastName: String,

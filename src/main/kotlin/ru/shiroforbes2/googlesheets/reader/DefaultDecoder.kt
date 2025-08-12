@@ -1,4 +1,4 @@
-package ru.shiroforbes2.googlesheets
+package ru.shiroforbes2.googlesheets.reader
 
 import kotlin.reflect.KType
 import kotlin.reflect.full.starProjectedType

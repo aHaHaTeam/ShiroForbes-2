@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.dto.Rating
+import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.entity.PerformanceStatistics
 
 @Repository
@@ -25,6 +26,6 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
       """,
   )
   fun getRawGroupRating(
-    @Param("group") group: String,
+    @Param("group") group: Group,
   ): List<Rating>
 }

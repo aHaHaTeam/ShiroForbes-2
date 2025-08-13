@@ -10,7 +10,6 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
 import {Button} from "@/components/ui/button.jsx";
 import {useData} from "@/utils/DataContext.jsx";
 import {RoleBox} from "@/components/RoleBox.jsx";
@@ -64,9 +63,9 @@ const items = [
 ]
 
 const campVariants = [
-    {title: "Загородный", url: "countryside"},
-    {title: "Городской1", url: "urban1"},
-    {title: "Городской2", url: "urban2"}
+    {title: "Загородный", url: "Countryside"},
+    {title: "Городской1", url: "Urban1"},
+    {title: "Городской2", url: "Urban2"}
 ]
 
 export function AppSidebar({collapsible = "offcanvas", ...props}) {

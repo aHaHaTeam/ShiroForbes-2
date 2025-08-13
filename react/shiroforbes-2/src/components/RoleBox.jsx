@@ -1,5 +1,4 @@
 import {useAuth} from "@/utils/AuthContext.jsx";
-import {useEffect} from "react";
 
 export function RoleBox({
                             permission = ["admin", "tester"],
@@ -9,9 +8,9 @@ export function RoleBox({
                             ...props
                         }) {
     const auth = useAuth();
-    if (permission.includes(auth.role) || auth.role === "tester") {
+    if (permission.includes(auth.role.toLowerCase()) || auth.role === "tester") {
         return (
-            <div>
+            <div className={className} style={style} {...props}>
                 {children}
             </div>
         )

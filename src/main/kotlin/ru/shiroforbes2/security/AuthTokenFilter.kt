@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
-import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
 import ru.shiroforbes2.security.jwt.JWTUtils
 import ru.shiroforbes2.security.services.UserDetailsServiceImpl
@@ -52,15 +51,7 @@ class AuthTokenFilter(
     filterChain.doFilter(request, response)
   }
 
-  private fun parseJwt(request: HttpServletRequest): String? {
-    val headerAuth = request.getHeader("Authorization")
-
-    if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-      return headerAuth.substring("Bearer ".length)
-    }
-
-    return null
-  }
+  private fun parseJwt(request: HttpServletRequest): String? = request.getHeader("authorization")
 
   companion object {
     private val logger: Logger = LoggerFactory.getLogger(AuthTokenFilter::class.java)

@@ -14,7 +14,7 @@ class RatingService(
 ) {
   fun getGroupRating(group: Group): List<List<Rating>> =
     ratingRepository
-      .getRawGroupRating(group.text)
+      .getRawGroupRating(group)
       .groupBy { rating -> rating.episode }
       .entries
       .toList()

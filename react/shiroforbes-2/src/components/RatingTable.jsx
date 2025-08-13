@@ -57,7 +57,7 @@ const columns = [
         header: "Rating Change",
     },
     {
-        accessorKey: "absoluteRating",
+        accessorKey: "rating",
         header: "Rating",
     },
 
@@ -67,25 +67,32 @@ async function compareRatings(data, day1, day2) {
     const oldData = data[day1];
     const newData = data[day2];
 
-    const sortedOld = [...oldData].sort((a, b) => b.absoluteRating - a.absoluteRating);
-    const sortedNew = [...newData].sort((a, b) => b.absoluteRating - a.absoluteRating);
+    const sortedOld = [...oldData].sort((a, b) => b.rating - a.rating);
+    const sortedNew = [...newData].sort((a, b) => b.rating - a.rating);
 
-    const oldMap = Object.fromEntries(sortedOld.map((item, index) => [item.name, {...item, place: index + 1}]));
-    const newMap = Object.fromEntries(sortedNew.map((item, index) => [item.name, {...item, place: index + 1}]));
+    const oldMap = Object.fromEntries(sortedOld.map((item, index) => [item.firstName + " " + item.lastName, {
+        ...item,
+        place: index + 1
+    }]));
+    const newMap = Object.fromEntries(sortedNew.map((item, index) => [item.firstName + " " + item.lastName, {
+        ...item,
+        place: index + 1
+    }]));
 
     const allNames = new Set([...Object.keys(oldMap), ...Object.keys(newMap)]);
-
+    console.log("old: ", oldData);
+    console.log("names: ", allNames);
     return Array.from(allNames).map((name) => {
-        const oldEntry = oldMap[name] || {absoluteRating: 0, place: sortedOld.length + 1};
-        const newEntry = newMap[name] || {absoluteRating: 0, place: sortedNew.length + 1};
+        const oldEntry = oldMap[name] || {rating: 0, place: sortedOld.length + 1};
+        const newEntry = newMap[name] || {rating: 0, place: sortedNew.length + 1};
 
         return {
             name,
-            deltaRating: newEntry.absoluteRating - oldEntry.absoluteRating,
+            deltaRating: newEntry.rating - oldEntry.rating,
             deltaPlace: oldEntry.place - newEntry.place,
             oldPlace: oldEntry.place,
             newPlace: newEntry.place,
-            absoluteRating: newEntry.absoluteRating,
+            rating: newEntry.rating,
             place: newEntry.place,
         };
     }).sort((a, b) => a.newPlace - b.newPlace);
@@ -95,8 +102,8 @@ async function compareRatings(data, day1, day2) {
 export function RatingTable() {
     const [data, setData] = useState([]);
     const [preparedData, setPreparedData] = useState([]);
-    const [day1, setDay1] = useState(1);
-    const [day2, setDay2] = useState(2);
+    const [day1, setDay1] = useState(0);
+    const [day2, setDay2] = useState(0);
     const apiFetch = useApiFetch();
     const userData = useData();
     const [series, setSeries] = useState([]);
@@ -110,13 +117,15 @@ export function RatingTable() {
                 return res.json();
             }).then((res) => {
             setData(res);
+            console.log(res);
+            setDay2(res.length - 1);
             setSeries(Array.from({length: res.length}, (_, i) => i + 1));
 
         })
     }, [userData.campType])
 
     useEffect(() => {
-        compareRatings(data, day1 - 1, day2 - 1).then(setPreparedData);
+        compareRatings(data, day1, day2).then(setPreparedData);
     }, [data, day1, day2]);
 
     const table = useReactTable({

@@ -91,7 +91,7 @@ class AuthControllerTest {
     val result =
       mockMvc
         .post("/api/v2/auth/signup") {
-          header("Authorization", "Bearer $adminAccessToken")
+          header("Authorization", "$adminAccessToken")
 
           contentType = MediaType.APPLICATION_JSON
           content =
@@ -152,7 +152,7 @@ class AuthControllerTest {
     val result =
       mockMvc
         .get("/api/v2/$testLogin/profile") {
-          header("Authorization", "Bearer $accessToken")
+          header("Authorization", "$accessToken")
         }.andReturn()
     return result.response.status
   }

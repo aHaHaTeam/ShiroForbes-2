@@ -9,8 +9,11 @@ export function useApiFetch() {
         const headers = {
             ...(options.headers || {}),
             "Content-Type": "application/json",
-            ...(accessToken && {Authorization: `${accessToken}`})
+            "Authorization": `${accessToken}`
         };
+        console.log(headers);
+        console.log(accessToken && {"Authorization": `${accessToken}`});
+        console.log(accessToken);
         const res = await fetch(url, {...options, headers});
 
         if (res.status === 401 && retry && refreshToken) {

@@ -30,8 +30,5 @@ enum class Group(
 }
 
 class StringToGroup : Converter<String, Group> {
-
-  override fun convert(source: String): Group =
-    Group.valueOf(source.replaceFirstChar { it.titlecase() })
-
+  override fun convert(source: String): Group = Group.valueOf(source.replaceFirstChar { it.titlecase() })
 }

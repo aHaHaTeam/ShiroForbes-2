@@ -7,10 +7,8 @@ import ru.shiroforbes2.entity.StringToGroup
 
 @Configuration
 class WebConfig : WebMvcConfigurer {
-
   override fun addFormatters(registry: FormatterRegistry) {
     registry.addConverter(StringToGroup())
     super.addFormatters(registry)
   }
-
 }

@@ -33,11 +33,12 @@ class AuthTokenFilter(
 
         val userDetails: UserDetails? = userDetailsService.loadUserByUsername(username)
         if (userDetails != null) {
-          val authentication = UsernamePasswordAuthenticationToken(
-            userDetails,
-            null,
-            userDetails.authorities,
-          )
+          val authentication =
+            UsernamePasswordAuthenticationToken(
+              userDetails,
+              null,
+              userDetails.authorities,
+            )
           authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
           SecurityContextHolder.getContext().authentication = authentication

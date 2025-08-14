@@ -26,7 +26,6 @@ export function useApiFetch() {
             if (refreshRes.ok) {
                 const data = await refreshRes.json();
                 localStorage.setItem("accessToken", data.accessToken);
-                localStorage.setItem("refreshToken", data.refreshToken);
 
                 const newAccessToken = data.accessToken;
                 const newHeaders = {

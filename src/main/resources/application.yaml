@@ -31,9 +31,10 @@ shiroforbes.app:
     serviceAccountKeyFile: "service-account-key.json"
   rating:
     spreadsheetId: "19fm18aFwdENQHXRu3ekG1GRJtiIe-k1-XCMgtMQXFSQ"
-    countrysideRanges: "КондЗаг2!A1:ZZZ"
-    urban1Ranges: "КондГор1!A1:ZZZ"
-    urban2Ranges: "КондГор2!A1:ZZZ"
     students: "ShV!A2:E"
     admins: "Admins!A2:E"
     teachers: "Teachers!A2:E"
+    camps:
+      countryside: "КондЗаг2!A1:ZZZ"
+      urban1: "КондГор1!A1:ZZZ"
+      urban2: "КондГор2!A1:ZZZ"

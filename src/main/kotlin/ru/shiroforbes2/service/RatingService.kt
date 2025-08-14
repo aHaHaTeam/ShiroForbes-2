@@ -24,5 +24,5 @@ class RatingService(
   fun getNewGroupRating(
     spreadsheet: String,
     group: Group,
-  ): List<List<Rating>> = sheetReaderService.getRows(spreadsheet, group.ranges(), RatingTableParser())
+  ): List<List<Rating>> = sheetReaderService.getRows(spreadsheet, group.ranges, RatingTableParser())
 }

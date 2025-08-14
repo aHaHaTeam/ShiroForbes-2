@@ -7,6 +7,6 @@ import org.springframework.boot.runApplication
 
 @Suppress("SpreadOperator")
 fun main(args: Array<String>) {
-  System.setProperty("spring.config.encoding", "UTF-8")
+  System.setProperty("spring.config.encoding", "UTF-16")
   runApplication<Shiroforbes2Application>(*args)
 }

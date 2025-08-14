@@ -18,17 +18,8 @@ class RatingController(
   @Value("\${shiroforbes.app.rating.spreadsheetId}")
   val spreadsheetId: String = ""
 
-  @Value("\${shiroforbes.app.rating.countrysideRanges}")
-  val countrysideRanges: List<String> = emptyList()
-
-  @Value("\${shiroforbes.app.rating.urban1Ranges}")
-  val urban1Ranges: List<String> = emptyList()
-
-  @Value("\${shiroforbes.app.rating.urban2Ranges}")
-  val urban2Ranges: List<String> = emptyList()
-
-  @GetMapping("/new/{group}")
-  @PreAuthorize("hasAuthority('Admin')")
+  @GetMapping("/{group}/new")
+  @PreAuthorize("hasRole('Admin')")
   fun forceUpdateGroupRating(
     @PathVariable group: Group,
   ): List<List<Rating>> = ratingService.getNewGroupRating(spreadsheetId, group)

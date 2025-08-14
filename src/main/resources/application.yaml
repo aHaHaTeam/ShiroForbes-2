@@ -35,6 +35,6 @@ shiroforbes.app:
     admins: "Admins!A2:E"
     teachers: "Teachers!A2:E"
     camps:
-      countryside: "КондЗаг2!A1:ZZZ"
-      urban1: "КондГор1!A1:ZZZ"
-      urban2: "КондГор2!A1:ZZZ"
+      countryside: "GradesCont!A1:ZZZ"
+      urban1: "GradesUrb1!A1:ZZZ"
+      urban2: "GradesUrb2!A1:ZZZ"

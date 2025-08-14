@@ -8,7 +8,7 @@ export function RoleBox({
                             ...props
                         }) {
     const auth = useAuth();
-    if (permission.includes(auth.role.toLowerCase()) || auth.role === "tester") {
+    if (permission.includes(auth.role.toLowerCase())) {
         return (
             <div className={className} style={style} {...props}>
                 {children}

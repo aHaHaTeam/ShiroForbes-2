@@ -159,6 +159,7 @@ export function Profile({
                 }
                 return res.json();
             }).then((data) => {
+            console.log(data);
             setMathStats(data.mathStats);
             setWealthStats(data.wealthStats);
             setName(data.name);

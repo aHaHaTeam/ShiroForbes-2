@@ -34,12 +34,13 @@ class SheetReaderService(
   ): List<T> {
     val response =
       try {
-        sheetsClient
+        val valueRenderOption = sheetsClient
           .spreadsheets()
           .values()
           .batchGet(spreadsheetId)
           .setRanges(ranges)
           .setValueRenderOption("FORMATTED_VALUE")
+        valueRenderOption
           .execute()
           .valueRanges
       } catch (e: IOException) {

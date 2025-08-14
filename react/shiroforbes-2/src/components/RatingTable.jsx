@@ -14,6 +14,7 @@ import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table"
 import {RoleBox} from "@/components/RoleBox.jsx";
 import {useData} from "@/utils/DataContext.jsx";
 import {toast} from "sonner";
+import {useAuth} from "@/utils/AuthContext.jsx";
 
 const columns = [
     {
@@ -106,9 +107,13 @@ export function RatingTable() {
     const [day2, setDay2] = useState(0);
     const apiFetch = useApiFetch();
     const userData = useData();
+    const auth = useAuth();
     const [series, setSeries] = useState([]);
     useEffect(() => {
-        const url = `/api/rating/${userData.campType}`;
+        let url = `/api/rating/${userData.campType}`;
+        if (auth.role.toLowerCase() !== "student") {
+            url += '/new';
+        }
         apiFetch(url)
             .then((res) => {
                 if (!res.ok) {

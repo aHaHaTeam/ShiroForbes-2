@@ -36,7 +36,7 @@ class CustomDecoder : Decoder {
       null
     }
 
-  private fun toGroupOrNull(string: String): Group? = Group.entries.find { it.text == string }
+  private fun toGroupOrNull(string: String): Group? = Group.entries.find { it.value == string }
 
   private fun toBooleanOrNull(string: String): Boolean? =
     when (string.lowercase(Locale.getDefault())) {

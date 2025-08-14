@@ -40,3 +40,4 @@ out/
 .kotlin
 /src/main/resources/application-local.properties
 /src/main/resources/service-account-key.json
+/react/shiroforbes-2/package-lock.json

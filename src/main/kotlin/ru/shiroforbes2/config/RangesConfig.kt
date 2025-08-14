@@ -1,14 +1,23 @@
 package ru.shiroforbes2.config
 
+import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import ru.shiroforbes2.entity.Group
 
 @Component
-class RangesConfig(
+class RangesConfig {
   @Value("\${shiroforbes.app.rating.camps.countryside}")
-  val countryside: String,
+  private lateinit var countryside: String
+
   @Value("\${shiroforbes.app.rating.camps.urban1}")
-  val urban1: String,
+  private lateinit var urban1: String
+
   @Value("\${shiroforbes.app.rating.camps.urban2}")
-  val urban2: String,
-)
+  private lateinit var urban2: String
+
+  @PostConstruct
+  fun initEnum() {
+    Group.initializeFromConfig(countryside, urban1, urban2)
+  }
+}

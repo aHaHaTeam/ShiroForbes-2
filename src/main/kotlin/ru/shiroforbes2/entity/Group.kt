@@ -3,12 +3,36 @@ package ru.shiroforbes2.entity
 import org.springframework.core.convert.converter.Converter
 
 enum class Group(
-  val text: String,
-  val ranges: String,
+  val value: String,
 ) {
-  Urban1("Urban1", "\${shiroforbes.app.rating.camps.urban1}"),
-  Urban2("Urban2", "\${shiroforbes.app.rating.camps.urban2}"),
-  Countryside("Countryside", "\${shiroforbes.app.rating.camps.countryside}"),
+  Urban1("Urban1"),
+  Urban2("Urban2"),
+  Countryside("Countryside"),
+  ;
+
+  companion object {
+    private lateinit var countrysideRange: String
+    private lateinit var urban1Range: String
+    private lateinit var urban2Range: String
+
+    fun initializeFromConfig(
+      countrysideRange: String,
+      urban1Range: String,
+      urban2Range: String,
+    ) {
+      this.countrysideRange = countrysideRange
+      this.urban1Range = urban1Range
+      this.urban2Range = urban2Range
+    }
+  }
+
+  val ratingRange: String
+    get() =
+      when (this) {
+        Countryside -> countrysideRange
+        Urban1 -> urban1Range
+        Urban2 -> urban2Range
+      }
 }
 
 class StringToGroup : Converter<String, Group> {

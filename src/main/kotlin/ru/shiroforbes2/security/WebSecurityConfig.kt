@@ -23,14 +23,10 @@ class WebSecurityConfig(
   private val unauthorizedHandler: AuthEntryPointJwt,
   private val jwtUtils: JWTUtils,
 ) {
-
   companion object {
     @Bean
-    fun grantedAuthorityDefaults(): GrantedAuthorityDefaults {
-      return GrantedAuthorityDefaults("");
-    }
+    fun grantedAuthorityDefaults(): GrantedAuthorityDefaults = GrantedAuthorityDefaults("")
   }
-
 
   @Bean
   fun authenticationJwtTokenFilter(): AuthTokenFilter = AuthTokenFilter(jwtUtils, userDetailsService)

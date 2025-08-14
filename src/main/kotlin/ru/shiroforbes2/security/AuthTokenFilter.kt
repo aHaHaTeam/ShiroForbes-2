@@ -49,7 +49,6 @@ class AuthTokenFilter(
     }
 
     filterChain.doFilter(request, response)
-   println()
   }
 
   private fun parseJwt(request: HttpServletRequest): String? = request.getHeader("authorization")

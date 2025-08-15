@@ -74,19 +74,14 @@ export function LoginForm({
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-3">
                                 <Label htmlFor="login">Login</Label>
-                                <Input id="login" placeholder="koposovt" required
+                                <Input id="login" placeholder="Login" required
                                        onChange={e => setLogin(e.target.value)}/>
                             </div>
                             <div className="grid gap-3">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
-                                    {/*<a*/}
-                                    {/*    href="/"*/}
-                                    {/*    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">*/}
-                                    {/*    Забыл(а) пароль?*/}
-                                    {/*</a>*/}
                                 </div>
-                                <Input id="password" type="password" placeholder="qwerty123" required
+                                <Input id="password" type="password" placeholder="Password" required
                                        onChange={e => setPassword(e.target.value)}/>
                             </div>
                             <div className="flex flex-col gap-3">
@@ -95,12 +90,6 @@ export function LoginForm({
                                 </Button>
                             </div>
                         </div>
-                        {/*<div className="mt-4 text-center text-sm">*/}
-                        {/*    Нет аккаунта?{" "}*/}
-                        {/*    <a href="#" className="underline underline-offset-4">*/}
-                        {/*        Создать аккаунт*/}
-                        {/*    </a>*/}
-                        {/*</div>*/}
                     </form>
                 </CardContent>
             </Card>

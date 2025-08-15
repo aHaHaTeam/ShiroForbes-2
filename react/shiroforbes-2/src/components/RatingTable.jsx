@@ -81,8 +81,6 @@ async function compareRatings(data, day1, day2) {
     }]));
 
     const allNames = new Set([...Object.keys(oldMap), ...Object.keys(newMap)]);
-    console.log("old: ", oldData);
-    console.log("names: ", allNames);
     return Array.from(allNames).map((name) => {
         const oldEntry = oldMap[name] || {rating: 0, place: sortedOld.length + 1};
         const newEntry = newMap[name] || {rating: 0, place: sortedNew.length + 1};
@@ -124,7 +122,6 @@ export function RatingTable() {
             return transpose(res)
         }).then((res) => {
             setData(res);
-            console.log(res);
             setDay1(res.length - 2);
             setDay2(res.length - 1);
             setSeries(Array.from({length: res.length}, (_, i) => {

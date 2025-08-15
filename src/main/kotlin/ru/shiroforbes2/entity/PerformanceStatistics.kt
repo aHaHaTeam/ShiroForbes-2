@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "rating")
 @Suppress("LongParameterList")
-open class PerformanceStatistics(
+class PerformanceStatistics(
   @Id
   @Column(name = "id", nullable = false)
   val id: Int,

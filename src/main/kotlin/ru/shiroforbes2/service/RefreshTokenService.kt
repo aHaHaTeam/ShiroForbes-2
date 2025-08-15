@@ -1,5 +1,6 @@
 package ru.shiroforbes2.service
 
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import ru.shiroforbes2.entity.RefreshToken
@@ -21,6 +22,7 @@ class RefreshTokenService(
 
   fun createRefreshToken(userId: Long): RefreshToken {
     val user = userRepository.findById(userId).orElseThrow { RuntimeException("User not found") }
+    refreshTokenRepository.deleteByUser(user)
     val refreshToken =
       RefreshToken(
         user = user,
@@ -36,10 +38,5 @@ class RefreshTokenService(
       return false
     }
     return true
-  }
-
-  fun deleteByUserId(userId: Long) {
-    val user = userRepository.findById(userId).orElseThrow { RuntimeException("User not found") }
-    refreshTokenRepository.deleteByUser(user)
   }
 }

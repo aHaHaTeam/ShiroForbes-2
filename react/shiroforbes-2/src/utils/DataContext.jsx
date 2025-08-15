@@ -2,11 +2,27 @@ import {createContext, useContext, useState} from "react";
 
 const DataContext = createContext(null);
 
+const normalizeCampType = (camp) => {
+    if (!camp) return camp;
+    const map = {
+        "Загородный": "Countryside",
+        "Городской1": "Urban1",
+        "Городской2": "Urban2",
+    };
+    return map[camp] || camp;
+};
 
 export function DataProvider({children}) {
     const [username, setUsername] = useState(() => localStorage.getItem("username"));
     const [cat, setCat] = useState(() => localStorage.getItem("cat"));
-    const [campType, setCampType] = useState(localStorage.getItem("campType"));
+    const [campType, setCampType] = useState(() => {
+        const stored = localStorage.getItem("campType");
+        const normalized = normalizeCampType(stored);
+        if (normalized !== stored && normalized) {
+            localStorage.setItem("campType", normalized);
+        }
+        return normalized;
+    });
 
     const rememberLogin = ({username}) => {
         setUsername(username);
@@ -14,8 +30,13 @@ export function DataProvider({children}) {
     }
 
     const setCamp = ({camp}) => {
-        setCampType(camp);
-        localStorage.setItem("campType", camp);
+        const normalized = normalizeCampType(camp);
+        setCampType(normalized);
+        if (normalized) {
+            localStorage.setItem("campType", normalized);
+        } else {
+            localStorage.removeItem("campType");
+        }
     }
 
     return (
@@ -27,5 +48,3 @@ export function DataProvider({children}) {
 export function useData() {
     return useContext(DataContext);
 }
-
-

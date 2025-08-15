@@ -11,9 +11,6 @@ export function useApiFetch() {
             "Content-Type": "application/json",
             "Authorization": `${accessToken}`
         };
-        console.log(headers);
-        console.log(accessToken && {"Authorization": `${accessToken}`});
-        console.log(accessToken);
         const res = await fetch(url, {...options, headers});
 
         if (res.status === 401 && retry && refreshToken) {
@@ -37,6 +34,8 @@ export function useApiFetch() {
             } else {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
+                window.location.replace("/login");
+                window.location.href = "/login";
             }
         }
 

@@ -1,6 +1,5 @@
 package ru.shiroforbes2.service
 
-import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import ru.shiroforbes2.entity.RefreshToken

@@ -210,8 +210,6 @@ export function RatingTable() {
                             toast(`Ошибка сервера: ${response.status}`)
                             return;
                         }
-                        const result = await response.json();
-                        console.log("Успешно обновлено:", result);
                         toast("Успешно обновлено")
                     } catch (error) {
                         console.error("Ошибка:", error);

@@ -1,6 +1,7 @@
 package ru.shiroforbes2.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
@@ -17,7 +18,7 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
   @Transactional(readOnly = true)
   @Query(
     """
-      select new ru.shiroforbes2.dto.Rating(
+      select new ru.shiroforbes2.dto.RatingDTO(
         s.firstName, s.lastName,  coalesce(r.totalSolved, 0.0f), coalesce(r.totalRating, 0.0f), coalesce(r.episode, 0) 
       )
       from Student s left join PerformanceStatistics r on s.id = r.student.id
@@ -28,4 +29,16 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
   fun getRawGroupRating(
     @Param("group") group: Group,
   ): List<Rating>
+
+  @Modifying
+  @Query(
+    """
+    delete
+    from PerformanceStatistics ps
+    where ps.student.group = :group
+    """,
+  )
+  fun deleteAllByGroup(
+    @Param("group") group: Group,
+  )
 }

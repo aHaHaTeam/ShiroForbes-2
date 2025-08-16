@@ -12,6 +12,6 @@ internal class GlobalExceptionHandler {
   @ExceptionHandler(SheetReaderService.SheetsReaderException::class)
   fun handleRatingServiceError(): ResponseEntity<MessageResponse> =
     ResponseEntity
-      .status(HttpStatus.SERVICE_UNAVAILABLE)
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .body(MessageResponse("Error: Could not retrieve ratings."))
 }

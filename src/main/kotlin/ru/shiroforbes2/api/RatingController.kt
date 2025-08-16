@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.shiroforbes2.dto.Rating
@@ -20,7 +21,7 @@ class RatingController(
 
   @GetMapping("/{group}/new")
   @PreAuthorize("hasRole('Admin') or hasRole('Teacher')")
-  fun forceUpdateGroupRating(
+  fun getUpdatedRating(
     @PathVariable group: Group,
   ): List<List<Rating>> = ratingService.getNewGroupRating(spreadsheetId, group)
 
@@ -28,4 +29,13 @@ class RatingController(
   fun getRating(
     @PathVariable group: Group,
   ): List<List<Rating>> = ratingService.getGroupRating(group)
+
+  @PostMapping("/{group}")
+  @PreAuthorize("hasRole('Admin')")
+  fun updateRating(
+    @PathVariable group: Group,
+  ) {
+    val ratings = ratingService.getNewGroupRating(spreadsheetId, group).flatten()
+    ratingService.updateRatingForGroup(group, ratings)
+  }
 }

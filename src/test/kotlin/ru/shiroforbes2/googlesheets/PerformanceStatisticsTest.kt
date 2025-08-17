@@ -15,6 +15,7 @@ import kotlin.test.assertContentEquals
 
 @SpringBootTest
 class PerformanceStatisticsTest {
+
   @Autowired
   private lateinit var students: StudentRepository
 
@@ -31,10 +32,7 @@ class PerformanceStatisticsTest {
     return Path("src/test/resources/test_rating.csv").readLines().map { it.trim().split(',') }
   }
 
-  private fun createStudent(
-    first: String,
-    last: String,
-  ) {
+  private fun createStudent(first: String, last: String) {
     users.createNewStudent(
       Student(
         login = first,
@@ -44,8 +42,8 @@ class PerformanceStatisticsTest {
         group = Group.Countryside,
         score = 0,
         total = 0F,
-        isInvesting = false,
-      ),
+        isInvesting = false
+      )
     )
   }
 

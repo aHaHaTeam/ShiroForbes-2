@@ -8,7 +8,6 @@ internal const val TOTAL_SOLVED_POSITION = 3
 internal const val RATING_POSITION = 4
 internal const val GROB_POSITION = 5
 
-
 internal fun List<List<String>>.parseNames(): List<Pair<String, String>> =
   drop(HEADER_HEIGHT).map {
     it[LAST_NAME_POSITION].trim() to it[FIRST_NAME_POSITION].trim()

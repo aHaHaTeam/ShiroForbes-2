@@ -1,16 +1,9 @@
 package ru.shiroforbes2.googlesheets.reader
 
-import jakarta.persistence.Column
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
 import ru.shiroforbes2.entity.Area
-import ru.shiroforbes2.entity.PerformanceStatistics
 import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.toArea
 import ru.shiroforbes2.repository.StudentRepository
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class ParsedStatictics(
   var episode: Int,
@@ -30,14 +23,17 @@ data class ParsedStatictics(
   val position: Int,
 )
 
-class RawPerformanceStatistics(val students: StudentRepository) : TableParser<ParsedStatictics> {
+class RawPerformanceStatistics(
+  val students: StudentRepository,
+) : TableParser<ParsedStatictics> {
   override fun parse(table: List<List<String>>): List<ParsedStatictics> {
     val ids = table.studentIds()
-    val scores = table
-      .drop(HEADER_HEIGHT)
-      .mapIndexed { i, row -> i to row[RATING_POSITION].toInt() }
-      .sortedByDescending { it.second }
-      .map { it.first }
+    val scores =
+      table
+        .drop(HEADER_HEIGHT)
+        .mapIndexed { i, row -> i to row[RATING_POSITION].toInt() }
+        .sortedByDescending { it.second }
+        .map { it.first }
     val areas = table.areas()
     return table.drop(HEADER_HEIGHT).mapIndexed { i, row ->
       ParsedStatictics(
@@ -55,13 +51,12 @@ class RawPerformanceStatistics(val students: StudentRepository) : TableParser<Pa
         geometrySolvedPercent = row.studentArea(Area.Geometry, areas).second,
         combinatoricsSolvedPercent = row.studentArea(Area.Combinatorics, areas).second,
         grobs = row[GROB_POSITION].toInt(),
-        position = scores.indexOf(i)
+        position = scores.indexOf(i),
       )
     }
   }
 
-  fun List<List<String>>.areas(): List<Area?> =
-    drop(1).first().map { it.toArea() }
+  fun List<List<String>>.areas(): List<Area?> = drop(1).first().map { it.toArea() }
 
   fun List<List<String>>.studentIds(): List<Student> {
     val names = parseNames()
@@ -74,11 +69,13 @@ class RawPerformanceStatistics(val students: StudentRepository) : TableParser<Pa
     }
   }
 
-  fun List<String>.studentArea(area: Area, areas: List<Area?>): Pair<Float, Float> {
+  fun List<String>.studentArea(
+    area: Area,
+    areas: List<Area?>,
+  ): Pair<Float, Float> {
     val idx = areas.indexOf(area)
     return this[idx].parseGoogleFloat() to this[idx + 1].parseGoogleFloat()
   }
 
   fun List<List<String>>.totalProblems(): Int = first().mapNotNull { it.toIntOrNull() }.size
-
 }

@@ -4,8 +4,7 @@ enum class Area {
   Algebra,
   NumberTheory,
   Combinatorics,
-  Geometry;
-
+  Geometry,
 }
 
 fun String.toArea(): Area? =

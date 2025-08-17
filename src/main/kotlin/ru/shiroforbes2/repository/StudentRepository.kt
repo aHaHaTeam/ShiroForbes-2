@@ -29,6 +29,6 @@ interface StudentRepository : JpaRepository<Student, Long> {
   @Transactional(readOnly = true)
   fun findStudentsByFirstNameInAndLastNameIn(
     firstNames: Collection<String>,
-    lastNames: Collection<String>
+    lastNames: Collection<String>,
   ): List<Student>
 }

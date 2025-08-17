@@ -24,7 +24,6 @@ class RatingTableParser : TableParser<List<Rating>> {
         student.first.ratings(student.second, table.first())
       }
 
-
   private fun List<Pair<Float, Float>>.ratings(
     names: Pair<String, String>,
     episodes: List<String>,
@@ -60,5 +59,4 @@ class RatingTableParser : TableParser<List<Rating>> {
       .map { it.value.parseEpisode() }
 
   private fun List<Pair<Int, String>>.parseEpisode(): List<Float> = map { it.second.parseGoogleFloat() }
-
 }

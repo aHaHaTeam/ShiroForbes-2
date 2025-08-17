@@ -28,7 +28,7 @@ class RatingService(
 
   fun updateRating(
     spreadsheet: String,
-    group: Group
+    group: Group,
   ): Boolean {
     val rating = getNewGroupRating(spreadsheet, group)
 

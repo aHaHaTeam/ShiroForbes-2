@@ -25,4 +25,13 @@ class RatingService(
     spreadsheet: String,
     group: Group,
   ): List<List<Rating>> = sheetReaderService.getRows(spreadsheet, group.ratingRange, RatingTableParser())
+
+  fun updateRating(
+    spreadsheet: String,
+    group: Group
+  ): Boolean {
+    val rating = getNewGroupRating(spreadsheet, group)
+
+    return true
+  }
 }

@@ -146,7 +146,7 @@ export function RatingTable() {
     })
 
     return (<div>
-        <div className="flex gap-4 mb-2 justify-evenly w-full">
+        <div className="flex gap-4 mb-2 justify-evenly w-full pt-4">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="bg-accent" variant="outline">Считаем от: {series[day1]}</Button>

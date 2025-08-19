@@ -8,7 +8,9 @@ interface TableParser<T> {
       tables
         .map { table ->
           val width = table.maxOf { it.size }
-          table.takeWhile { it.size == width }
+          table
+            .takeWhile { it.isNotEmpty() }
+            .map { it + List(width - it.size) { " " } }
         }.reduce { table1, table2 ->
           table1.zip(table2).map { it.first + it.second }
         }

@@ -19,7 +19,7 @@ class RatingController(
   val spreadsheetId: String = ""
 
   @GetMapping("/{group}/new")
-  @PreAuthorize("hasRole('Admin')")
+  @PreAuthorize("hasRole('Admin') or hasRole('Teacher')")
   fun forceUpdateGroupRating(
     @PathVariable group: Group,
   ): List<List<Rating>> = ratingService.getNewGroupRating(spreadsheetId, group)

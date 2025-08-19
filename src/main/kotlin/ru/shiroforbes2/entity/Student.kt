@@ -13,7 +13,7 @@ import jakarta.persistence.Table
 @DiscriminatorValue("Student")
 @PrimaryKeyJoinColumn(name = "student_id", referencedColumnName = "user_id")
 @Suppress("LongParameterList")
-open class Student(
+class Student(
   login: String,
   password: String,
   @Column(name = "first_name", length = 200, nullable = false)

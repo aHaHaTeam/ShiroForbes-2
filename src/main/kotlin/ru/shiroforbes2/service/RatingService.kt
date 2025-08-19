@@ -30,8 +30,8 @@ class RatingService(
     spreadsheet: String,
     group: Group,
   ): Boolean {
-    val rating = getNewGroupRating(spreadsheet, group)
-
+    // TODO Get new Rating form RawPerformanceStatistics.parce
+    // then call ratingRepository.insertRating
     return true
   }
 }

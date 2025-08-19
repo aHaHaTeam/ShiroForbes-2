@@ -1,6 +1,7 @@
 package ru.shiroforbes2.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
@@ -17,11 +18,11 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
   @Transactional(readOnly = true)
   @Query(
     """
-      select new ru.shiroforbes2.dto.Rating(
-        s.firstName, s.lastName,  coalesce(r.totalSolved, 0.0f), coalesce(r.totalRating, 0.0f), coalesce(r.episode, 0) 
-      )
-      from Student s left join PerformanceStatistics r on s.id = r.student.id
-      where s.group = :group 
+    select new ru.shiroforbes2.dto.Rating(
+      s.firstName, s.lastName,  coalesce(r.totalSolved, 0.0f), coalesce(r.totalRating, 0.0f), coalesce(r.episode, 0) 
+    )
+    from Student s left join PerformanceStatistics r on s.id = r.student.id
+    where s.group = :group
     order by r.episode, coalesce(r.position, 0)
       """,
   )
@@ -29,7 +30,11 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
     @Param("group") group: Group,
   ): List<Rating>
 
-  // TODO fun insertRating(newRating: List<RawPerformanceStatistics>, episode: Int): Boolean
-  // Deletes all entries with it.episode == episode
-  // Then inserts new rating into Rating Table
+  @Modifying
+  @Query(
+    """
+    delete from PerformanceStatistics r where r.episode = :episode
+    """,
+  )
+  fun deleteAllByEpisode(episode: Int)
 }

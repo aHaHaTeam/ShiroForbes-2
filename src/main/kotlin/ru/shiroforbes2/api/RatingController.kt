@@ -33,5 +33,5 @@ class RatingController(
   @PostMapping("/{group}")
   fun postRating(
     @PathVariable group: Group,
-  ): Boolean = ratingService.updateRating(spreadsheetId, group)
+  ): Unit = ratingService.updateRating(spreadsheetId, group)
 }

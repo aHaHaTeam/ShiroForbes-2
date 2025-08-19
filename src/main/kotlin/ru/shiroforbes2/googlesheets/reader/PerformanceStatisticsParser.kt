@@ -1,32 +1,18 @@
 package ru.shiroforbes2.googlesheets.reader
 
+import org.springframework.stereotype.Component
 import ru.shiroforbes2.entity.Area
+import ru.shiroforbes2.entity.PerformanceStatistics
 import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.toArea
 import ru.shiroforbes2.repository.StudentRepository
+import java.time.LocalDateTime
 
-data class ParsedStatictics(
-  var episode: Int,
-  var student: Long,
-  var totalSolved: Float,
-  var totalRating: Float,
-  val algebra: Float,
-  val numbersTheory: Float,
-  val geometry: Float,
-  val combinatorics: Float,
-  var totalSolvedPercent: Float,
-  var algebraSolvedPercent: Float,
-  var numbersTheorySolvedPercent: Float,
-  var geometrySolvedPercent: Float,
-  var combinatoricsSolvedPercent: Float,
-  var grobs: Int,
-  val position: Int,
-)
-
-class RawPerformanceStatistics(
-  val students: StudentRepository,
-) : TableParser<ParsedStatictics> {
-  override fun parse(table: List<List<String>>): List<ParsedStatictics> {
+@Component
+class PerformanceStatisticsParser(
+  private val studentRepository: StudentRepository,
+) : TableParser<PerformanceStatistics> {
+  override fun parse(table: List<List<String>>): List<PerformanceStatistics> {
     val ids = table.studentIds()
     val scores =
       table
@@ -36,9 +22,9 @@ class RawPerformanceStatistics(
         .map { it.first }
     val areas = table.areas()
     return table.drop(HEADER_HEIGHT).mapIndexed { i, row ->
-      ParsedStatictics(
+      PerformanceStatistics(
         episode = table[0].mapNotNull { it.toIntOrNull() }.max(),
-        student = ids[i].id,
+        student = ids[i],
         totalSolved = row[TOTAL_SOLVED_POSITION].parseGoogleFloat(),
         totalRating = row[RATING_POSITION].parseGoogleFloat(),
         algebra = row.studentArea(Area.Algebra, areas).first,
@@ -52,15 +38,20 @@ class RawPerformanceStatistics(
         combinatoricsSolvedPercent = row.studentArea(Area.Combinatorics, areas).second,
         grobs = row[GROB_POSITION].toInt(),
         position = scores.indexOf(i),
+        date = LocalDateTime.now(),
       )
     }
   }
 
-  fun List<List<String>>.areas(): List<Area?> = drop(1).first().map { it.toArea() }
+  private fun List<List<String>>.areas(): List<Area?> = drop(1).first().map { it.toArea() }
 
-  fun List<List<String>>.studentIds(): List<Student> {
+  private fun List<List<String>>.studentIds(): List<Student> {
     val names = parseNames()
-    val fetched = students.findStudentsByFirstNameInAndLastNameIn(names.map { it.second }, names.map { it.first })
+    val fetched =
+      studentRepository.findStudentsByFirstNameInAndLastNameIn(
+        names.map { it.second },
+        names.map { it.first },
+      )
     return names.map { student ->
       fetched
         .firstOrNull {
@@ -69,7 +60,7 @@ class RawPerformanceStatistics(
     }
   }
 
-  fun List<String>.studentArea(
+  private fun List<String>.studentArea(
     area: Area,
     areas: List<Area?>,
   ): Pair<Float, Float> {
@@ -77,5 +68,5 @@ class RawPerformanceStatistics(
     return this[idx].parseGoogleFloat() to this[idx + 1].parseGoogleFloat()
   }
 
-  fun List<List<String>>.totalProblems(): Int = first().mapNotNull { it.toIntOrNull() }.size
+  private fun List<List<String>>.totalProblems(): Int = first().mapNotNull { it.toIntOrNull() }.size
 }

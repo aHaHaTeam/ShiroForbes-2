@@ -3,10 +3,9 @@ package ru.shiroforbes2.googlesheets
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import ru.shiroforbes2.entity.Group
+import ru.shiroforbes2.entity.PerformanceStatistics
 import ru.shiroforbes2.entity.Student
-import ru.shiroforbes2.googlesheets.reader.ParsedStatictics
-import ru.shiroforbes2.googlesheets.reader.RawPerformanceStatistics
-import ru.shiroforbes2.repository.StudentRepository
+import ru.shiroforbes2.googlesheets.reader.PerformanceStatisticsParser
 import ru.shiroforbes2.service.UserService
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
@@ -16,14 +15,13 @@ import kotlin.test.assertContentEquals
 @SpringBootTest
 class PerformanceStatisticsTest {
   @Autowired
-  private lateinit var students: StudentRepository
+  private lateinit var parser: PerformanceStatisticsParser
 
   @Autowired
   private lateinit var users: UserService
 
   @Test
-  fun `parse episode`() =
-    assertContentEquals(oneEpisodeRating(), RawPerformanceStatistics(students).parse(loadRating()))
+  fun `parse episode`() = assertContentEquals(oneEpisodeRating(), parser.parse(loadRating()).toParsedStatistics())
 
   private fun loadRating(): List<List<String>> {
     createStudent("Максим", "Бубнов")
@@ -49,9 +47,48 @@ class PerformanceStatisticsTest {
     )
   }
 
-  private fun oneEpisodeRating(): List<ParsedStatictics> =
+  private fun oneEpisodeRating(): List<ParsedStatistics> =
     listOf(
-      ParsedStatictics(0, 1, 3F, 53F, 0F, 0F, 0F, 0F, 0.6F, 0F, 0F, 0.0F, 0.0F, 1, 1),
-      ParsedStatictics(0, 2, 4F, 84F, 0F, 1F, 0F, 0F, 0.8F, 0F, 0.5F, 0.0F, 0.0F, 2, 0),
+      ParsedStatistics(0, 1, 3F, 53F, 0F, 0F, 0F, 0F, 0.6F, 0F, 0F, 0.0F, 0.0F, 1, 1),
+      ParsedStatistics(0, 2, 4F, 84F, 0F, 1F, 0F, 0F, 0.8F, 0F, 0.5F, 0.0F, 0.0F, 2, 0),
     )
+
+  data class ParsedStatistics(
+    var episode: Int,
+    var student: Long,
+    var totalSolved: Float,
+    var totalRating: Float,
+    val algebra: Float,
+    val numbersTheory: Float,
+    val geometry: Float,
+    val combinatorics: Float,
+    var totalSolvedPercent: Float,
+    var algebraSolvedPercent: Float,
+    var numbersTheorySolvedPercent: Float,
+    var geometrySolvedPercent: Float,
+    var combinatoricsSolvedPercent: Float,
+    var grobs: Int,
+    val position: Int,
+  )
+
+  private fun PerformanceStatistics.toParsedStatistics() =
+    ParsedStatistics(
+      episode = episode,
+      student = student.id,
+      totalSolved = totalSolved,
+      totalRating = totalRating,
+      algebra = algebraSolvedPercent,
+      numbersTheory = numbersTheorySolvedPercent,
+      geometry = geometrySolvedPercent,
+      combinatorics = combinatoricsSolvedPercent,
+      totalSolvedPercent = totalSolvedPercent,
+      algebraSolvedPercent = algebraSolvedPercent,
+      numbersTheorySolvedPercent = numbersTheorySolvedPercent,
+      geometrySolvedPercent = geometrySolvedPercent,
+      grobs = grobs,
+      combinatoricsSolvedPercent = combinatoricsSolvedPercent,
+      position = position,
+    )
+
+  private fun List<PerformanceStatistics>.toParsedStatistics() = map { it.toParsedStatistics() }
 }

@@ -2,6 +2,8 @@ package ru.shiroforbes2.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
@@ -14,7 +16,8 @@ import java.time.LocalDateTime
 class PerformanceStatistics(
   @Id
   @Column(name = "id", nullable = false)
-  val id: Int,
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  val id: Int = 0,
   @Column(name = "date", nullable = false)
   var date: LocalDateTime,
   @Column(name = "episode", nullable = false)

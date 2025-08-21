@@ -12,7 +12,16 @@ import ru.shiroforbes2.entity.Transaction
 @Repository
 interface TransactionRepository : JpaRepository<Transaction, Long> {
   @Transactional(readOnly = true)
-  fun findAllByStudentIdOrderByDate(studentId: Long): List<Transaction>
+  @Query(
+    """
+      select t from Transaction t join Student s on t.studentId = s.id
+      where s.login = :login
+      order by t.date
+     """,
+  )
+  fun findAllByStudentLoginOrderByDate(
+    @Param("login") login: String,
+  ): List<Transaction>
 
   @Transactional(readOnly = true)
   @Query(

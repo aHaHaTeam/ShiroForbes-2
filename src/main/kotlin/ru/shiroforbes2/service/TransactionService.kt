@@ -17,6 +17,11 @@ class TransactionService(
       .findAllOrderByDate(group)
       .map { it.toTransactionDTO() }
 
+  fun getStudentTransactions(login: String): List<TransactionDTO> =
+    transactionRepository
+      .findAllByStudentLoginOrderByDate(login)
+      .map { it.toTransactionDTO() }
+
   fun insertTransactions(
     logins: List<String>,
     amount: Long,

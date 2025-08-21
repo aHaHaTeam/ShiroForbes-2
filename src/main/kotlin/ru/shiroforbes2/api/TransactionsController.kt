@@ -19,9 +19,15 @@ class TransactionsController(
 ) {
   @GetMapping("/{group}")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
-  fun getCountrysideTransactions(
+  fun getGroupTransactions(
     @PathVariable group: Group,
   ): List<TransactionDTO> = transactionsService.getGroupTransactions(group)
+
+  @GetMapping("/student/{login}")
+  @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
+  fun getStudentTransactions(
+    @PathVariable login: String,
+  ): List<TransactionDTO> = transactionsService.getStudentTransactions(login)
 
   @PostMapping("/new")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")

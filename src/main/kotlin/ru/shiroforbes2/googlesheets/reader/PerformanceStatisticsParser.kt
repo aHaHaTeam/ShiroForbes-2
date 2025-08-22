@@ -21,26 +21,28 @@ class PerformanceStatisticsParser(
         .sortedByDescending { it.second }
         .map { it.first }
     val areas = table.areas()
-    return table.drop(HEADER_HEIGHT).mapIndexed { i, row ->
-      PerformanceStatistics(
-        episode = table[0].mapNotNull { it.toIntOrNull() }.max(),
-        student = ids[i],
-        totalSolved = row[TOTAL_SOLVED_POSITION].parseGoogleFloat(),
-        totalRating = row[RATING_POSITION].parseGoogleFloat(),
-        algebra = row.studentArea(Area.Algebra, areas).first,
-        numbersTheory = row.studentArea(Area.NumberTheory, areas).first,
-        geometry = row.studentArea(Area.Geometry, areas).first,
-        combinatorics = row.studentArea(Area.Combinatorics, areas).first,
-        totalSolvedPercent = row[TOTAL_SOLVED_POSITION].parseGoogleFloat() / table.totalProblems(),
-        algebraSolvedPercent = row.studentArea(Area.Algebra, areas).second,
-        numbersTheorySolvedPercent = row.studentArea(Area.NumberTheory, areas).second,
-        geometrySolvedPercent = row.studentArea(Area.Geometry, areas).second,
-        combinatoricsSolvedPercent = row.studentArea(Area.Combinatorics, areas).second,
-        grobs = row[GROB_POSITION].toInt(),
-        position = scores.indexOf(i),
-        date = LocalDateTime.now(),
-      )
-    }
+    val result =
+      table.drop(HEADER_HEIGHT).mapIndexed { i, row ->
+        PerformanceStatistics(
+          episode = table[0].mapNotNull { it.toIntOrNull() }.max(),
+          student = ids[i],
+          totalSolved = row[TOTAL_SOLVED_POSITION].parseGoogleFloat(),
+          totalRating = row[RATING_POSITION].parseGoogleFloat(),
+          algebra = row.studentArea(Area.Algebra, areas).first,
+          numbersTheory = row.studentArea(Area.NumberTheory, areas).first,
+          geometry = row.studentArea(Area.Geometry, areas).first,
+          combinatorics = row.studentArea(Area.Combinatorics, areas).first,
+          totalSolvedPercent = row[TOTAL_SOLVED_POSITION].parseGoogleFloat() / table.totalProblems(),
+          algebraSolvedPercent = row.studentArea(Area.Algebra, areas).second,
+          numbersTheorySolvedPercent = row.studentArea(Area.NumberTheory, areas).second,
+          geometrySolvedPercent = row.studentArea(Area.Geometry, areas).second,
+          combinatoricsSolvedPercent = row.studentArea(Area.Combinatorics, areas).second,
+          grobs = row[GROB_POSITION].toInt(),
+          position = scores.indexOf(i),
+          date = LocalDateTime.now(),
+        )
+      }
+    return result
   }
 
   private fun List<List<String>>.areas(): List<Area?> = drop(1).first().map { it.toArea() }

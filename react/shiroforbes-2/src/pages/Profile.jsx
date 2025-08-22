@@ -25,19 +25,22 @@ function StatPlate({
     )
 }
 
-function MathStats({stats}) {
+function MathStats({stats, history}) {
 
     const plates = [
-        {color: "bg-yellow-400", text: "Баллы", key: "rating"},
-        {color: "bg-green-400", text: "Место", key: "wealthRank"},
-        {color: "bg-red-400", text: "Задачи", key: "tasks"},
+        {color: "bg-yellow-400", text: "Баллы", key: "totalRating"},
+        {color: "bg-green-400", text: "Место", key: "position"},
+        {color: "bg-red-400", text: "Задачи", key: "TotalSolved"},
         {color: "bg-purple-600 text-white", text: "Гробы", key: "grobs"},
-        {color: "bg-blue-600 text-white", text: "Алгебра", key: "algebra"},
-        {color: "bg-orange-400", text: "Комба", key: "comba"},
-        {color: "bg-green-400", text: "Геома", key: "geoma"},
-        {color: "bg-red-400", text: "Тчшечка", key: "tch"},
+        {color: "bg-blue-600 text-white", text: "Алгебра", key: "algebraSolvedPercent"},
+        {color: "bg-orange-400", text: "Комба", key: "combinatoricsSolvedPercent"},
+        {color: "bg-green-400", text: "Геома", key: "geometrySolvedPercent"},
+        {color: "bg-red-400", text: "Тчшечка", key: "numbersTheorySolvedPercent"},
     ]
 
+    useEffect(()=> {
+        console.log("math history ", history);
+    }, [history]);
 
     return (
         <div>
@@ -59,7 +62,7 @@ function MathStats({stats}) {
                 ))}
             </div>
             <div className="w-full text-black text-center py-4">
-                <StatsChart/>
+                <StatsChart history={history}/>
             </div>
         </div>
     )
@@ -146,7 +149,7 @@ export function Profile({
     const [mathStats, setMathStats] = useState(null);
     const [wealthStats, setWealthStats] = useState(null)
     const [name, setName] = useState("")
-
+    const [fetchedData, setFetchedData] = useState([]);
     const userData = useData();
     const apiFetch = useApiFetch();
 
@@ -160,9 +163,10 @@ export function Profile({
                 return res.json();
             }).then((data) => {
             console.log(data);
-            setMathStats(data.mathStats);
+            setMathStats(data.ratings[data.ratings.length-1]);
             setWealthStats(data.wealthStats);
             setName(data.name);
+            setFetchedData(data.ratings);
         })
             .catch((err) => console.error(`Ошибка загрузки ${url}`, err));
     }, []);
@@ -180,7 +184,7 @@ export function Profile({
                                 }
                             }}>
                         <SwiperSlide>
-                            <MathStats stats={mathStats}/>
+                            <MathStats stats={mathStats} history={fetchedData}/>
                         </SwiperSlide>
                         <SwiperSlide>
                             <WealthStats stats={wealthStats}/>

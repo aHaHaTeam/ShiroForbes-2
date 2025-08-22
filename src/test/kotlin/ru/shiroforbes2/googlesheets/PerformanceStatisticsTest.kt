@@ -21,7 +21,10 @@ class PerformanceStatisticsTest {
   private lateinit var users: UserService
 
   @Test
-  fun `parse episode`() = assertContentEquals(oneEpisodeRating(), parser.parse(loadRating()).toParsedStatistics())
+  fun `parse episode`() {
+    val actual = parser.parse(loadRating()).toParsedStatistics()
+    assertContentEquals(oneEpisodeRating(), actual)
+  }
 
   private fun loadRating(): List<List<String>> {
     createStudent("Максим", "Бубнов")
@@ -77,16 +80,16 @@ class PerformanceStatisticsTest {
       student = student.id,
       totalSolved = totalSolved,
       totalRating = totalRating,
-      algebra = algebraSolvedPercent,
-      numbersTheory = numbersTheorySolvedPercent,
-      geometry = geometrySolvedPercent,
-      combinatorics = combinatoricsSolvedPercent,
+      algebra = algebra,
+      numbersTheory = numbersTheory,
+      geometry = geometry,
+      combinatorics = combinatorics,
       totalSolvedPercent = totalSolvedPercent,
       algebraSolvedPercent = algebraSolvedPercent,
       numbersTheorySolvedPercent = numbersTheorySolvedPercent,
       geometrySolvedPercent = geometrySolvedPercent,
-      grobs = grobs,
       combinatoricsSolvedPercent = combinatoricsSolvedPercent,
+      grobs = grobs,
       position = position,
     )
 

@@ -66,6 +66,23 @@ function transpose(A) {
     return result;
 }
 
+function reverseTranspose(A) {
+    const rows = A.length;
+    const cols = A[0].length;
+    const result = [];
+
+    for (let row = 0; row < rows; row++) {
+        const newRow = [];
+        for (let col = 0; col < cols; col++) {
+            newRow.push(A[row][col]);
+        }
+        result.push(newRow);
+    }
+
+    return result;
+}
+
+
 async function compareRatings(data, day1, day2) {
     const oldData = data[day1];
     const newData = data[day2];
@@ -119,21 +136,23 @@ export function RatingTable() {
                 }
                 return res.json()
             }).then((res) => {
-            return transpose(res)
+            if (auth.role.toLowerCase() !== "student") {
+                return transpose(res);
+            }
+            return reverseTranspose(res);
         }).then((res) => {
             setData(res);
-            setDay1(res.length - 2);
+            setDay1(Math.max(res.length - 2, 0));
             setDay2(res.length - 1);
             setSeries(Array.from({length: res.length}, (_, i) => {
-                if (i===0){
+                if (i === 0) {
                     return "По нулям";
                 }
-                if (i===1){
+                if (i === 1) {
                     return "Олимпиада";
                 }
-                return `Серия ${i-1}`;
+                return `Серия ${i - 1}`;
             }));
-
         })
     }, [userData.campType]);
 

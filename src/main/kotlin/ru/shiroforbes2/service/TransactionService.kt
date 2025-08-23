@@ -30,12 +30,22 @@ class TransactionService(
     transactionRepository.insertTransactions(logins, amount, message)
   }
 
+  // TODO
+  // fun getWealthState(group: Group): List<SomeObject>
+  // SomeObject has to contain information {Name, Wealth, TransactionCount, AmountSpent etc}
+  // returns information about all students in group
+
+  // TODO
+  // fun getStudentWealth(login: String): SomeObject
+  // returns information about one student
+
   fun updateTransactions(
     spreadsheetId: String,
     sheetTitle: String,
     group: Group,
     transactions: List<TransactionDTO>,
   ) {
+    // writes transactions to GoogleSheets
     sheetWriterService.updateTransactions(spreadsheetId, sheetTitle, group, transactions)
   }
 }

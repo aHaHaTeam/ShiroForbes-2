@@ -29,6 +29,12 @@ class TransactionsController(
     @PathVariable login: String,
   ): List<TransactionDTO> = transactionsService.getStudentTransactions(login)
 
+  // @GetMapping("/state/{group}")
+  // TODO call transactionService.getWealthState
+
+  // @GetMapping("/state/student/{login}")
+  // TODO call transactionService.getStudentWealth
+
   @PostMapping("/new")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
   fun insertTransactions(

@@ -24,9 +24,8 @@ class StudentService(
       transactionRepository
         .findAllByStudentIdOrderByDate(student.id)
         .map { it.toTransactionDTO() }
-    // TODO idea shows compile error above
 
-    // TODO 2 add here wealth statistics
+    val wealthStatistics = transactionRepository.getStudentWealth(student.login)
     return StudentProfileDTO(
       name = student.firstName + " " + student.lastName,
       group = student.group,
@@ -35,6 +34,7 @@ class StudentService(
       total = student.total,
       ratings = ratings,
       transactions = transactions,
+      wealthStatistics = wealthStatistics,
     )
   }
 

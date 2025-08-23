@@ -2,6 +2,7 @@ package ru.shiroforbes2.service
 
 import org.springframework.stereotype.Service
 import ru.shiroforbes2.dto.TransactionDTO
+import ru.shiroforbes2.dto.WealthStatistics
 import ru.shiroforbes2.dto.toTransactionDTO
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.googlesheets.writer.SheetWriterService
@@ -30,14 +31,19 @@ class TransactionService(
     transactionRepository.insertTransactions(logins, amount, message)
   }
 
-  // TODO
-  // fun getWealthState(group: Group): List<SomeObject>
-  // SomeObject has to contain information {Name, Wealth, TransactionCount, AmountSpent etc}
-  // returns information about all students in group
+  fun getGroupWealth(group: Group): Map<String, WealthStatistics> =
+    transactionRepository
+      .getGroupWealth(group)
+      .associate {
+        it.login to
+          WealthStatistics(
+            wealth = it.wealth,
+            spent = it.spent,
+            transactionsCount = it.transactionsCount,
+          )
+      }
 
-  // TODO
-  // fun getStudentWealth(login: String): SomeObject
-  // returns information about one student
+  fun getStudentWealth(login: String): WealthStatistics = transactionRepository.getStudentWealth(login)
 
   fun updateTransactions(
     spreadsheetId: String,

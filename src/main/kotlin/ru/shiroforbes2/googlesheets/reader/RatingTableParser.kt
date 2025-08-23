@@ -3,9 +3,6 @@ package ru.shiroforbes2.googlesheets.reader
 import ru.shiroforbes2.dto.Rating
 import java.util.LinkedList
 
-private const val HEADER_HEIGHT = 4
-private const val PRICES_POSITION = 2
-
 class RatingTableParser : TableParser<List<Rating>> {
   override fun parse(table: List<List<String>>): List<List<Rating>> =
     table
@@ -26,11 +23,6 @@ class RatingTableParser : TableParser<List<Rating>> {
       .map { student ->
         student.first.ratings(student.second, table.first())
       }
-
-  private fun List<List<String>>.parseNames(): List<Pair<String, String>> =
-    drop(HEADER_HEIGHT).map {
-      it[1].trim() to it[2].trim()
-    }
 
   private fun List<Pair<Float, Float>>.ratings(
     names: Pair<String, String>,
@@ -67,6 +59,4 @@ class RatingTableParser : TableParser<List<Rating>> {
       .map { it.value.parseEpisode() }
 
   private fun List<Pair<Int, String>>.parseEpisode(): List<Float> = map { it.second.parseGoogleFloat() }
-
-  private fun String.parseGoogleFloat(): Float = replace(",", ".").toFloatOrNull() ?: 0f
 }

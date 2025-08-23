@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.shiroforbes2.dto.TransactionDTO
+import ru.shiroforbes2.dto.WealthStatistics
 import ru.shiroforbes2.dto.request.CreateTransactionRequest
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.service.TransactionService
@@ -19,12 +20,25 @@ class TransactionsController(
 ) {
   @GetMapping("/{group}")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
-  fun getCountrysideTransactions(
-    @PathVariable group: String,
-  ): List<TransactionDTO> =
-    transactionsService.getGroupTransactions(
-      Group.valueOf(group.replaceFirstChar { it.uppercaseChar() }),
-    )
+  fun getGroupTransactions(
+    @PathVariable group: Group,
+  ): List<TransactionDTO> = transactionsService.getGroupTransactions(group)
+
+  @GetMapping("/student/{login}")
+  @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")
+  fun getStudentTransactions(
+    @PathVariable login: String,
+  ): List<TransactionDTO> = transactionsService.getStudentTransactions(login)
+
+  @GetMapping("/state/{group}")
+  fun getGroupWealth(
+    @PathVariable group: Group,
+  ): Map<String, WealthStatistics> = transactionsService.getGroupWealth(group)
+
+  @GetMapping("/state/student/{login}")
+  fun getStudentWealth(
+    @PathVariable login: String,
+  ): WealthStatistics = transactionsService.getStudentWealth(login)
 
   @PostMapping("/new")
   @PreAuthorize("hasAuthority('Admin') or hasAuthority('Teacher')")

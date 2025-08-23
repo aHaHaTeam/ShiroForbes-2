@@ -10,4 +10,5 @@ data class StudentProfileDTO(
   val total: Float,
   val ratings: List<PerformanceStatisticsDTO>,
   val transactions: List<TransactionDTO>,
+  val wealthStatistics: WealthStatistics,
 )

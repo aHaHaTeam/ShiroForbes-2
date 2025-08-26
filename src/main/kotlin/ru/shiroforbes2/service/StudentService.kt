@@ -24,6 +24,8 @@ class StudentService(
       transactionRepository
         .findAllByStudentIdOrderByDate(student.id)
         .map { it.toTransactionDTO() }
+
+    val wealthStatistics = transactionRepository.getStudentWealth(student.login)
     return StudentProfileDTO(
       name = student.firstName + " " + student.lastName,
       group = student.group,
@@ -32,6 +34,7 @@ class StudentService(
       total = student.total,
       ratings = ratings,
       transactions = transactions,
+      wealthStatistics = wealthStatistics,
     )
   }
 

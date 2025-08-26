@@ -6,21 +6,18 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.LocalDateTime
 
 @Entity
-@Table(name = "transaction")
-open class Transaction(
+@Table(name = "product")
+class Product(
   @Id
   @Column(name = "id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   val id: Int,
-  @Column(name = "date", nullable = false)
-  val date: LocalDateTime,
-  @Column(name = "student_id", nullable = false)
-  val studentId: Long,
-  @Column(name = "amount", nullable = false)
-  val amount: Long,
-  @Column(name = "message", nullable = false)
-  val message: String,
+  @Column(name = "group", nullable = false)
+  var group: Group,
+  @Column(name = "name", nullable = false)
+  var name: String,
+  @Column(name = "price", nullable = false)
+  var price: Long,
 )

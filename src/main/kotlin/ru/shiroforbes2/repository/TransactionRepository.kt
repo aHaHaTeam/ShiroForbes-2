@@ -45,9 +45,13 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
   @Query(
     """
       with new_transactions as (
-        select now(), student_id, ?2, ?3 from Student s where s.login in ?1
+        select now(), s.student_id, ?2, ?3
+        from student s
+        join "user" u on s.student_id = u.user_id
+        where u.login in ?1
       )
-      insert into Transaction (date, student_id, amount, message) values new_transactions
+      insert into "transaction" (date, student_id, amount, message)
+      select * from new_transactions
      """,
     nativeQuery = true,
   )

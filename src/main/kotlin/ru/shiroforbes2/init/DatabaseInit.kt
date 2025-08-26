@@ -1,6 +1,5 @@
 package ru.shiroforbes2.init
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -10,16 +9,15 @@ import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.Teacher
 import ru.shiroforbes2.googlesheets.reader.SheetReaderService
 import ru.shiroforbes2.googlesheets.reader.reflectiveParser
+import ru.shiroforbes2.service.TransactionService
 import ru.shiroforbes2.service.UserService
 
 @Component
-class DatabaseInit : ApplicationRunner {
-  @Autowired
-  private lateinit var userService: UserService
-
-  @Autowired
-  private lateinit var loaderService: SheetReaderService
-
+class DatabaseInit(
+  private val userService: UserService,
+  private val transactionService: TransactionService,
+  private val loaderService: SheetReaderService,
+) : ApplicationRunner {
   @Value("\${shiroforbes.app.rating.spreadsheetId}")
   val spreadsheet: String = ""
 
@@ -43,11 +41,16 @@ class DatabaseInit : ApplicationRunner {
   }
 
   private fun createStudents() {
-    loaderService
-      .getRows(spreadsheet, students, reflectiveParser(InitStudentRow::class))
-      .map {
-        Student(it.login(), it.password(), it.firstName(), it.lastName(), it.group, 0, 0F)
-      }.forEach(userService::createNewStudent)
+    val rows =
+      loaderService
+        .getRows(spreadsheet, students, reflectiveParser(InitStudentRow::class))
+        .map {
+          Student(it.login(), it.password(), it.firstName(), it.lastName(), it.group, 0, 0F)
+        }
+
+    rows.forEach(userService::createNewStudent)
+
+    transactionService.insertTransactions(rows.map { it.login }, 0, "Initial transaction")
   }
 
   private fun createAdmins() {

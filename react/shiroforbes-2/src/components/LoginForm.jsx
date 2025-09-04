@@ -46,9 +46,7 @@ export function LoginForm({
                 role: data.role,
                 login: login
             });
-            if (data.role === "student") {
-                userData.setCamp({camp: "Countryside"});
-            }
+            userData.setCamp({camp: data.group});
             userData.rememberLogin({username: login});
             navigate("/");
         } else {

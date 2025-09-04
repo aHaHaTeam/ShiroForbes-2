@@ -38,8 +38,17 @@ export function StatsChart({
     const [chartData, setChartData] = useState(history);
 
     useEffect(() => {
-        console.log("chart", history);
-        setChartData(history);
+        try {
+            console.log("chart", history);
+            const bebebe = history.map((it) => {
+                return {solved: Math.round(it.totalSolvedPercent * 100), rank: it.position}
+            });
+            console.log("bebebe", bebebe);
+            setChartData(bebebe);
+        }
+        catch{
+            console.log(history);
+        }
     }, [history]);
 
     if (history === null) {
@@ -91,13 +100,13 @@ export function StatsChart({
                                 height={32}
                                 iconType="line"
                                 formatter={(value) => {
-                                    if (value === "solved") return "Solved";
+                                    if (value === "solved") return "Solved%";
                                     if (value === "rank") return "Rank";
                                     return value;
                                 }}
                             />
                             <Line
-                                dataKey="totalSolved"
+                                dataKey="solved"
                                 yAxisId="solved"
                                 type="linear"
                                 stroke="var(--color-geometry-green)"
@@ -105,7 +114,7 @@ export function StatsChart({
                                 dot={true}
                             />
                             <Line
-                                dataKey="position"
+                                dataKey="rank"
                                 yAxisId="rank"
                                 type="linear"
                                 stroke="var(--color-algebra-blue)"

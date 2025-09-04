@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.dto.StudentProfileDTO
 import ru.shiroforbes2.dto.toRatingDTO
 import ru.shiroforbes2.dto.toTransactionDTO
+import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.repository.RatingRepository
 import ru.shiroforbes2.repository.StudentRepository
 import ru.shiroforbes2.repository.TransactionRepository
@@ -37,6 +38,9 @@ class StudentService(
       wealthStatistics = wealthStatistics,
     )
   }
+
+  fun getStudentGroup(login: String): Group? =
+    studentRepository.findStudentByLogin(login).getOrNull()?.group
 
   fun updateStudentInvestingStatus(
     login: String,

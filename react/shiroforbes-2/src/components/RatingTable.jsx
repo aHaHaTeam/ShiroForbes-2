@@ -14,7 +14,7 @@ import {toast} from "sonner";
 import {useAuth} from "@/utils/AuthContext.jsx";
 
 const columns = [{
-    accessorKey: "place", header: "Place", cell: ({row}) => {
+    accessorKey: "place", header: "Место", cell: ({row}) => {
         const rating = row.original.place;
         const delta = row.original.deltaPlace;
         let deltaElement;
@@ -41,12 +41,14 @@ const columns = [{
         </div>);
     },
 }, {
-    accessorKey: "name", header: "Name",
+    accessorKey: "name", header: "Имя",
 }, {
-    accessorKey: "deltaRating", header: "Rating Change",
+    accessorKey: "deltaRating", header: "Изменение рейтинга",
 }, {
-    accessorKey: "rating", header: "Rating",
-},
+    accessorKey: "rating", header: "Рейтинг",
+}, {
+    accessorKey: "solved", header: "Задач решено"
+}
 
 ]
 
@@ -109,6 +111,7 @@ async function compareRatings(data, day1, day2) {
             oldPlace: oldEntry.place,
             newPlace: newEntry.place,
             rating: newEntry.rating,
+            solved: newEntry.solved,
             place: newEntry.place,
         };
     }).sort((a, b) => a.newPlace - b.newPlace);
@@ -141,17 +144,12 @@ export function RatingTable() {
             }
             return reverseTranspose(res);
         }).then((res) => {
+            console.log(res);
             setData(res);
             setDay1(Math.max(res.length - 2, 0));
             setDay2(res.length - 1);
             setSeries(Array.from({length: res.length}, (_, i) => {
-                if (i === 0) {
-                    return "По нулям";
-                }
-                if (i === 1) {
-                    return "Олимпиада";
-                }
-                return `Серия ${i - 1}`;
+                return `Серия ${i + 1}`;
             }));
         })
     }, [userData.campType]);

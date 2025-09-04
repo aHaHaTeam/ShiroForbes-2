@@ -67,7 +67,9 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
     select new ru.shiroforbes2.dto.WealthStatistics(
       coalesce(sum(t.amount), 0), 
       coalesce(sum(case when t.amount < 0 then -t.amount else 0 end), 0), 
-      count(t)
+      count(t),
+      max(s.firstName),
+      max(s.lastName)
     ) 
     from Transaction t join Student s on t.studentId = s.id
     where s.login = :login
@@ -84,7 +86,9 @@ interface TransactionRepository : JpaRepository<Transaction, Long> {
       s.login,
       coalesce(sum(t.amount), 0),
       coalesce(sum(case when t.amount < 0 then -t.amount else 0 end), 0),
-      count(t)
+      count(t),
+      s.firstName,
+      s.lastName
     )
     from Transaction t join Student s on t.studentId = s.id
     where s.group = :group

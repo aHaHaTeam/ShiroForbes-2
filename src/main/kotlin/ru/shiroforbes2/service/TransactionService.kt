@@ -40,6 +40,8 @@ class TransactionService(
             wealth = it.wealth,
             spent = it.spent,
             transactionsCount = it.transactionsCount,
+            firstName = it.firstName,
+            lastName = it.lastName,
           )
       }
 

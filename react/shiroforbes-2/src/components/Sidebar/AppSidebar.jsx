@@ -18,45 +18,45 @@ import {toast} from "sonner";
 const items = [
     {
         title: "Test Page",
-        url: "test",
+        url: "/test",
         icon: Settings,
         roles: []
     },
-    {
-        title: "Раздать денег",
-        url: "money-distribution",
-        icon: Coins,
-        roles: ["admin"]
-
-    },
+    // {
+    //     title: "Раздать денег",
+    //     url: "money-distribution",
+    //     icon: Coins,
+    //     roles: ["admin"]
+    //
+    // },
     {
         title: "Профиль",
-        url: "profile",
+        url: "/profile/",
         icon: User,
         roles: ["student"]
     },
     {
         title: "Рейтинг",
-        url: "rating",
+        url: "/rating",
         icon: Medal,
         roles: ["admin", "student", "stranger"]
     },
-    {
-        title: "Прайс-лист",
-        url: "shop",
-        icon: ShoppingCart,
-        roles: ["admin", "student"]
-
-    },
-    {
-        title: "Список транзакций",
-        url: "transactions",
-        icon: ArrowLeftRight,
-        roles: ["admin"]
-    },
+    // {
+    //     title: "Прайс-лист",
+    //     url: "shop",
+    //     icon: ShoppingCart,
+    //     roles: ["admin", "student"]
+    //
+    // },
+    // {
+    //     title: "Список транзакций",
+    //     url: "transactions",
+    //     icon: ArrowLeftRight,
+    //     roles: ["admin"]
+    // },
     {
         title: "Перезайти",
-        url: "login",
+        url: "/login",
         icon: LogOut,
         roles: ["admin", "student", "stranger"]
     },

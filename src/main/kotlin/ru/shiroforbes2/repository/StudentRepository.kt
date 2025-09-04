@@ -32,7 +32,4 @@ interface StudentRepository : JpaRepository<Student, Long> {
     firstNames: Collection<String>,
     lastNames: Collection<String>,
   ): List<Student>
-
-  @Transactional(readOnly = true)
-  fun findAllByGroup(group: Group): List<Student>
 }

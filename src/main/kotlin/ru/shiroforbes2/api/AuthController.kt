@@ -25,6 +25,7 @@ import ru.shiroforbes2.entity.Teacher
 import ru.shiroforbes2.security.jwt.JWTUtils
 import ru.shiroforbes2.security.services.UserDetailsImpl
 import ru.shiroforbes2.service.RefreshTokenService
+import ru.shiroforbes2.service.StudentService
 import ru.shiroforbes2.service.UserService
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -36,6 +37,7 @@ class AuthController(
   private val refreshTokenService: RefreshTokenService,
   private val encoder: PasswordEncoder,
   private val jwtUtils: JWTUtils,
+  private val studentService: StudentService,
 ) {
   @PostMapping("/signin")
   fun authenticateUser(
@@ -62,6 +64,7 @@ class AuthController(
           userDetails.userId,
           userDetails.username,
           role,
+          studentService.getStudentGroup(userDetails.username) ?: Group.Countryside,
         ),
       )
     } else {

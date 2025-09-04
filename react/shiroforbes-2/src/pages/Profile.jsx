@@ -12,6 +12,8 @@ import {useData} from "@/utils/DataContext.jsx";
 import {TransactionProfileTable} from "@/components/TransactionsTable.jsx";
 import {Checkbox} from "@/components/ui/checkbox.jsx";
 import {toast} from "sonner";
+import path from "path";
+import {useParams} from "react-router-dom";
 
 function StatPlate({
                        className,
@@ -30,7 +32,7 @@ function MathStats({stats, history}) {
     const plates = [
         {color: "bg-yellow-400", text: "Баллы", key: "totalRating"},
         {color: "bg-green-400", text: "Место", key: "position"},
-        {color: "bg-red-400", text: "Задачи", key: "TotalSolved"},
+        {color: "bg-red-400", text: "Задачи", key: "totalSolved"},
         {color: "bg-purple-600 text-white", text: "Гробы", key: "grobs"},
         {color: "bg-blue-600 text-white", text: "Алгебра", key: "algebraSolvedPercent"},
         {color: "bg-orange-400", text: "Комба", key: "combinatoricsSolvedPercent"},
@@ -38,7 +40,7 @@ function MathStats({stats, history}) {
         {color: "bg-red-400", text: "Тчшечка", key: "numbersTheorySolvedPercent"},
     ]
 
-    useEffect(()=> {
+    useEffect(() => {
         console.log("math history ", history);
     }, [history]);
 
@@ -145,16 +147,22 @@ export function Profile({
                             children,
                             ...props
                         }) {
-
+    const {username} = useParams();
     const [mathStats, setMathStats] = useState(null);
     const [wealthStats, setWealthStats] = useState(null)
     const [name, setName] = useState("")
     const [fetchedData, setFetchedData] = useState([]);
-    const userData = useData();
     const apiFetch = useApiFetch();
-
+    const userData = useData();
     useEffect(() => {
-        const url = `/api/${userData.username}/profile`;
+        console.log("-->", username);
+        if (username === undefined){
+            console.log("trueeeee");
+            window.location.href += userData.username;
+        }
+    }, [])
+    useEffect(() => {
+        const url = `/api/${username}/profile`;
         apiFetch(url)
             .then((res) => {
                 if (!res.ok) {
@@ -163,7 +171,7 @@ export function Profile({
                 return res.json();
             }).then((data) => {
             console.log(data);
-            setMathStats(data.ratings[data.ratings.length-1]);
+            setMathStats(data.ratings[data.ratings.length - 1]);
             setWealthStats(data.wealthStats);
             setName(data.name);
             setFetchedData(data.ratings);
@@ -186,9 +194,9 @@ export function Profile({
                         <SwiperSlide>
                             <MathStats stats={mathStats} history={fetchedData}/>
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <WealthStats stats={wealthStats}/>
-                        </SwiperSlide>
+                        {/*<SwiperSlide>*/}
+                        {/*    <WealthStats stats={wealthStats}/>*/}
+                        {/*</SwiperSlide>*/}
                     </Swiper>
                 </div>
             </div>

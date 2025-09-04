@@ -22,7 +22,7 @@ class RatingTableParser : TableParser<List<Rating>> {
       }.zip(table.parseNames())
       .map { student ->
         student.first.ratings(student.second, table.first())
-      }
+      }.drop(1)
 
   private fun List<Pair<Float, Float>>.ratings(
     names: Pair<String, String>,

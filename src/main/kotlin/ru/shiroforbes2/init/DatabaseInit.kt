@@ -9,13 +9,13 @@ import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.Teacher
 import ru.shiroforbes2.googlesheets.reader.SheetReaderService
 import ru.shiroforbes2.googlesheets.reader.reflectiveParser
-import ru.shiroforbes2.service.TransactionService
+//import ru.shiroforbes2.service.TransactionService
 import ru.shiroforbes2.service.UserService
 
 @Component
 class DatabaseInit(
   private val userService: UserService,
-  private val transactionService: TransactionService,
+//  private val transactionService: TransactionService,
   private val loaderService: SheetReaderService,
 ) : ApplicationRunner {
   @Value("\${shiroforbes.app.rating.spreadsheetId}")
@@ -50,7 +50,7 @@ class DatabaseInit(
 
     rows.forEach(userService::createNewStudent)
 
-    transactionService.insertTransactions(rows.map { it.login }, 0, "Initial transaction")
+//    transactionService.insertTransactions(rows.map { it.login }, 0, "Initial transaction")
   }
 
   private fun createAdmins() {

@@ -13,6 +13,65 @@ import {useData} from "@/utils/DataContext.jsx";
 import {toast} from "sonner";
 import {useAuth} from "@/utils/AuthContext.jsx";
 
+const alphabet = {
+    "а": "a",
+    "б": "b",
+    "в": "v",
+    "г": "g",
+    "д": "d",
+    "е": "e",
+    "ё": "yo",
+    "ж": "zh",
+    "з": "z",
+    "и": "i",
+    "й": "y",
+    "к": "k",
+    "л": "l",
+    "м": "m",
+    "н": "n",
+    "о": "o",
+    "п": "p",
+    "р": "r",
+    "с": "s",
+    "т": "t",
+    "у": "u",
+    "ф": "f",
+    "х": "kh",
+    "ц": "ts",
+    "ч": "ch",
+    "ш": "sh",
+    "щ": "sch",
+    "ъ": "",
+    "ы": "y",
+    "ь": "",
+    "э": "e",
+    "ю": "yu",
+    "я": "ya"
+};
+
+function transliterate(text) {
+    let res = "";
+
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i].toLowerCase();
+
+        if (char === " ") {
+            const next = text[i + 1]?.toLowerCase();
+            if (next && alphabet[next]) {
+                res += alphabet[next];
+            }
+            break;
+        }
+
+        if (alphabet[char] !== undefined) {
+            res += alphabet[char];
+        }
+    }
+
+    return res;
+}
+
+
 const columns = [{
     accessorKey: "place", header: "Место", cell: ({row}) => {
         const rating = row.original.place;
@@ -41,15 +100,26 @@ const columns = [{
         </div>);
     },
 }, {
-    accessorKey: "name", header: "Имя",
+    accessorKey: "name", header: "Имя", cell: ({row}) => {
+        return (
+            <>
+                <RoleBox permission={["student"]}>
+                    <span className="text-center">{row.original.name}</span>
+                </RoleBox>
+                <RoleBox>
+                    <a href={"/profile/" + transliterate(row.original.name)}><span
+                        className="text-center">{row.original.name}</span> </a>
+                </RoleBox>
+            </>
+        )
+    },
 }, {
-    accessorKey: "deltaRating", header: "Изменение рейтинга",
+    accessorKey: "deltaRating", header: "Δ Рейтинг",
 }, {
     accessorKey: "rating", header: "Рейтинг",
 }, {
-    accessorKey: "solved", header: "Задач решено"
+    accessorKey: "solved", header: "Задачи"
 }
-
 ]
 
 function transpose(A) {
@@ -92,10 +162,10 @@ async function compareRatings(data, day1, day2) {
     const sortedOld = [...oldData].sort((a, b) => b.rating - a.rating);
     const sortedNew = [...newData].sort((a, b) => b.rating - a.rating);
 
-    const oldMap = Object.fromEntries(sortedOld.map((item, index) => [item.firstName + " " + item.lastName, {
+    const oldMap = Object.fromEntries(sortedOld.map((item, index) => [item.lastName + " " + item.firstName, {
         ...item, place: index + 1
     }]));
-    const newMap = Object.fromEntries(sortedNew.map((item, index) => [item.firstName + " " + item.lastName, {
+    const newMap = Object.fromEntries(sortedNew.map((item, index) => [item.lastName + " " + item.firstName, {
         ...item, place: index + 1
     }]));
 

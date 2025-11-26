@@ -8,25 +8,25 @@ import ru.shiroforbes2.dto.toTransactionDTO
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.repository.RatingRepository
 import ru.shiroforbes2.repository.StudentRepository
-import ru.shiroforbes2.repository.TransactionRepository
+//import ru.shiroforbes2.repository.TransactionRepository
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class StudentService(
   private val studentRepository: StudentRepository,
   private val ratingRepository: RatingRepository,
-  private val transactionRepository: TransactionRepository,
+//  private val transactionRepository: TransactionRepository,
 ) {
   @Transactional(readOnly = true)
   fun getStudentProfile(login: String): StudentProfileDTO? {
     val student = studentRepository.findStudentByLogin(login).getOrNull() ?: return null
     val ratings = ratingRepository.findAllByStudentId(student.id).map { it.toRatingDTO() }
-    val transactions =
-      transactionRepository
-        .findAllByStudentIdOrderByDate(student.id)
-        .map { it.toTransactionDTO() }
+//    val transactions =
+//      transactionRepository
+//        .findAllByStudentIdOrderByDate(student.id)
+//        .map { it.toTransactionDTO() }
 
-    val wealthStatistics = transactionRepository.getStudentWealth(student.login)
+//    val wealthStatistics = transactionRepository.getStudentWealth(student.login)
     return StudentProfileDTO(
       name = student.firstName + " " + student.lastName,
       group = student.group,
@@ -34,8 +34,8 @@ class StudentService(
       score = student.score,
       total = student.total,
       ratings = ratings,
-      transactions = transactions,
-      wealthStatistics = wealthStatistics,
+//      transactions = transactions,
+//      wealthStatistics = wealthStatistics,
     )
   }
 

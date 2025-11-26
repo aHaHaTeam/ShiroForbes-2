@@ -16,12 +16,14 @@ export default defineConfig({
     },
     server: {
         host: true,
-        port: 8239,
-        proxy: {'/api': {
-                target: 'http://localhost:8080',
+        port: 80,
+        proxy: {
+            '/api': {
+                target: 'http://host.docker.internal:8080',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/api/v2'),
-            }}
+            }
+        }
     }
 });
 

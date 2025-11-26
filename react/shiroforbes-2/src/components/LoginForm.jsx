@@ -48,7 +48,7 @@ export function LoginForm({
             });
             userData.setCamp({camp: data.group});
             userData.rememberLogin({username: login});
-            navigate("/");
+            navigate("/rating");
         } else {
             console.error("Login failed. Please check your credentials and try again.");
             toast("Неверный логин/пароль");
@@ -59,7 +59,7 @@ export function LoginForm({
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardHeader>
-                    <CardTitle><Logo className="text-kinda-big"/></CardTitle>
+                    <CardTitle><span className="text-kinda-big">Вход</span></CardTitle>
                     <CardDescription>
                         Введите логин и пароль
                     </CardDescription>

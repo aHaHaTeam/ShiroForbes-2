@@ -92,6 +92,7 @@ export function StatsChart({
                                 axisLine={false}
                                 tickMargin={8}
                                 domain={[0, 100]}
+                                tickCount={4}
                             />
                             <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
                             <Legend
@@ -109,7 +110,7 @@ export function StatsChart({
                                 dataKey="solved"
                                 yAxisId="solved"
                                 type="linear"
-                                stroke="var(--color-geometry-green)"
+                                stroke="var(--color-vlasik-orange)"
                                 strokeWidth={2}
                                 dot={true}
                             />
@@ -117,7 +118,7 @@ export function StatsChart({
                                 dataKey="rank"
                                 yAxisId="rank"
                                 type="linear"
-                                stroke="var(--color-algebra-blue)"
+                                stroke="var(--color-shiro-blue)"
                                 strokeWidth={2}
                                 dot={true}
                             />

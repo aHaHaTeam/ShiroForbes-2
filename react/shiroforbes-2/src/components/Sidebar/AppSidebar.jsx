@@ -63,9 +63,9 @@ const items = [
 ]
 
 const campVariants = [
-    {title: "Загородный", url: "Countryside"},
-    {title: "Городской1", url: "Urban1"},
-    {title: "Городской2", url: "Urban2"}
+    {title: "16:00", url: "Countryside"},
+    {title: "17:00", url: "Urban1"},
+    {title: "18:00", url: "Urban2"}
 ]
 
 export function AppSidebar({collapsible = "offcanvas", ...props}) {
@@ -97,7 +97,7 @@ export function AppSidebar({collapsible = "offcanvas", ...props}) {
                 <RoleBox>
                     <SidebarGroup>
                         <SidebarGroupLabel>
-                            Варианты лагеря
+                            Группы
                         </SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>

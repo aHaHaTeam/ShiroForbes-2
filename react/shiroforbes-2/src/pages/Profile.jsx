@@ -30,15 +30,18 @@ function StatPlate({
 function MathStats({stats, history}) {
 
     const plates = [
-        {color: "bg-yellow-400", text: "Баллы", key: "totalRating"},
-        {color: "bg-green-400", text: "Место", key: "position"},
-        {color: "bg-red-400", text: "Задачи", key: "totalSolved"},
-        {color: "bg-purple-600 text-white", text: "Гробы", key: "grobs"},
-        {color: "bg-blue-600 text-white", text: "Алгебра", key: "algebraSolvedPercent"},
-        {color: "bg-orange-400", text: "Комба", key: "combinatoricsSolvedPercent"},
-        {color: "bg-green-400", text: "Геома", key: "geometrySolvedPercent"},
-        {color: "bg-red-400", text: "Тчшечка", key: "numbersTheorySolvedPercent"},
+        { color: "bg-gray-100 border border-gray-300", text: "Баллы", key: "totalRating" },
+        { color: "bg-gray-100 border border-gray-300", text: "Место", key: "position" },
+
+        { color: "bg-red-300", text: "Задачи", key: "totalSolved" },
+        { color: "bg-purple-300", text: "Гробы", key: "grobs" },
+
+        { color: "bg-blue-300", text: "Алгебра", key: "algebraSolvedPercent" },
+        { color: "bg-orange-200", text: "Комба", key: "combinatoricsSolvedPercent" },
+        { color: "bg-green-300", text: "Геома", key: "geometrySolvedPercent" },
+        { color: "bg-yellow-200", text: "Тчшечка", key: "numbersTheorySolvedPercent" },
     ]
+
 
     useEffect(() => {
         console.log("math history ", history);
@@ -52,7 +55,7 @@ function MathStats({stats, history}) {
                         <CardContent className="p-2 font-medium">
                             {stats ? (
                                 <>
-                                    {text}: {stats[key]}
+                                    {text}: {Math.round(stats[key] * 10) / 10}
                                 </>
                             ) : (
                                 <div className="flex items-center gap-2">

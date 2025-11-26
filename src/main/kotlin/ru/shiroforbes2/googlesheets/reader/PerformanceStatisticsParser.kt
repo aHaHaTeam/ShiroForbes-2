@@ -38,7 +38,7 @@ class PerformanceStatisticsParser(
           geometrySolvedPercent = row.studentArea(Area.Geometry, areas).second,
           combinatoricsSolvedPercent = row.studentArea(Area.Combinatorics, areas).second,
           grobs = row[GROB_POSITION].toInt(),
-          position = scores.indexOf(i),
+          position = scores.indexOf(i) + 1,
           date = LocalDateTime.now(),
         )
       }

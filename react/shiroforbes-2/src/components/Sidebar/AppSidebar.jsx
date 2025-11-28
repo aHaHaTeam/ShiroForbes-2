@@ -39,7 +39,7 @@ const items = [
         title: "Рейтинг",
         url: "/rating",
         icon: Medal,
-        roles: ["admin", "student", "stranger"]
+        roles: ["admin", "student", "teacher"]
     },
     // {
     //     title: "Прайс-лист",

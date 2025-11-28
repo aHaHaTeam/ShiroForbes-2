@@ -19,7 +19,7 @@ export default defineConfig({
         port: 80,
         proxy: {
             '/api': {
-                target: 'http://host.docker.internal:8080',
+                target: 'http://localhost:8080',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/api/v2'),
             }

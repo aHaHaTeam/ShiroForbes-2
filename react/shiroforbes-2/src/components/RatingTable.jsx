@@ -199,7 +199,7 @@ export function RatingTable() {
     const [series, setSeries] = useState([]);
     useEffect(() => {
         let url = `/api/rating/${userData.campType}`;
-        if (auth.role.toLowerCase() !== "student") {
+        if (auth.role.toLowerCase() === "admin") {
             url += '/new';
         }
         apiFetch(url)
@@ -209,7 +209,7 @@ export function RatingTable() {
                 }
                 return res.json()
             }).then((res) => {
-            if (auth.role.toLowerCase() !== "student") {
+            if (auth.role.toLowerCase() === "admin") {
                 return transpose(res);
             }
             return reverseTranspose(res);

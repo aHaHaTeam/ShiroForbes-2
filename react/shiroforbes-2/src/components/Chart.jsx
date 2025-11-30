@@ -101,8 +101,8 @@ export function StatsChart({
                                 height={32}
                                 iconType="line"
                                 formatter={(value) => {
-                                    if (value === "solved") return "Solved%";
-                                    if (value === "rank") return "Rank";
+                                    if (value === "solved") return "Решено%";
+                                    if (value === "rank") return "Место";
                                     return value;
                                 }}
                             />

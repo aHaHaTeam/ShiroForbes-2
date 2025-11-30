@@ -176,12 +176,12 @@ async function compareRatings(data, day1, day2) {
 
         return {
             name,
-            deltaRating: newEntry.rating - oldEntry.rating,
+            deltaRating: Math.round(newEntry.rating - oldEntry.rating),
             deltaPlace: oldEntry.place - newEntry.place,
             oldPlace: oldEntry.place,
             newPlace: newEntry.place,
-            rating: newEntry.rating,
-            solved: newEntry.solved,
+            rating: Math.round(newEntry.rating),
+            solved: Math.round(newEntry.solved),
             place: newEntry.place,
         };
     }).sort((a, b) => a.newPlace - b.newPlace);

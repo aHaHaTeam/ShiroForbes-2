@@ -1,7 +1,7 @@
 import {useAuth} from "@/utils/AuthContext.jsx";
 
 export function RoleBox({
-                            permission = ["admin", "tester"],
+                            permission = ["admin", "tester", "teacher"],
                             className,
                             style,
                             children,

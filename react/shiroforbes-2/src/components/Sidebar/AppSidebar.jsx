@@ -58,7 +58,7 @@ const items = [
         title: "Перезайти",
         url: "/login",
         icon: LogOut,
-        roles: ["admin", "student", "stranger", null]
+        roles: ["admin", "teacher", "student", "stranger", null]
     },
 ]
 

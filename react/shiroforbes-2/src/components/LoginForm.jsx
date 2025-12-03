@@ -48,7 +48,13 @@ export function LoginForm({
             });
             userData.setCamp({camp: data.group});
             userData.rememberLogin({username: login});
-            navigate("/rating");
+            console.log(data.role);
+            if (data.role.toLowerCase()==="teacher" || data.role.toLowerCase()==="admin") {
+                navigate("/rating");
+            }
+            else {
+                navigate("/profile/")
+            }
         } else {
             console.error("Login failed. Please check your credentials and try again.");
             toast("Неверный логин/пароль");

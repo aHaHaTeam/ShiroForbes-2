@@ -20,7 +20,7 @@ const items = [
         title: "Test Page",
         url: "/test",
         icon: Settings,
-        roles: []
+        permissions: [],
     },
     // {
     //     title: "Раздать денег",
@@ -33,13 +33,13 @@ const items = [
         title: "Профиль",
         url: "/profile/",
         icon: User,
-        roles: ["student"]
+        permissions: ["student"]
     },
     {
         title: "Рейтинг",
         url: "/rating",
         icon: Medal,
-        roles: ["admin", "student", "teacher"]
+        permissions: ["admin", "teacher"]
     },
     // {
     //     title: "Прайс-лист",
@@ -58,14 +58,14 @@ const items = [
         title: "Перезайти",
         url: "/login",
         icon: LogOut,
-        roles: ["admin", "teacher", "student", "stranger", null]
+        permissions: ["admin", "teacher", "student", "stranger", null]
     },
 ]
 
 const campVariants = [
-    {title: "16:00", url: "Countryside"},
-    {title: "17:00", url: "Urban1"},
-    {title: "18:00", url: "Urban2"}
+    {title: "1 группа", url: "Countryside"},
+    {title: "2 группа", url: "Urban1"},
+    {title: "3 группа", url: "Urban2"}
 ]
 
 export function AppSidebar({collapsible = "offcanvas", ...props}) {
@@ -80,7 +80,7 @@ export function AppSidebar({collapsible = "offcanvas", ...props}) {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item, index) => (
-                                <RoleBox permission={item.roles} key={item.title}>
+                                <RoleBox permission={item.permissions} key={item.title}>
                                     <SidebarMenuItem>
                                         <SidebarMenuButton asChild>
                                             <a href={item.url}>

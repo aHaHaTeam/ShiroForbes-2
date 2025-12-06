@@ -120,7 +120,7 @@ function WealthStats({stats}) {
                                     {text}: {stats[key]}
                                 </>
                             ) : (
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2">a
                                     {text}:
                                     <Skeleton className="h-5 w-20 rounded bg-gray-200"/>
                                 </div>
@@ -174,6 +174,7 @@ export function Profile({
                 return res.json();
             }).then((data) => {
             console.log(data);
+            data.ratings.sort((a, b) => a.episode - b.episode);
             setMathStats(data.ratings[data.ratings.length - 1]);
             setWealthStats(data.wealthStats);
             setName(data.name);

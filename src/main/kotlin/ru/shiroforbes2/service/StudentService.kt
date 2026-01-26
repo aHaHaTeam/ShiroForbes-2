@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.dto.StudentProfileDTO
 import ru.shiroforbes2.dto.toRatingDTO
-import ru.shiroforbes2.dto.toTransactionDTO
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.repository.RatingRepository
 import ru.shiroforbes2.repository.StudentRepository

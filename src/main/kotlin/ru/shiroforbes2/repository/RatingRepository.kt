@@ -33,8 +33,8 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
   @Modifying
   @Query(
     """
-    delete from PerformanceStatistics r where r.episode = :episode
+    delete from PerformanceStatistics r where r.episode = :episode and r.student.group = :group
     """,
   )
-  fun deleteAllByEpisode(episode: Int)
+  fun deleteAllByEpisode(episode: Int, group: Group)
 }

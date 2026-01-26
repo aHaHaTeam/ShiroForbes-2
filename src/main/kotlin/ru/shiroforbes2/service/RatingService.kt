@@ -37,7 +37,7 @@ class RatingService(
     val rating = sheetReaderService.getRows(spreadsheet, group.ratingRange, performanceStatisticsParser)
     val episode = rating.first().episode
     require(rating.all { it.episode == episode }) { "All PerformanceStatistics should be from the same episode" }
-    ratingRepository.deleteAllByEpisode(episode)
+    ratingRepository.deleteAllByEpisode(episode, group)
     ratingRepository.saveAll(rating)
   }
 }

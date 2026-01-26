@@ -285,7 +285,7 @@ export function RatingTable() {
             </Table>
         </div>
         <div className="flex gap-4 mt-4 justify-evenly w-full">
-            <RoleBox>
+            <RoleBox permission = {["admin", "tester"]}>
                 <Button className="bg-accent" onClick={async () => {
                     try {
                         const url = `/api/rating/${userData.campType}`;

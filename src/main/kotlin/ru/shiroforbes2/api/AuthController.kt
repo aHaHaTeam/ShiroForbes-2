@@ -42,7 +42,6 @@ class AuthController(
   private val jwtUtils: JWTUtils,
   private val studentService: StudentService,
 ) {
-
   companion object {
     private val logger: Logger = LoggerFactory.getLogger(AuthEntryPointJwt::class.java)
   }

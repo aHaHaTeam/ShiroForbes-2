@@ -9,7 +9,6 @@ import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.Teacher
 import ru.shiroforbes2.googlesheets.reader.SheetReaderService
 import ru.shiroforbes2.googlesheets.reader.reflectiveParser
-//import ru.shiroforbes2.service.TransactionService
 import ru.shiroforbes2.service.UserService
 
 @Component

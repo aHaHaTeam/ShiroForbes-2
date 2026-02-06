@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:17'
     environment:
       - 'POSTGRES_DB=shiroforbes2'
       - 'POSTGRES_PASSWORD=postgres'

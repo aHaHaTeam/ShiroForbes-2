@@ -36,5 +36,8 @@ interface RatingRepository : JpaRepository<PerformanceStatistics, Long> {
     delete from PerformanceStatistics r where r.episode = :episode and r.student.group = :group
     """,
   )
-  fun deleteAllByEpisode(episode: Int, group: Group)
+  fun deleteAllByEpisode(
+    episode: Int,
+    group: Group,
+  )
 }

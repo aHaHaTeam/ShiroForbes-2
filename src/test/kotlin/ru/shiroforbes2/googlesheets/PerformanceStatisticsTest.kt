@@ -52,8 +52,8 @@ class PerformanceStatisticsTest {
 
   private fun oneEpisodeRating(): List<ParsedStatistics> =
     listOf(
-      ParsedStatistics(0, 1, 3F, 53F, 0F, 0F, 0F, 0F, 0.6F, 0F, 0F, 0.0F, 0.0F, 1, 1),
-      ParsedStatistics(0, 2, 4F, 84F, 0F, 1F, 0F, 0F, 0.8F, 0F, 0.5F, 0.0F, 0.0F, 2, 0),
+      ParsedStatistics(0, 1, 3F, 53F, 0F, 0F, 0F, 0F, 0.6F, 0F, 0F, 0.0F, 0.0F, 1, 2),
+      ParsedStatistics(0, 2, 4F, 84F, 0F, 1F, 0F, 0F, 0.8F, 0F, 0.5F, 0.0F, 0.0F, 2, 1),
     )
 
   data class ParsedStatistics(

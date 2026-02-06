@@ -14,10 +14,10 @@ interface AchievementRepository : JpaRepository<Achievement, Long> {
   @Query(
     """
     select new ru.shiroforbes2.dto.AchievementDTO(
-      s.login, a.title, a.description, a.image, a.date 
+      u.login, a.title, a.description, a.image, a.date 
     )
-    from Student s left join Achievement a on s.id = a.user.id
-    where s.login = :login
+    from Achievement a join a.user u
+    where u.login = :login
     order by a.date desc
       """,
   )

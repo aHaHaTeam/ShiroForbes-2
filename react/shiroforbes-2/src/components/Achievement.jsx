@@ -1,0 +1,77 @@
+export function Achievement({
+                            title,
+                            pictureUrl,
+                            className,
+                            style,
+                            ...props
+                        }) {
+    return (
+        <div style={style} className={className} {...props}>
+            <div className="flex justify-center p-2">
+                <div className="w-32 aspect-square rounded-full overflow-hidden bg-gray-100">
+                    <img
+                        src={pictureUrl}
+                        alt={title}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+import { useEffect } from "react"
+
+export function AchievementSplash({ onClose,
+                                      title,
+                                      description,
+                                      date,
+                                      pictureUrl,
+                                      }) {
+    useEffect(() => {
+        document.body.style.overflow = "hidden"
+        return () => {
+            document.body.style.overflow = ""
+        }
+    }, [])
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+
+            <div
+                className="absolute inset-0 bg-black/60"
+                onClick={onClose}
+            />
+
+            <div className="relative bg-white rounded-2xl shadow-xl
+                      w-[90vw] max-w-lg max-h-[85vh] overflow-y-auto
+                      p-6">
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 text-gray-500 hover:text-black"
+                >
+                    ✕
+                </button>
+
+                <div className="mb-6 flex justify-center">
+                    <div className="w-48 aspect-square rounded-xl overflow-hidden bg-gray-100">
+                        <img
+                            src={pictureUrl}
+                            alt={title}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+
+                <h2 className="text-xl font-semibold mb-2">
+                    {title}
+                </h2>
+
+                <p className="text-gray-600">
+                    {description}
+                </p>
+                <p>{date}</p>
+            </div>
+        </div>
+    )
+}

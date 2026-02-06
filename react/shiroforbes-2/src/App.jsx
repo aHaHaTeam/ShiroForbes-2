@@ -23,7 +23,7 @@ function App() {
                         <Route path="/" element={<LoginPage/>}/>
                         <Route path="/profile/:username?" element={<Profile/>}/>
                         <Route path="/test" element={<Test/>}/>
-                        <Route path="/shop" element={<Shop/>}/>
+                        {/*<Route path="/shop" element={<Shop/>}/>*/}
                         {/*<Route path="/transactions" element={<TransactionsList/>}/>*/}
                     </Routes>
                 </BrowserRouter>

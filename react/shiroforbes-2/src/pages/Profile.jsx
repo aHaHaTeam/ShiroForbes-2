@@ -10,6 +10,7 @@ import {useApiFetch} from "@/utils/api.js";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
 import {useData} from "@/utils/DataContext.jsx";
 import {useParams} from "react-router-dom";
+import {AchievementsGrid} from "@/AchievementsGrid.jsx";
 
 function StatPlate({
                        className,
@@ -45,8 +46,10 @@ function MathStats({stats, history}) {
 
     return (
         <div>
-            <p>Последняя учтённая серия: {stats ?  stats["episode"] : <Skeleton className="h-5 w-20 rounded bg-gray-200"/>}</p>
-
+            <div className="row-auto">
+                <p>Последняя учтённая серия: </p>{stats ? stats["episode"] :
+                <Skeleton className="h-5 w-20 rounded bg-gray-200"/>}
+            </div>
             <div className="w-full h-1/4 grid grid-cols-2 lg:grid-cols-4 gap-2 rounded-md">
                 {plates.map(({color, text, key}) => (
                     <StatPlate key={key} className={color}>
@@ -57,7 +60,8 @@ function MathStats({stats, history}) {
                                 </>
                             ) : (
                                 <div className="flex items-center gap-2">
-                                    {text}: <Skeleton className="h-5 w-20 rounded bg-gray-200"/>
+                                    <p>{text}:</p>
+                                    <Skeleton className="h-5 w-20 rounded bg-gray-200"/>
                                 </div>
                             )}
                         </CardContent>
@@ -80,12 +84,12 @@ export function Profile({
                         }) {
     const {username} = useParams();
     const [mathStats, setMathStats] = useState(null);
+    const [achievements, setAchievements] = useState(null);
     const [name, setName] = useState("")
     const [fetchedData, setFetchedData] = useState([]);
     const apiFetch = useApiFetch();
     const userData = useData();
     useEffect(() => {
-        console.log("-->", username);
         if (username === undefined) {
             console.log("trueeeee");
             window.location.href += userData.username;
@@ -103,6 +107,7 @@ export function Profile({
             console.log(data);
             data.ratings.sort((a, b) => a.episode - b.episode);
             setMathStats(data.ratings[data.ratings.length - 1]);
+            setAchievements(data.achievements);
             setName(data.name);
             setFetchedData(data.ratings);
         })
@@ -124,6 +129,9 @@ export function Profile({
                         <SwiperSlide>
                             <MathStats stats={mathStats} history={fetchedData}/>
                         </SwiperSlide>
+                        {achievements && <SwiperSlide>
+                            <AchievementsGrid items={achievements}/>
+                        </SwiperSlide>}
                     </Swiper>
                 </div>
             </div>

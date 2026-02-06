@@ -10,7 +10,7 @@ import {useApiFetch} from "@/utils/api.js";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
 import {useData} from "@/utils/DataContext.jsx";
 import {useParams} from "react-router-dom";
-import {AchievementsGrid} from "@/AchievementsGrid.jsx";
+import {AchievementsGrid} from "@/components/AchievementsGrid.jsx";
 
 function StatPlate({
                        className,
@@ -129,7 +129,7 @@ export function Profile({
                         <SwiperSlide>
                             <MathStats stats={mathStats} history={fetchedData}/>
                         </SwiperSlide>
-                        {achievements && <SwiperSlide>
+                        {achievements && <SwiperSlide className="h-max">
                             <AchievementsGrid items={achievements}/>
                         </SwiperSlide>}
                     </Swiper>

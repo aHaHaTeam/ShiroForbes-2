@@ -2,7 +2,7 @@ import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
 import {TransactionGroupTable} from "@/components/TransactionsTable.jsx";
 import {Achievement} from "@/components/Achievement.jsx";
-import {AchievementsGrid} from "@/AchievementsGrid.jsx";
+import {AchievementsGrid} from "@/components/AchievementsGrid.jsx";
 
 
 let items = [

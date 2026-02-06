@@ -32,6 +32,7 @@ class ReflectiveTableParser<T : Any>(
           return@mapIndexed converted
         }
       try {
+        println(args)
         constructor.call(*(args.toTypedArray()))
       } catch (e: Exception) {
         logger.error("Cannot convert \"${args.joinToString(", ")}\" to \"${clazz.simpleName}\"")

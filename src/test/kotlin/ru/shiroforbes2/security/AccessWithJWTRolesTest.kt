@@ -101,8 +101,8 @@ class AccessWithJWTRolesTest {
   @Test
   fun `allow admin to access all profiles`() {
     mockMvc
-      .get("/api/v2/transactions/countryside") {
-        header("Authorization", "$adminToken")
+      .get("/api/v2/testStudent/profile") {
+        header("Authorization", adminToken)
       }.andExpect {
         status { isOk() }
       }
@@ -111,8 +111,8 @@ class AccessWithJWTRolesTest {
   @Test
   fun `allow student to access all profiles`() {
     mockMvc
-      .get("/api/v2/transactions/countryside") {
-        header("Authorization", "$studentToken")
+      .get("/api/v2/testAdmin/profile") {
+        header("Authorization", studentToken)
       }.andExpect {
         status { isForbidden() }
       }
@@ -121,7 +121,7 @@ class AccessWithJWTRolesTest {
   @Test
   fun `forbid unauthorised access to all profiles`() {
     mockMvc
-      .get("/api/v2/transactions/countryside")
+      .get("/api/v2/testStudent/profile")
       .andExpect {
         status { isUnauthorized() }
       }

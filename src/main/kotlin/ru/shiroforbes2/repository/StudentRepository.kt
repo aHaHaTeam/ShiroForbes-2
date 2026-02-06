@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import ru.shiroforbes2.entity.Student
 import java.util.Optional
 
@@ -24,4 +25,10 @@ interface StudentRepository : JpaRepository<Student, Long> {
     @Param("login") login: String,
     @Param("isInvesting") investingStatus: Boolean,
   )
+
+  @Transactional(readOnly = true)
+  fun findStudentsByFirstNameInAndLastNameIn(
+    firstNames: Collection<String>,
+    lastNames: Collection<String>,
+  ): List<Student>
 }

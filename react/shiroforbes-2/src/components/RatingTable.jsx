@@ -13,8 +13,67 @@ import {useData} from "@/utils/DataContext.jsx";
 import {toast} from "sonner";
 import {useAuth} from "@/utils/AuthContext.jsx";
 
+const alphabet = {
+    "а": "a",
+    "б": "b",
+    "в": "v",
+    "г": "g",
+    "д": "d",
+    "е": "e",
+    "ё": "yo",
+    "ж": "zh",
+    "з": "z",
+    "и": "i",
+    "й": "y",
+    "к": "k",
+    "л": "l",
+    "м": "m",
+    "н": "n",
+    "о": "o",
+    "п": "p",
+    "р": "r",
+    "с": "s",
+    "т": "t",
+    "у": "u",
+    "ф": "f",
+    "х": "kh",
+    "ц": "ts",
+    "ч": "ch",
+    "ш": "sh",
+    "щ": "sch",
+    "ъ": "",
+    "ы": "y",
+    "ь": "",
+    "э": "e",
+    "ю": "yu",
+    "я": "ya"
+};
+
+function transliterate(text) {
+    let res = "";
+
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i].toLowerCase();
+
+        if (char === " ") {
+            const next = text[i + 1]?.toLowerCase();
+            if (next && alphabet[next]) {
+                res += alphabet[next];
+            }
+            break;
+        }
+
+        if (alphabet[char] !== undefined) {
+            res += alphabet[char];
+        }
+    }
+
+    return res;
+}
+
+
 const columns = [{
-    accessorKey: "place", header: "Place", cell: ({row}) => {
+    accessorKey: "place", header: "Место", cell: ({row}) => {
         const rating = row.original.place;
         const delta = row.original.deltaPlace;
         let deltaElement;
@@ -41,13 +100,26 @@ const columns = [{
         </div>);
     },
 }, {
-    accessorKey: "name", header: "Name",
+    accessorKey: "name", header: "Имя", cell: ({row}) => {
+        return (
+            <>
+                <RoleBox permission={["student"]}>
+                    <span className="text-center">{row.original.name}</span>
+                </RoleBox>
+                <RoleBox>
+                    <a href={"/profile/" + transliterate(row.original.name)}><span
+                        className="text-center">{row.original.name}</span> </a>
+                </RoleBox>
+            </>
+        )
+    },
 }, {
-    accessorKey: "deltaRating", header: "Rating Change",
+    accessorKey: "deltaRating", header: "Δ Рейтинг",
 }, {
-    accessorKey: "rating", header: "Rating",
-},
-
+    accessorKey: "rating", header: "Рейтинг",
+}, {
+    accessorKey: "solved", header: "Задачи"
+}
 ]
 
 function transpose(A) {
@@ -66,6 +138,23 @@ function transpose(A) {
     return result;
 }
 
+function reverseTranspose(A) {
+    const rows = A.length;
+    const cols = A[0].length;
+    const result = [];
+
+    for (let row = 0; row < rows; row++) {
+        const newRow = [];
+        for (let col = 0; col < cols; col++) {
+            newRow.push(A[row][col]);
+        }
+        result.push(newRow);
+    }
+
+    return result;
+}
+
+
 async function compareRatings(data, day1, day2) {
     const oldData = data[day1];
     const newData = data[day2];
@@ -73,10 +162,10 @@ async function compareRatings(data, day1, day2) {
     const sortedOld = [...oldData].sort((a, b) => b.rating - a.rating);
     const sortedNew = [...newData].sort((a, b) => b.rating - a.rating);
 
-    const oldMap = Object.fromEntries(sortedOld.map((item, index) => [item.firstName + " " + item.lastName, {
+    const oldMap = Object.fromEntries(sortedOld.map((item, index) => [item.lastName + " " + item.firstName, {
         ...item, place: index + 1
     }]));
-    const newMap = Object.fromEntries(sortedNew.map((item, index) => [item.firstName + " " + item.lastName, {
+    const newMap = Object.fromEntries(sortedNew.map((item, index) => [item.lastName + " " + item.firstName, {
         ...item, place: index + 1
     }]));
 
@@ -87,11 +176,12 @@ async function compareRatings(data, day1, day2) {
 
         return {
             name,
-            deltaRating: newEntry.rating - oldEntry.rating,
+            deltaRating: Math.round(newEntry.rating - oldEntry.rating),
             deltaPlace: oldEntry.place - newEntry.place,
             oldPlace: oldEntry.place,
             newPlace: newEntry.place,
-            rating: newEntry.rating,
+            rating: Math.round(newEntry.rating),
+            solved: Math.round(newEntry.solved),
             place: newEntry.place,
         };
     }).sort((a, b) => a.newPlace - b.newPlace);
@@ -109,7 +199,7 @@ export function RatingTable() {
     const [series, setSeries] = useState([]);
     useEffect(() => {
         let url = `/api/rating/${userData.campType}`;
-        if (auth.role.toLowerCase() !== "student") {
+        if (auth.role.toLowerCase() === "admin") {
             url += '/new';
         }
         apiFetch(url)
@@ -119,21 +209,18 @@ export function RatingTable() {
                 }
                 return res.json()
             }).then((res) => {
-            return transpose(res)
+            if (auth.role.toLowerCase() === "admin") {
+                return transpose(res);
+            }
+            return reverseTranspose(res);
         }).then((res) => {
+            console.log(res);
             setData(res);
-            setDay1(res.length - 2);
+            setDay1(Math.max(res.length - 2, 0));
             setDay2(res.length - 1);
             setSeries(Array.from({length: res.length}, (_, i) => {
-                if (i===0){
-                    return "По нулям";
-                }
-                if (i===1){
-                    return "Олимпиада";
-                }
-                return `Серия ${i-1}`;
+                return `Серия ${i + 1}`;
             }));
-
         })
     }, [userData.campType]);
 
@@ -146,7 +233,7 @@ export function RatingTable() {
     })
 
     return (<div>
-        <div className="flex gap-4 mb-2 justify-evenly w-full">
+        <div className="flex gap-4 mb-2 justify-evenly w-full pt-4">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="bg-accent" variant="outline">Считаем от: {series[day1]}</Button>
@@ -198,7 +285,7 @@ export function RatingTable() {
             </Table>
         </div>
         <div className="flex gap-4 mt-4 justify-evenly w-full">
-            <RoleBox>
+            <RoleBox permission = {["admin", "tester"]}>
                 <Button className="bg-accent" onClick={async () => {
                     try {
                         const url = `/api/rating/${userData.campType}`;
@@ -210,7 +297,7 @@ export function RatingTable() {
                             toast(`Ошибка сервера: ${response.status}`)
                             return;
                         }
-                        const result = await response.json();
+                        const result = await response
                         console.log("Успешно обновлено:", result);
                         toast("Успешно обновлено")
                     } catch (error) {

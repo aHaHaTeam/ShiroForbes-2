@@ -27,26 +27,34 @@ const chartConfig = {
     },
 }
 
-export function StatsChart({className,
-                                      style,
-                                      children,
-                                      ...props}) {
+export function StatsChart({
+                               history, className,
+                               style,
+                               children,
+                               ...props
+                           }) {
 
-    const userData = useData();
-    const apiFetch = useApiFetch();
 
-    const [chartData, setChartData] = useState([]);
+    const [chartData, setChartData] = useState(history);
+
     useEffect(() => {
-        apiFetch(`/api/${userData.username}/history`) .then((res) => {
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}`);
-            }
-            return res.json();
-        }).then((data) => {
-            setChartData(data.history)
-        })
-            .catch((err) => console.error("Ошибка загрузки статистики:", err));
-    }, []);
+        try {
+            console.log("chart", history);
+            const bebebe = history.map((it) => {
+                return {solved: Math.round(it.totalSolvedPercent * 100), rank: it.position}
+            });
+            console.log("bebebe", bebebe);
+            setChartData(bebebe);
+        }
+        catch{
+            console.log(history);
+        }
+    }, [history]);
+
+    if (history === null) {
+        return (<>
+                </>)
+    }
     return (
         <div className={className} {...props}>
             <Card className="pb-0">
@@ -59,15 +67,14 @@ export function StatsChart({className,
                                 left: -24,
                                 right: -16,
                             }}
-
                         >
                             <CartesianGrid vertical={false}/>
                             <XAxis
-                                dataKey="month"
+                                dataKey="episode"
                                 tickLine={false}
                                 axisLine={true}
                                 tickMargin={8}
-                                tickFormatter={(value) => value.slice(0, 3)}
+                                // tickFormatter={(value) => value.slice(0, 3)}
                             />
                             <YAxis
                                 yAxisId="rank"
@@ -75,7 +82,7 @@ export function StatsChart({className,
                                 tickLine={false}
                                 axisLine={false}
                                 tickMargin={8}
-                                domain={[0,36]} // Пример диапазона под rank
+                                domain={[0, 36]}
                             />
 
                             <YAxis
@@ -85,6 +92,7 @@ export function StatsChart({className,
                                 axisLine={false}
                                 tickMargin={8}
                                 domain={[0, 100]}
+                                tickCount={4}
                             />
                             <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
                             <Legend
@@ -93,8 +101,8 @@ export function StatsChart({className,
                                 height={32}
                                 iconType="line"
                                 formatter={(value) => {
-                                    if (value === "solved") return "Solved";
-                                    if (value === "rank") return "Rank";
+                                    if (value === "solved") return "Решено%";
+                                    if (value === "rank") return "Место";
                                     return value;
                                 }}
                             />
@@ -102,17 +110,17 @@ export function StatsChart({className,
                                 dataKey="solved"
                                 yAxisId="solved"
                                 type="linear"
-                                stroke="var(--color-geometry-green)"
+                                stroke="var(--color-vlasik-orange)"
                                 strokeWidth={2}
-                                dot={false}
+                                dot={true}
                             />
                             <Line
                                 dataKey="rank"
                                 yAxisId="rank"
                                 type="linear"
-                                stroke="var(--color-algebra-blue)"
+                                stroke="var(--color-shiro-blue)"
                                 strokeWidth={2}
-                                dot={false}
+                                dot={true}
                             />
                         </LineChart>
                     </ChartContainer>

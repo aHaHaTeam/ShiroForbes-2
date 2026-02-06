@@ -18,13 +18,13 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={<LoginPage/>}/>
-                        <Route path="/money-distribution" element={<MoneyDistribution/>}/>
-                        <Route path="rating" element={<Rating/>}/>
-                        <Route path="/" element={<Rating/>}/>
-                        <Route path="/profile" element={<Profile/>}/>
+                        {/*<Route path="/money-distribution" element={<MoneyDistribution/>}/>*/}
+                        <Route path="/rating" element={<Rating/>}/>
+                        <Route path="/" element={<LoginPage/>}/>
+                        <Route path="/profile/:username?" element={<Profile/>}/>
                         <Route path="/test" element={<Test/>}/>
                         <Route path="/shop" element={<Shop/>}/>
-                        <Route path="/transactions" element={<TransactionsList/>}/>
+                        {/*<Route path="/transactions" element={<TransactionsList/>}/>*/}
                     </Routes>
                 </BrowserRouter>
             </DataProvider>

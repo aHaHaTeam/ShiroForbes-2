@@ -1,4 +1,5 @@
 import {useAuth} from "@/utils/AuthContext.jsx";
+import {toast} from "sonner";
 
 export function useApiFetch() {
     const auth = useAuth();
@@ -14,6 +15,7 @@ export function useApiFetch() {
         const res = await fetch(url, {...options, headers});
 
         if (res.status === 401 && retry && refreshToken) {
+            toast("Ошибка аутентификации");
             const refreshRes = await fetch("/api/auth/refresh", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -32,6 +34,7 @@ export function useApiFetch() {
                 };
                 return await fetch(url, {...options, headers: newHeaders});
             } else {
+                console.log("ошибка была но ничего не случилось");
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
                 window.location.replace("/login");

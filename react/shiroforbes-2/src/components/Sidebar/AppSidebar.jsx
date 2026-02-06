@@ -18,54 +18,54 @@ import {toast} from "sonner";
 const items = [
     {
         title: "Test Page",
-        url: "test",
+        url: "/test",
         icon: Settings,
-        roles: []
+        permissions: [],
     },
-    {
-        title: "Раздать денег",
-        url: "money-distribution",
-        icon: Coins,
-        roles: ["admin"]
-
-    },
+    // {
+    //     title: "Раздать денег",
+    //     url: "money-distribution",
+    //     icon: Coins,
+    //     roles: ["admin"]
+    //
+    // },
     {
         title: "Профиль",
-        url: "profile",
+        url: "/profile/",
         icon: User,
-        roles: ["student"]
+        permissions: ["student"]
     },
     {
         title: "Рейтинг",
-        url: "rating",
+        url: "/rating",
         icon: Medal,
-        roles: ["admin", "student", "stranger"]
+        permissions: ["admin", "teacher"]
     },
-    {
-        title: "Прайс-лист",
-        url: "shop",
-        icon: ShoppingCart,
-        roles: ["admin", "student"]
-
-    },
-    {
-        title: "Список транзакций",
-        url: "transactions",
-        icon: ArrowLeftRight,
-        roles: ["admin"]
-    },
+    // {
+    //     title: "Прайс-лист",
+    //     url: "shop",
+    //     icon: ShoppingCart,
+    //     roles: ["admin", "student"]
+    //
+    // },
+    // {
+    //     title: "Список транзакций",
+    //     url: "transactions",
+    //     icon: ArrowLeftRight,
+    //     roles: ["admin"]
+    // },
     {
         title: "Перезайти",
-        url: "login",
+        url: "/login",
         icon: LogOut,
-        roles: ["admin", "student", "stranger"]
+        permissions: ["admin", "teacher", "student", "stranger", null]
     },
 ]
 
 const campVariants = [
-    {title: "Загородный", url: "Countryside"},
-    {title: "Городской1", url: "Urban1"},
-    {title: "Городской2", url: "Urban2"}
+    {title: "1 группа", url: "Countryside"},
+    {title: "2 группа", url: "Urban1"},
+    {title: "3 группа", url: "Urban2"}
 ]
 
 export function AppSidebar({collapsible = "offcanvas", ...props}) {
@@ -80,7 +80,7 @@ export function AppSidebar({collapsible = "offcanvas", ...props}) {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item, index) => (
-                                <RoleBox permission={item.roles} key={item.title}>
+                                <RoleBox permission={item.permissions} key={item.title}>
                                     <SidebarMenuItem>
                                         <SidebarMenuButton asChild>
                                             <a href={item.url}>
@@ -97,7 +97,7 @@ export function AppSidebar({collapsible = "offcanvas", ...props}) {
                 <RoleBox>
                     <SidebarGroup>
                         <SidebarGroupLabel>
-                            Варианты лагеря
+                            Группы
                         </SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>

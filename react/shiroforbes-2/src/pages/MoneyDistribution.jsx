@@ -70,7 +70,14 @@ function MoneyDistributionTable() {
                 }
                 return res.json();
             })
-                .then((data) => setData(data))
+                .then((data) => {
+                    console.log(data);
+                    const result = Object.entries(data).map(([name, obj]) => ({
+                        name,
+                        ...obj
+                    }));
+                    setData(result);
+                })
                 .catch((err) => {
                         console.error(`Ошибка загрузки статуса по деньгам: ${url}`, err)
                         toast(`Ошибка загрузки статуса по деньгам: ${url}`)
@@ -81,16 +88,16 @@ function MoneyDistributionTable() {
         }
     }, [userData.campType]);
 
-    useEffect(() => {
-        apiFetch("/api/transactions/presets").then((res) => {
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}`);
-            }
-            return res.json();
-        })
-            .then((data) => setPresets(data))
-            .catch((err) => console.error("Ошибка загрузки пресетов транзакций:", err));
-    }, []);
+    // useEffect(() => {
+    //     apiFetch("/api/transactions/presets").then((res) => {
+    //         if (!res.ok) {
+    //             throw new Error(`HTTP ${res.status}`);
+    //         }
+    //         return res.json();
+    //     })
+    //         .then((data) => setPresets(data))
+    //         .catch((err) => console.error("Ошибка загрузки пресетов транзакций:", err));
+    // }, []);
 
 
     useEffect(() => {

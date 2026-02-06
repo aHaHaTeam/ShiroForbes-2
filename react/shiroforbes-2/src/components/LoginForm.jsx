@@ -46,11 +46,15 @@ export function LoginForm({
                 role: data.role,
                 login: login
             });
-            if (data.role === "student") {
-                userData.setCamp({camp: "Countryside"});
-            }
+            userData.setCamp({camp: data.group});
             userData.rememberLogin({username: login});
-            navigate("/");
+            console.log(data.role);
+            if (data.role.toLowerCase()==="teacher" || data.role.toLowerCase()==="admin") {
+                navigate("/rating");
+            }
+            else {
+                navigate("/profile/")
+            }
         } else {
             console.error("Login failed. Please check your credentials and try again.");
             toast("Неверный логин/пароль");
@@ -61,7 +65,7 @@ export function LoginForm({
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardHeader>
-                    <CardTitle><Logo className="text-kinda-big"/></CardTitle>
+                    <CardTitle><span className="text-kinda-big">Вход</span></CardTitle>
                     <CardDescription>
                         Введите логин и пароль
                     </CardDescription>

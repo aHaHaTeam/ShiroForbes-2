@@ -1,5 +1,7 @@
 package ru.shiroforbes2.api
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -22,9 +24,11 @@ import ru.shiroforbes2.entity.Admin
 import ru.shiroforbes2.entity.Group
 import ru.shiroforbes2.entity.Student
 import ru.shiroforbes2.entity.Teacher
+import ru.shiroforbes2.security.AuthEntryPointJwt
 import ru.shiroforbes2.security.jwt.JWTUtils
 import ru.shiroforbes2.security.services.UserDetailsImpl
 import ru.shiroforbes2.service.RefreshTokenService
+import ru.shiroforbes2.service.StudentService
 import ru.shiroforbes2.service.UserService
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -36,11 +40,17 @@ class AuthController(
   private val refreshTokenService: RefreshTokenService,
   private val encoder: PasswordEncoder,
   private val jwtUtils: JWTUtils,
+  private val studentService: StudentService,
 ) {
+  companion object {
+    private val logger: Logger = LoggerFactory.getLogger(AuthEntryPointJwt::class.java)
+  }
+
   @PostMapping("/signin")
   fun authenticateUser(
     @RequestBody signinRequest: SigninRequest,
   ): ResponseEntity<SigninResponse> {
+    logger.info("Attempt to sign in ${signinRequest.login} | ${signinRequest.password}")
     val authentication =
       authenticationManager.authenticate(
         UsernamePasswordAuthenticationToken(signinRequest.login, signinRequest.password),
@@ -62,6 +72,7 @@ class AuthController(
           userDetails.userId,
           userDetails.username,
           role,
+          studentService.getStudentGroup(userDetails.username) ?: Group.Countryside,
         ),
       )
     } else {

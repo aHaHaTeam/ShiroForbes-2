@@ -21,6 +21,9 @@ export function DataProvider({children}) {
         if (normalized !== stored && normalized) {
             localStorage.setItem("campType", normalized);
         }
+        if (localStorage.getItem("campType") === null){
+
+        }
         return normalized;
     });
 

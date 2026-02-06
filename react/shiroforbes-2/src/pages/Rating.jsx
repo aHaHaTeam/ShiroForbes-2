@@ -2,6 +2,7 @@ import {SidebarArea} from "@/components/Sidebar/SidebarArea.jsx";
 import Header from "@/components/Header.jsx";
 
 import {RatingTable} from "@/components/RatingTable.jsx";
+import {RoleBox} from "@/components/RoleBox.jsx";
 
 
 export function Rating({
@@ -15,7 +16,9 @@ export function Rating({
             <SidebarArea>
                 <Header/>
                 <div className="flex-1 overflow-hidden sm:w-full xl:w-[97%]">
-                    <RatingTable/>
+                    <RoleBox banned={["student"]}>
+                        <RatingTable/>
+                    </RoleBox>
                 </div>
             </SidebarArea>
         </div>

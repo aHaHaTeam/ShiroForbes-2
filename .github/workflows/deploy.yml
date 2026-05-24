@@ -18,10 +18,12 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ShiroForbes-2
-            git pull
-            set PID $(jps -l | grep Shiroforbes2ApplicationKt | awk '{print $1}')
-            if [ -n "$PID" ]; then
-            kill $PID
-            fi
-            screen -dmS shiroforbes bash -c './robust_restarter.sh > restarter.log 2>&1'
+            bash -c '
+              cd ShiroForbes-2
+
+              git pull
+
+              jps -l | grep Shiroforbes2ApplicationKt | awk "{print \$1}" | xargs -r kill
+
+              screen -dmS shiroforbes bash -c "./robust_restarter.sh > restarter.log 2>&1"
+            '

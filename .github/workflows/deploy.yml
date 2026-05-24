@@ -18,6 +18,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "GitHub Actions connected successfully"
-            whoami
-            pwd
+            cd ShiroForbes-2
+            git pull
+            pkill -f Shiroforbes2ApplicationKt || true
+            screen -dmS shiroforbes ./robust_restarter.sh

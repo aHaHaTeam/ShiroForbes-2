@@ -20,7 +20,7 @@ jobs:
           script: |
             cd ShiroForbes-2
             git pull
-            PID=$(jps -l | grep Shiroforbes2ApplicationKt | awk '{print $1}')
+            set PID $(jps -l | grep Shiroforbes2ApplicationKt | awk '{print $1}')
             if [ -n "$PID" ]; then
             kill $PID
             fi

@@ -20,5 +20,8 @@ jobs:
           script: |
             cd ShiroForbes-2
             git pull
-            pkill -f Shiroforbes2ApplicationKt || true
-            screen -dmS shiroforbes ./robust_restarter.sh
+            PID=$(jps -l | grep Shiroforbes2ApplicationKt | awk '{print $1}')
+            if [ -n "$PID" ]; then
+            kill $PID
+            fi
+            screen -dmS shiroforbes bash -c './robust_restarter.sh > restarter.log 2>&1'

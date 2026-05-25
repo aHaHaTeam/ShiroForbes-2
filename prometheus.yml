@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'spring'
+
+    metrics_path: '/actuator/prometheus'
+
+    static_configs:
+      - targets: ['172.17.0.1:8080']
+
+
+remote_write:
+  - url: "https://prometheus-prod-39-prod-eu-north-0.grafana.net/api/prom/push"
+
+    basic_auth:
+      username: "3255560"
+      password: "EXAMPLE" # this is set to Sanya239's private key on the actual server
+
+
+        #  docker run -d   --name prometheus   -p 9090:9090   -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml   prom/prometheus

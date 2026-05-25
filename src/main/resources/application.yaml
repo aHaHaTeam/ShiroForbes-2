@@ -30,6 +30,21 @@ spring:
         format_sql: true
         globally_quoted_identifiers: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+  endpoint:
+    health:
+      show-details: always
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 shiroforbes.app:
   jwt:
     secret: c2hpcm9mb3JiZXMtand0LXNlY3JldC1rZXktZm9yLXNhbXBsZS1hcHBsaWNhdGlvbg==

@@ -1,0 +1,29 @@
+name: Deploy Test
+
+on:
+  push:
+    branches:
+      - github-ci
+      - main 
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute SSH command
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            bash -c '
+              cd ShiroForbes-2
+
+              git pull
+
+              jps -l | grep Shiroforbes2ApplicationKt | awk "{print \$1}" | xargs -r kill
+
+              screen -dmS shiroforbes bash -c "./robust_restarter.sh > restarter.log 2>&1"
+            '

@@ -58,7 +58,8 @@ class WebSecurityConfig(
           .permitAll()
           .requestMatchers("/api/v2/test/**")
           .permitAll()
-          .requestMatchers("/actuator/**").permitAll()
+          .requestMatchers("/actuator/**")
+          .permitAll()
           .anyRequest()
           .authenticated()
       }

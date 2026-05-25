@@ -1,10 +1,9 @@
-name: Deploy Test
+name: Deploy On VPS
 
 on:
   push:
     branches:
-      - github-ci
-      - main 
+      - main
 
 jobs:
   test-ssh:

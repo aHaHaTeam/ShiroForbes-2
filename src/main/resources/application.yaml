@@ -4,8 +4,6 @@ spring:
   application:
     name: shiroforbes-2
 
-  profiles:
-    active: local
 
   datasource:
     url: jdbc:postgresql://localhost:5432/shiroforbes2?sslmode=disable

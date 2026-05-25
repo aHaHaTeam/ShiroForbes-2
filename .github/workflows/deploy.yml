@@ -24,5 +24,7 @@ jobs:
 
               jps -l | grep Shiroforbes2ApplicationKt | awk "{print \$1}" | xargs -r kill
 
+              screen -S shiroforbes -X quit || true
+          
               screen -dmS shiroforbes bash -c "./robust_restarter.sh > restarter.log 2>&1"
             '
